@@ -14,9 +14,13 @@ const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.PAYLOAD_SECRET || process.env.JWT_SECRET || 'change-me-in-production';
 
 // ── Database ──────────────────────────────────────────────────────
+const dbUrl = process.env.DATABASE_URI || process.env.DATABASE_URL;
+console.log('DB URL prefix:', dbUrl ? dbUrl.replace(/:([^@]+)@/, ':***@') : 'NOT SET');
+const useSSL = dbUrl && !dbUrl.includes('localhost') && !dbUrl.includes('railway.internal');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  connectionString: dbUrl,
+  ssl: useSSL ? { rejectUnauthorized: false } : false,
+  connectionTimeoutMillis: 10000,
 });
 
 const q = (text, params) => pool.query(text, params);
@@ -558,14 +562,27 @@ async function seedData() {
 }
 
 // ── Start Server ──────────────────────────────────────────────────
-pool.query(schema)
-  .then(() => seedData())
-  .then(() => {
-    app.listen(PORT, () => {
+async function start() {
+  try {
+    console.log('Connecting to database...');
+    await pool.query('SELECT 1');
+    console.log('Database connected.');
+
+    console.log('Running schema...');
+    await pool.query(schema);
+    console.log('Schema ready.');
+
+    console.log('Seeding data...');
+    await seedData();
+
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Evawero Digital API running on port ${PORT}`);
     });
-  })
-  .catch(err => {
-    console.error('Database setup failed:', err.message);
+  } catch (err) {
+    console.error('Startup failed:', err.message);
+    console.error(err.stack);
     process.exit(1);
-  });
+  }
+}
+
+start();
