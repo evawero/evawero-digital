@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.local
+.payload/
+media/
+*.log
+.DS_Store
+.vercel/
