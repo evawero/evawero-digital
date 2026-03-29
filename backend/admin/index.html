@@ -487,7 +487,13 @@
     // ══════════════════════════════════════════════════════════
     async function renderSiteSettings() {
       html($('#content'), '<h1>Site Settings</h1><p style="color:var(--text-muted)">Loading...</p>');
-      const data = await api('/api/admin/site-settings');
+      let data;
+      try {
+        data = await api('/api/admin/site-settings');
+      } catch (err) {
+        html($('#content'), `<h1>Site Settings</h1><div class="alert alert-error">Failed to load settings: ${err.message}</div>`);
+        return;
+      }
       const whyUs = Array.isArray(data.why_choose_us) ? data.why_choose_us : (typeof data.why_choose_us === 'string' ? JSON.parse(data.why_choose_us) : []);
 
       html($('#content'), `
@@ -527,31 +533,35 @@
 
       $('#settings-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const f = e.target;
-        const why_choose_us = [0,1,2,3].map(i => ({
-          icon: f.querySelector(`[name="wcu_icon_${i}"]`).value,
-          title: f.querySelector(`[name="wcu_title_${i}"]`).value,
-          description: f.querySelector(`[name="wcu_desc_${i}"]`).value,
-        })).filter(w => w.title);
+        try {
+          const f = e.target;
+          const why_choose_us = [0,1,2,3].map(i => ({
+            icon: f.querySelector(`[name="wcu_icon_${i}"]`).value,
+            title: f.querySelector(`[name="wcu_title_${i}"]`).value,
+            description: f.querySelector(`[name="wcu_desc_${i}"]`).value,
+          })).filter(w => w.title);
 
-        const body = {
-          tagline: f.querySelector('[name="tagline"]').value,
-          mission_statement: f.querySelector('[name="mission_statement"]').value,
-          seo_title: f.querySelector('[name="seo_title"]').value,
-          seo_description: f.querySelector('[name="seo_description"]').value,
-          contact_email: f.querySelector('[name="contact_email"]').value,
-          contact_phone: f.querySelector('[name="contact_phone"]').value,
-          social_links: {
-            linkedin: f.querySelector('[name="social_linkedin"]').value,
-            instagram: f.querySelector('[name="social_instagram"]').value,
-            twitter: f.querySelector('[name="social_twitter"]').value,
-          },
-          why_choose_us,
-        };
+          const body = {
+            tagline: f.querySelector('[name="tagline"]').value,
+            mission_statement: f.querySelector('[name="mission_statement"]').value,
+            seo_title: f.querySelector('[name="seo_title"]').value,
+            seo_description: f.querySelector('[name="seo_description"]').value,
+            contact_email: f.querySelector('[name="contact_email"]').value,
+            contact_phone: f.querySelector('[name="contact_phone"]').value,
+            social_links: {
+              linkedin: f.querySelector('[name="social_linkedin"]').value,
+              instagram: f.querySelector('[name="social_instagram"]').value,
+              twitter: f.querySelector('[name="social_twitter"]').value,
+            },
+            why_choose_us,
+          };
 
-        await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
-        html($('#settings-alert'), '<div class="alert alert-success">Settings saved successfully.</div>');
-        setTimeout(() => html($('#settings-alert'), ''), 3000);
+          await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
+          html($('#settings-alert'), '<div class="alert alert-success">Settings saved successfully.</div>');
+          setTimeout(() => html($('#settings-alert'), ''), 3000);
+        } catch (err) {
+          html($('#settings-alert'), `<div class="alert alert-error">Error: ${err.message}</div>`);
+        }
       });
     }
   </script>
