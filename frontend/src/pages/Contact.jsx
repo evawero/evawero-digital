@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import ContactForm from '../components/sections/ContactForm';
+import { getSiteSettings } from '../lib/api';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -8,6 +10,17 @@ const fadeUp = {
 };
 
 export default function Contact() {
+  const [settings, setSettings] = useState({
+    contact_phone: '08082552357',
+    contact_email: 'theherosmind@gmail.com',
+  });
+
+  useEffect(() => {
+    getSiteSettings().then(data => {
+      if (data && data.contact_email) setSettings(data);
+    }).catch(() => {});
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -63,20 +76,20 @@ export default function Contact() {
                 <div>
                   <p className="text-sm font-medium text-text-mid mb-1">Phone</p>
                   <a
-                    href="tel:08082552357"
+                    href={`tel:${settings.contact_phone}`}
                     className="text-sm text-brand hover:text-brand-dark transition-colors"
                   >
-                    08082552357
+                    {settings.contact_phone}
                   </a>
                 </div>
 
                 <div>
                   <p className="text-sm font-medium text-text-mid mb-1">Email</p>
                   <a
-                    href="mailto:theherosmind@gmail.com"
+                    href={`mailto:${settings.contact_email}`}
                     className="text-sm text-brand hover:text-brand-dark transition-colors break-all"
                   >
-                    theherosmind@gmail.com
+                    {settings.contact_email}
                   </a>
                 </div>
 

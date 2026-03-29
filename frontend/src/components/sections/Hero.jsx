@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../ui/Button';
+import { getSiteSettings } from '../../lib/api';
 
 const container = {
   hidden: {},
@@ -12,6 +14,19 @@ const item = {
 };
 
 export default function Hero() {
+  const [tagline, setTagline] = useState('From Analysis to AI — Your Digital Growth Partner');
+
+  useEffect(() => {
+    getSiteSettings().then(data => {
+      if (data && data.tagline) setTagline(data.tagline);
+    }).catch(() => {});
+  }, []);
+
+  // Split tagline on " — " to style separately, fallback to full tagline
+  const parts = tagline.split(' — ');
+  const heading = parts[0] || tagline;
+  const subtitle = parts[1] || '';
+
   return (
     <section className="bg-brand-pale">
       <motion.div
@@ -31,15 +46,17 @@ export default function Hero() {
           variants={item}
           className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-brand-dark leading-tight max-w-2xl"
         >
-          From Analysis to AI
+          {heading}
         </motion.h1>
 
-        <motion.p
-          variants={item}
-          className="mt-4 font-display text-xl md:text-2xl text-brand italic"
-        >
-          Your Digital Growth Partner
-        </motion.p>
+        {subtitle && (
+          <motion.p
+            variants={item}
+            className="mt-4 font-display text-xl md:text-2xl text-brand italic"
+          >
+            {subtitle}
+          </motion.p>
+        )}
 
         <motion.p
           variants={item}
