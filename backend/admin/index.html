@@ -558,14 +558,9 @@
         };
 
         await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
-        var alertEl = document.getElementById('settings-alert-bottom');
-        alertEl.innerHTML = '<div class="alert alert-success">Settings saved successfully.</div>';
-        alertEl.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(function() { alertEl.innerHTML = ''; }, 3000);
+        alert('Settings saved successfully!');
       } catch (err) {
-        var alertEl = document.getElementById('settings-alert-bottom');
-        alertEl.innerHTML = '<div class="alert alert-error">Error: ' + err.message + '</div>';
-        alertEl.scrollIntoView({ behavior: 'smooth' });
+        alert('Error saving settings: ' + err.message);
       }
     };
   </script>
