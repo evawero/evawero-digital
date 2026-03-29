@@ -504,14 +504,17 @@ const schema = `
 `;
 
 async function seedData() {
-  // Create default admin if none exists
-  const { rows: admins } = await q('SELECT COUNT(*) FROM admin_users');
+  // Create or update admin user
+  const adminEmail = process.env.ADMIN_EMAIL || 'theherosmind@gmail.com';
+  const adminPass = process.env.ADMIN_PASSWORD || 'changeme123';
+  const { rows: admins } = await q('SELECT COUNT(*) FROM admin_users WHERE email = $1', [adminEmail]);
+  const hash = await bcrypt.hash(adminPass, 12);
   if (parseInt(admins[0].count) === 0) {
-    const adminEmail = process.env.ADMIN_EMAIL || 'theherosmind@gmail.com';
-    const adminPass = process.env.ADMIN_PASSWORD || 'changeme123';
-    const hash = await bcrypt.hash(adminPass, 12);
     await q('INSERT INTO admin_users (email, password_hash) VALUES ($1, $2)', [adminEmail, hash]);
-    console.log(`Default admin created: ${adminEmail} (change password after first login!)`);
+    console.log(`Default admin created: ${adminEmail}`);
+  } else {
+    await q('UPDATE admin_users SET password_hash = $1 WHERE email = $2', [hash, adminEmail]);
+    console.log(`Admin password synced from env for: ${adminEmail}`);
   }
 
   // Check if services already seeded
