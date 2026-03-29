@@ -168,7 +168,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
 
     await transporter.sendMail({
       from: `"Evawero Website" <${process.env.GMAIL_USER}>`,
-      to: 'evawerodigitalsolutions@gmail.com',
+      to: process.env.GMAIL_USER || 'theherosmind@gmail.com',
       replyTo: email,
       subject: `New enquiry from ${name}${service ? ` — ${service}` : ''}`,
       html: `
@@ -489,7 +489,7 @@ async function seedData() {
   // Create default admin if none exists
   const { rows: admins } = await q('SELECT COUNT(*) FROM admin_users');
   if (parseInt(admins[0].count) === 0) {
-    const adminEmail = process.env.ADMIN_EMAIL || 'evawerodigitalsolutions@gmail.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'theherosmind@gmail.com';
     const adminPass = process.env.ADMIN_PASSWORD || 'changeme123';
     const hash = await bcrypt.hash(adminPass, 12);
     await q('INSERT INTO admin_users (email, password_hash) VALUES ($1, $2)', [adminEmail, hash]);
