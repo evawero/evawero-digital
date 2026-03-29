@@ -231,12 +231,21 @@
       };
     }
 
-    function showAlert(endpoint, message, type = 'success') {
-      const el = document.getElementById(`alert-area-${endpoint}`);
-      if (el) {
-        html(el, `<div class="alert alert-${type}">${message}</div>`);
-        setTimeout(() => html(el, ''), 3000);
-      }
+    function showToast(message, type) {
+      var existing = document.getElementById('toast-notification');
+      if (existing) existing.remove();
+      var bg = type === 'error' ? '#fef2f2' : '#e8f7f2';
+      var color = type === 'error' ? '#dc2626' : '#0F6E56';
+      var toast = document.createElement('div');
+      toast.id = 'toast-notification';
+      toast.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;padding:14px 24px;border-radius:8px;font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity 0.3s;background:' + bg + ';color:' + color;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.style.opacity = '0'; setTimeout(function() { toast.remove(); }, 300); }, 3000);
+    }
+
+    function showAlert(endpoint, message, type) {
+      showToast(message, type);
     }
 
     async function deleteItem(endpoint, id, refreshFn) {
@@ -558,9 +567,9 @@
         };
 
         await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
-        alert('Settings saved successfully!');
+        showToast('Settings saved successfully.');
       } catch (err) {
-        alert('Error saving settings: ' + err.message);
+        showToast('Error: ' + err.message, 'error');
       }
     };
   </script>
