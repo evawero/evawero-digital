@@ -22,10 +22,10 @@ export default function Hero() {
     }).catch(() => {});
   }, []);
 
-  // Split tagline on " — " to style separately, fallback to full tagline
-  const parts = tagline.split(' — ');
+  // Split tagline on em dash variants to style separately
+  const parts = tagline.split(/\s*[\u2014\u2013—–-]{1,3}\s*/);
   const heading = parts[0] || tagline;
-  const subtitle = parts[1] || '';
+  const subtitle = parts.length > 1 ? parts.slice(1).join(' ') : '';
 
   return (
     <section className="bg-brand-pale">
