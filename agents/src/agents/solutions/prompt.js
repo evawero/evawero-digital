@@ -34,6 +34,7 @@ OUTPUT your results as JSON:
     "questions": []
   },
   "files_created": [],
+  "subtasks_created": [],
   "kickoff_email_drafted": true,
   "actions_taken": [],
   "needs_attention": []

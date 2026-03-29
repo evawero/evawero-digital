@@ -1,4 +1,4 @@
-const { getPage, updatePage, NOTION_DB } = require('../../core/notion');
+const { getPage, updatePage, createPage, NOTION_DB } = require('../../core/notion');
 const { createDraft } = require('../../core/gmail');
 const { search } = require('../../core/search');
 const { q } = require('../../core/database');
@@ -128,6 +128,32 @@ const tools = [
     handler: async ({ to, subject, body }) => {
       const draft = await createDraft(to, subject, body);
       return { success: true, draft_id: draft.id, message: `Kickoff email drafted for ${to}.` };
+    },
+  },
+
+  {
+    name: 'create_subtask',
+    description: 'Create a sub-task in the Agent Tasks database (DB5) linked to the current project.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        task: { type: 'string', description: 'Short task title, e.g. "Build landing page"' },
+        instructions: { type: 'string', description: 'Detailed instructions for this sub-task' },
+        project: { type: 'string', description: 'Project title from Client Projects (DB2) — must match exactly' },
+        priority: { type: 'string', description: '"Normal" or "Urgent"' },
+      },
+      required: ['task', 'instructions', 'project'],
+    },
+    handler: async ({ task, instructions, project, priority }) => {
+      const page = await createPage(NOTION_DB.TASKS, {
+        'Task': { title: [{ text: { content: task } }] },
+        'Instructions': { rich_text: [{ text: { content: instructions.slice(0, 2000) } }] },
+        'Project': { rich_text: [{ text: { content: project } }] },
+        'Status': { select: { name: 'Pending' } },
+        'Priority': { select: { name: priority || 'Normal' } },
+        'Assigned To': { select: { name: 'Solutions' } },
+      });
+      return { success: true, subtask_id: page.id, message: `Sub-task created: ${task}` };
     },
   },
 

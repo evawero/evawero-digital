@@ -42,11 +42,17 @@ TASKS:
    - Create a folder named after the client and date
    - Create a README.md with the full project plan
    - Scaffold any initial code/config files as appropriate
-4. Draft a professional "Project Kickoff" email to the client using create_gmail_draft.
-5. Update the Notion task: set Agent Triggered = true, Status = "In Progress", add plan summary to Deliverables.
-6. Return your results as JSON.
+4. Break the project plan into 5-8 actionable sub-tasks using create_subtask.
+   - Each sub-task should be a concrete deliverable or milestone (e.g. "Build landing page", "Set up payment integration", "Create API endpoints")
+   - Set the "project" field to the exact Project Title from the client brief
+   - Include clear instructions for each sub-task
+   - Mark truly time-sensitive tasks as "Urgent", otherwise "Normal"
+   - Do NOT create more than 8 sub-tasks. Group small items together if needed.
+5. Draft a professional "Project Kickoff" email to the client using create_gmail_draft.
+6. Update the Notion task: set Agent Triggered = true, Status = "In progress", add plan summary to Deliverables.
+7. Return your results as JSON.
 
-IMPORTANT: Set status to "In Progress" not "Delivered". Owner reviews before delivery.`;
+IMPORTANT: Set status to "In progress" not "Delivered". Owner reviews before delivery.`;
 
   try {
     // Add to PostgreSQL projects table

@@ -101,7 +101,7 @@ All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
 | Client Projects | Active project tracking | Solutions Agent + you |
 | Content Calendar | All created content | Marketing Agent |
 | Agent Logs | Run history for all agents | All agents (automatic) |
-| Agent Tasks | Trigger Solutions Agent | You create, agent processes |
+| Agent Tasks | Sub-tasks per project | Solutions Agent creates, you track |
 
 ### Client Projects — Triggering the Solutions Agent
 - **Project Title** (title) — Name of the project
@@ -113,6 +113,18 @@ All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
 - **Deliverables** (rich_text) — Filled in by the Solutions Agent after processing
 
 Status flow: `Briefed` → `In progress` → `Review` → `Delivered` → `Closed`
+
+### Agent Tasks (DB5) — Sub-task Tracking
+When the Solutions Agent processes a client brief, it automatically creates 5-8 sub-tasks here.
+
+- **Task** (title) — Short task name, e.g. "Build landing page"
+- **Instructions** (rich_text) — Detailed instructions for the sub-task
+- **Project** (rich_text) — Links back to the project title in Client Projects
+- **Status** (select) — `Pending` → `In Progress` → `Done`
+- **Priority** (select) — `Normal` or `Urgent`
+- **Assigned To** (select) — Defaults to `Solutions`
+
+You don't create these manually — the agent does. Use this database as a visual checklist to track progress on each project's deliverables.
 
 ### CRM — Key Properties the Sales Agent Uses
 - **Name** — Contact name
