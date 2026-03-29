@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .env
+*.env
 .env.local
 .payload/
 media/
@@ -9,3 +10,5 @@ media/
 .vercel/
 
 .vercel
+.claude/
+.mcp.json

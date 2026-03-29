@@ -1,0 +1,4 @@
+node_modules/
+evawero-agents.env
+.env
+client-projects/

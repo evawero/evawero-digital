@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evawero Agent Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e1e4e8; min-height: 100vh; }
+
+    /* Header */
+    .header { background: #161b22; border-bottom: 1px solid #30363d; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 20px; color: #1D9E75; }
+    .header .status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #8b949e; }
+    .header .dot { width: 8px; height: 8px; border-radius: 50%; background: #1D9E75; }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; margin-bottom: 24px; }
+
+    /* Cards */
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; }
+    .card h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #8b949e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .card h2 .icon { font-size: 16px; }
+
+    /* Stats */
+    .stats { display: flex; gap: 16px; flex-wrap: wrap; }
+    .stat { text-align: center; flex: 1; min-width: 80px; }
+    .stat .number { font-size: 28px; font-weight: 700; color: #1D9E75; }
+    .stat .label { font-size: 11px; color: #8b949e; margin-top: 4px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; color: #8b949e; font-weight: 600; padding: 8px 12px; border-bottom: 1px solid #30363d; }
+    td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+    tr:hover { background: #1c2128; }
+
+    /* Badges */
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    .badge-success { background: #1D9E7533; color: #1D9E75; }
+    .badge-error { background: #f8514933; color: #f85149; }
+    .badge-warning { background: #d2992233; color: #d29922; }
+    .badge-info { background: #388bfd33; color: #388bfd; }
+    .badge-new { background: #a371f733; color: #a371f7; }
+
+    /* Alerts */
+    .alert-item { padding: 12px; border-left: 3px solid; margin-bottom: 8px; border-radius: 0 4px 4px 0; background: #1c2128; display: flex; justify-content: space-between; align-items: center; }
+    .alert-urgent { border-color: #f85149; }
+    .alert-warning { border-color: #d29922; }
+    .alert-info { border-color: #388bfd; }
+    .alert-item .text { flex: 1; }
+    .alert-item .title { font-weight: 600; font-size: 13px; }
+    .alert-item .meta { font-size: 11px; color: #8b949e; margin-top: 4px; }
+    .dismiss-btn { background: none; border: 1px solid #30363d; color: #8b949e; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
+    .dismiss-btn:hover { border-color: #8b949e; color: #e1e4e8; }
+
+    /* Trigger buttons */
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn { background: #21262d; border: 1px solid #30363d; color: #e1e4e8; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+    .btn:hover { background: #30363d; border-color: #8b949e; }
+    .btn-primary { background: #1D9E75; border-color: #1D9E75; color: #fff; }
+    .btn-primary:hover { background: #178a64; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Login */
+    .login-overlay { position: fixed; inset: 0; background: #0f1117; display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .login-box { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 32px; width: 360px; text-align: center; }
+    .login-box h2 { color: #1D9E75; margin-bottom: 24px; }
+    .login-box input { width: 100%; padding: 10px 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e1e4e8; font-size: 14px; margin-bottom: 16px; }
+    .login-box input:focus { outline: none; border-color: #1D9E75; }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 32px; color: #484f58; font-size: 13px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .header { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>Evawero Agents</h2>
+    <p style="color:#8b949e; margin-bottom:20px; font-size:13px;">Enter dashboard password</p>
+    <input type="password" id="loginPassword" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn btn-primary" style="width:100%" onclick="login()">Sign In</button>
+    <p id="loginError" style="color:#f85149; margin-top:12px; font-size:13px; display:none;">Invalid password</p>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard" style="display:none">
+  <div class="header">
+    <h1>Evawero Agent Dashboard</h1>
+    <div class="status">
+      <div class="dot" id="statusDot"></div>
+      <span id="statusText">Connected</span>
+      <span style="margin-left:16px" id="lastUpdated"></span>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Stats Row -->
+    <div class="grid">
+      <div class="card">
+        <h2><span class="icon">📊</span> Overview</h2>
+        <div class="stats">
+          <div class="stat"><div class="number" id="totalLeads">-</div><div class="label">Total Leads</div></div>
+          <div class="stat"><div class="number" id="activeProjects">-</div><div class="label">Active Projects</div></div>
+          <div class="stat"><div class="number" id="contentPieces">-</div><div class="label">Content (7d)</div></div>
+          <div class="stat"><div class="number" id="openAlerts">-</div><div class="label">Open Alerts</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="icon">🤖</span> Agent Controls</h2>
+        <p style="font-size:13px; color:#8b949e; margin-bottom:12px;">Manually trigger agents outside of schedule</p>
+        <div class="actions">
+          <button class="btn" onclick="trigger('marketing')">Marketing</button>
+          <button class="btn" onclick="trigger('sales')">Sales</button>
+          <button class="btn" onclick="trigger('digest')">Digest</button>
+          <button class="btn" onclick="trigger('alert-check')">Alert Check</button>
+          <button class="btn" onclick="trigger('notion-check')">Notion Check</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="card" style="margin-bottom:16px">
+      <h2><span class="icon">🚨</span> Active Alerts</h2>
+      <div id="alertsList"><div class="empty">No active alerts</div></div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid">
+      <!-- Lead Pipeline -->
+      <div class="card">
+        <h2><span class="icon">📥</span> Lead Pipeline</h2>
+        <div id="pipelineStats" style="margin-bottom:16px"></div>
+        <table>
+          <thead><tr><th>Name</th><th>Company</th><th>Market</th><th>Status</th></tr></thead>
+          <tbody id="leadsTable"><tr><td colspan="4" class="empty">No leads yet</td></tr></tbody>
+        </table>
+      </div>
+
+      <!-- Recent Content -->
+      <div class="card">
+        <h2><span class="icon">📣</span> Content Calendar</h2>
+        <table>
+          <thead><tr><th>Title</th><th>Platform</th><th>Language</th><th>Status</th></tr></thead>
+          <tbody id="contentTable"><tr><td colspan="4" class="empty">No content yet</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Agent Logs -->
+    <div class="card" style="margin-top:16px">
+      <h2><span class="icon">📋</span> Agent Activity Log</h2>
+      <table>
+        <thead><tr><th>Time</th><th>Agent</th><th>Status</th><th>Actions</th><th>Alerts</th></tr></thead>
+        <tbody id="logsTable"><tr><td colspan="5" class="empty">No agent runs yet</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- Projects -->
+    <div class="card" style="margin-top:16px">
+      <h2><span class="icon">📁</span> Client Projects</h2>
+      <table>
+        <thead><tr><th>Project</th><th>Client</th><th>Status</th><th>Deadline</th><th>Updated</th></tr></thead>
+        <tbody id="projectsTable"><tr><td colspan="5" class="empty">No projects yet</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API_BASE = window.location.origin;
+  let API_KEY = '';
+
+  // ============================================================
+  // AUTH
+  // ============================================================
+  function login() {
+    API_KEY = document.getElementById('loginPassword').value;
+    fetch(API_BASE + '/api/logs?since=' + new Date().toISOString(), {
+      headers: { 'x-api-key': API_KEY }
+    }).then(r => {
+      if (r.ok) {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        localStorage.setItem('evawero_dash_key', API_KEY);
+        loadAll();
+        setInterval(loadAll, 60000); // refresh every minute
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }).catch(() => {
+      document.getElementById('loginError').style.display = 'block';
+    });
+  }
+
+  // Auto-login if key saved
+  (function() {
+    const saved = localStorage.getItem('evawero_dash_key');
+    if (saved) {
+      API_KEY = saved;
+      fetch(API_BASE + '/api/logs?since=' + new Date().toISOString(), {
+        headers: { 'x-api-key': API_KEY }
+      }).then(r => {
+        if (r.ok) {
+          document.getElementById('loginOverlay').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'block';
+          loadAll();
+          setInterval(loadAll, 60000);
+        }
+      });
+    }
+  })();
+
+  // ============================================================
+  // DATA LOADING
+  // ============================================================
+  function apiFetch(endpoint) {
+    return fetch(API_BASE + '/api/' + endpoint, {
+      headers: { 'x-api-key': API_KEY }
+    }).then(r => r.json());
+  }
+
+  async function loadAll() {
+    try {
+      await Promise.all([loadAlerts(), loadLeads(), loadContent(), loadLogs(), loadProjects()]);
+      document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+      document.getElementById('statusDot').style.background = '#1D9E75';
+      document.getElementById('statusText').textContent = 'Connected';
+    } catch (err) {
+      document.getElementById('statusDot').style.background = '#f85149';
+      document.getElementById('statusText').textContent = 'Error';
+    }
+  }
+
+  async function loadAlerts() {
+    const alerts = await apiFetch('alerts');
+    document.getElementById('openAlerts').textContent = alerts.length;
+    const container = document.getElementById('alertsList');
+    if (alerts.length === 0) {
+      container.innerHTML = '<div class="empty">No active alerts</div>';
+      return;
+    }
+    container.innerHTML = alerts.map(a => {
+      const cls = a.level === 'urgent' ? 'alert-urgent' : a.level === 'warning' ? 'alert-warning' : 'alert-info';
+      return '<div class="alert-item ' + cls + '">' +
+        '<div class="text"><div class="title">' + esc(a.title) + '</div>' +
+        '<div class="meta">' + esc(a.source_agent) + ' &middot; ' + timeAgo(a.created_at) + '</div></div>' +
+        '<button class="dismiss-btn" onclick="dismissAlert(' + a.id + ')">Dismiss</button></div>';
+    }).join('');
+  }
+
+  async function loadLeads() {
+    const data = await apiFetch('leads');
+    const total = data.pipeline.reduce((sum, p) => sum + parseInt(p.count), 0);
+    document.getElementById('totalLeads').textContent = total;
+    document.getElementById('pipelineStats').innerHTML = data.pipeline.map(p =>
+      '<span class="badge badge-info" style="margin-right:8px">' + esc(p.status) + ': ' + p.count + '</span>'
+    ).join('');
+    const tbody = document.getElementById('leadsTable');
+    if (data.recent.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="empty">No leads yet</td></tr>'; return; }
+    tbody.innerHTML = data.recent.slice(0, 10).map(l =>
+      '<tr><td>' + esc(l.name) + '</td><td>' + esc(l.company || '') + '</td><td>' +
+      '<span class="badge badge-info">' + esc(l.market || '') + '</span></td><td>' +
+      statusBadge(l.status) + '</td></tr>'
+    ).join('');
+  }
+
+  async function loadContent() {
+    const content = await apiFetch('content?days=7');
+    document.getElementById('contentPieces').textContent = content.length;
+    const tbody = document.getElementById('contentTable');
+    if (content.length === 0) { tbody.innerHTML = '<tr><td colspan="4" class="empty">No content yet</td></tr>'; return; }
+    tbody.innerHTML = content.slice(0, 10).map(c =>
+      '<tr><td>' + esc(c.title || '') + '</td><td>' + esc(c.platform || '') + '</td><td>' +
+      esc(c.language || '') + '</td><td>' + statusBadge(c.status) + '</td></tr>'
+    ).join('');
+  }
+
+  async function loadLogs() {
+    const logs = await apiFetch('logs');
+    const tbody = document.getElementById('logsTable');
+    if (logs.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No agent runs yet</td></tr>'; return; }
+    tbody.innerHTML = logs.filter(l => l.agent_name !== 'dashboard').slice(0, 15).map(l => {
+      let actions = '';
+      try { actions = JSON.parse(l.actions_taken || '[]').join(', '); } catch { actions = l.actions_taken || ''; }
+      let alerts = '';
+      try { alerts = JSON.parse(l.needs_attention || '[]').length; } catch { alerts = 0; }
+      return '<tr><td style="white-space:nowrap">' + timeAgo(l.run_at) + '</td><td>' + esc(l.agent_name) + '</td><td>' +
+        statusBadge(l.status) + '</td><td style="max-width:250px;overflow:hidden;text-overflow:ellipsis">' +
+        esc(actions) + '</td><td>' + (alerts > 0 ? '<span class="badge badge-warning">' + alerts + '</span>' : '-') + '</td></tr>';
+    }).join('');
+  }
+
+  async function loadProjects() {
+    const projects = await apiFetch('projects');
+    document.getElementById('activeProjects').textContent = projects.filter(p => !['completed','cancelled'].includes(p.status)).length;
+    const tbody = document.getElementById('projectsTable');
+    if (projects.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No projects yet</td></tr>'; return; }
+    tbody.innerHTML = projects.slice(0, 10).map(p =>
+      '<tr><td>' + esc(p.project_title || p.notion_task_id || '') + '</td><td>' + esc(p.client_name || '') + '</td><td>' +
+      statusBadge(p.status) + '</td><td>' + (p.deadline ? new Date(p.deadline).toLocaleDateString() : '-') + '</td><td>' +
+      timeAgo(p.last_updated_at || p.created_at) + '</td></tr>'
+    ).join('');
+  }
+
+  // ============================================================
+  // ACTIONS
+  // ============================================================
+  async function trigger(agent) {
+    const btn = event.target;
+    btn.disabled = true;
+    btn.textContent = 'Running...';
+    try {
+      await fetch(API_BASE + '/api/trigger/' + agent, {
+        method: 'POST',
+        headers: { 'x-api-key': API_KEY, 'Content-Type': 'application/json' },
+        body: '{}'
+      });
+      btn.textContent = 'Triggered!';
+      setTimeout(() => { btn.disabled = false; btn.textContent = agent.charAt(0).toUpperCase() + agent.slice(1).replace('-', ' '); }, 3000);
+    } catch {
+      btn.textContent = 'Error';
+      setTimeout(() => { btn.disabled = false; btn.textContent = agent.charAt(0).toUpperCase() + agent.slice(1).replace('-', ' '); }, 3000);
+    }
+  }
+
+  async function dismissAlert(id) {
+    await fetch(API_BASE + '/api/alerts/' + id + '/dismiss', {
+      method: 'POST',
+      headers: { 'x-api-key': API_KEY }
+    });
+    loadAlerts();
+  }
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+  function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+  function timeAgo(date) {
+    if (!date) return '-';
+    const s = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+    if (s < 60) return 'just now';
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+
+  function statusBadge(status) {
+    if (!status) return '-';
+    const s = status.toLowerCase();
+    let cls = 'badge-info';
+    if (['success', 'completed', 'delivered', 'published'].includes(s)) cls = 'badge-success';
+    else if (['error', 'failed', 'cancelled'].includes(s)) cls = 'badge-error';
+    else if (['warning', 'review', 'pending', 'draft'].includes(s)) cls = 'badge-warning';
+    else if (['new', 'ready', 'in_progress'].includes(s)) cls = 'badge-new';
+    return '<span class="badge ' + cls + '">' + esc(status) + '</span>';
+  }
+</script>
+</body>
+</html>
