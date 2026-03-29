@@ -27,7 +27,7 @@ const tools = [
     input_schema: {
       type: 'object',
       properties: {
-        platform: { type: 'string', description: 'Platform: linkedin, twitter, instagram, blog' },
+        platform: { type: 'string', description: 'Platform: LinkedIn, X, Instagram, Blog, Email (must match Notion options exactly)' },
         title: { type: 'string', description: 'Content title or hook (first line)' },
         content: { type: 'string', description: 'Full content text' },
         scheduled_for: { type: 'string', description: 'ISO date string for when to publish' },

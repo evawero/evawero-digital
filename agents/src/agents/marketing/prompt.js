@@ -92,7 +92,7 @@ LINKEDIN (German):
   - Hashtags: mix of German and English
   - Tone: Formal-professional
 
-X/TWITTER THREAD (English):
+X THREAD (English):
   Tweet 1:    Bold claim or surprising stat (hook — must standalone)
   Tweets 2–4: Unpack with specifics, one idea per tweet
   Tweet 5:    Practical takeaway
@@ -135,7 +135,7 @@ OUTPUT your results as JSON with this structure:
   "english_content": {
     "linkedin_brand":  { "content": "", "hashtags": [] },
     "linkedin_ei":     { "content": "", "hashtags": [] },
-    "twitter_thread":  { "tweets": [] },
+    "x_thread":        { "tweets": [] },
     "instagram":       { "caption": "", "hashtags": [] },
     "blog_outline":    { "title": "", "sections": [] }
   },
