@@ -97,10 +97,10 @@ export default function Footer() {
             </a>
             <span className="hidden sm:inline text-text-faint">|</span>
             <a
-              href="mailto:evawerodigitalsolutions@gmail.com"
+              href="mailto:theherosmind@gmail.com"
               className="hover:text-brand transition-colors"
             >
-              evawerodigitalsolutions@gmail.com
+              theherosmind@gmail.com
             </a>
           </div>
           <div className="text-xs text-text-faint">

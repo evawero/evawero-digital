@@ -73,10 +73,10 @@ export default function Contact() {
                 <div>
                   <p className="text-sm font-medium text-text-mid mb-1">Email</p>
                   <a
-                    href="mailto:evawerodigitalsolutions@gmail.com"
+                    href="mailto:theherosmind@gmail.com"
                     className="text-sm text-brand hover:text-brand-dark transition-colors break-all"
                   >
-                    evawerodigitalsolutions@gmail.com
+                    theherosmind@gmail.com
                   </a>
                 </div>
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.evawerodigitalsolutions.com/sitemap.xml
+Sitemap: https://www.evawerodigital.com/sitemap.xml
