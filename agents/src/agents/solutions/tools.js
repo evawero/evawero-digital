@@ -57,7 +57,7 @@ const tools = [
     },
     handler: async ({ task_id, status, agent_triggered, deliverables }) => {
       const properties = {};
-      if (status) properties['Status'] = { select: { name: status } };
+      if (status) properties['Status'] = { status: { name: status } };
       if (agent_triggered !== undefined) properties['Agent Triggered'] = { checkbox: agent_triggered };
       if (deliverables) properties['Deliverables'] = { rich_text: [{ text: { content: deliverables.slice(0, 2000) } }] };
 

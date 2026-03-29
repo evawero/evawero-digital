@@ -3,35 +3,35 @@ const { q } = require('./core/database');
 const { run: runSolutions } = require('./agents/solutions');
 
 // ============================================================
-// NOTION WATCHER — polls for new client project tasks
+// NOTION WATCHER — polls Client Projects (DB2) for new briefs
 // ============================================================
 
 let lastCheck = new Date().toISOString();
 
 async function checkForNewTasks() {
-  console.log('[Notion Watcher] Checking for new tasks...');
+  console.log('[Notion Watcher] Checking for new client projects...');
 
   try {
-    // Query Notion TASKS database for unprocessed items
-    const response = await queryDatabase(NOTION_DB.TASKS, {
+    // Query Client Projects database for briefed but unprocessed projects
+    const response = await queryDatabase(NOTION_DB.PROJECTS, {
       and: [
         { property: 'Agent Triggered', checkbox: { equals: false } },
-        { property: 'Status', select: { equals: 'Ready' } },
+        { property: 'Status', status: { equals: 'Briefed' } },
       ],
     });
 
     if (!response.results || response.results.length === 0) {
-      console.log('[Notion Watcher] No new tasks found.');
+      console.log('[Notion Watcher] No new projects found.');
       return [];
     }
 
-    console.log(`[Notion Watcher] Found ${response.results.length} new task(s).`);
+    console.log(`[Notion Watcher] Found ${response.results.length} new project(s).`);
 
     const triggered = [];
 
     for (const page of response.results) {
       const taskId = page.id;
-      const title = page.properties?.Name?.title?.[0]?.plain_text || 'Untitled';
+      const title = page.properties?.['Project Title']?.title?.[0]?.plain_text || 'Untitled';
 
       console.log(`[Notion Watcher] Triggering Solutions Agent for: "${title}" (${taskId})`);
 
