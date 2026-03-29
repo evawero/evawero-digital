@@ -154,6 +154,52 @@ To update the brand bible, edit: `agents/src/agents/marketing/prompt.js`
 
 ---
 
+## Kill Switch (Emergency Stop)
+
+If something goes wrong, you can pause all agents instantly.
+
+**From the dashboard:** Click the green **"Running — Click to Pause"** button in the header. It turns red and shows **"PAUSED — Click to Resume"**. When paused:
+- All scheduled runs are skipped
+- Manual trigger buttons are blocked
+- The Notion Watcher still polls but won't trigger agents
+
+**From the API:**
+```
+POST /api/pause    — Stop all agents
+POST /api/resume   — Resume all agents
+GET  /api/status   — Check if paused
+```
+
+The pause is in-memory — if the service restarts (redeploy), agents resume automatically. This is intentional so you don't accidentally leave agents paused forever after a redeploy.
+
+---
+
+## Marketing Agent — Content Flow
+
+The Marketing Agent does NOT post to social media. It only creates draft content.
+
+1. Agent researches trending topics in your markets
+2. Writes content for each platform (LinkedIn, Twitter, Instagram, Blog)
+3. Saves everything to the **Content Calendar** (Notion + PostgreSQL) with status `Draft`
+4. You review drafts in Notion
+5. You copy-paste and publish manually to each platform
+
+No social media accounts are connected. No APIs post on your behalf. You are always the one who publishes.
+
+---
+
+## Sales Agent — Outreach Flow
+
+Same pattern as marketing — drafts only, never sends.
+
+1. Agent searches the web for potential clients matching your ICP
+2. Adds prospects to the **CRM** in Notion
+3. Creates Gmail drafts for outreach emails — saved in your Drafts folder
+4. You review each draft in Gmail
+5. You send manually (or discard/edit)
+
+---
+
 ## Manual Triggers
 
 ### From Dashboard

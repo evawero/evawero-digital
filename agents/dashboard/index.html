@@ -60,6 +60,8 @@
     .btn:hover { background: #30363d; border-color: #8b949e; }
     .btn-primary { background: #1D9E75; border-color: #1D9E75; color: #fff; }
     .btn-primary:hover { background: #178a64; }
+    .btn-danger { background: #f85149; border-color: #f85149; color: #fff; }
+    .btn-danger:hover { background: #da3633; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* Login */
@@ -99,7 +101,8 @@
     <div class="status">
       <div class="dot" id="statusDot"></div>
       <span id="statusText">Connected</span>
-      <span style="margin-left:16px" id="lastUpdated"></span>
+      <button class="btn" id="killSwitch" onclick="togglePause()" style="margin-left:16px;font-size:12px;">Loading...</button>
+      <span style="margin-left:12px" id="lastUpdated"></span>
     </div>
   </div>
 
@@ -222,6 +225,35 @@
   })();
 
   // ============================================================
+  // KILL SWITCH
+  // ============================================================
+  let agentsPaused = false;
+
+  async function loadStatus() {
+    try {
+      const data = await apiFetch('status');
+      agentsPaused = data.paused;
+      const btn = document.getElementById('killSwitch');
+      if (agentsPaused) {
+        btn.textContent = 'PAUSED — Click to Resume';
+        btn.className = 'btn btn-danger';
+      } else {
+        btn.textContent = 'Running — Click to Pause';
+        btn.className = 'btn btn-primary';
+      }
+    } catch {}
+  }
+
+  async function togglePause() {
+    const endpoint = agentsPaused ? 'resume' : 'pause';
+    await fetch(API_BASE + '/api/' + endpoint, {
+      method: 'POST',
+      headers: { 'x-api-key': API_KEY }
+    });
+    await loadStatus();
+  }
+
+  // ============================================================
   // DATA LOADING
   // ============================================================
   function apiFetch(endpoint) {
@@ -232,7 +264,7 @@
 
   async function loadAll() {
     try {
-      await Promise.all([loadAlerts(), loadLeads(), loadContent(), loadLogs(), loadProjects()]);
+      await Promise.all([loadStatus(), loadAlerts(), loadLeads(), loadContent(), loadLogs(), loadProjects()]);
       document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
       document.getElementById('statusDot').style.background = '#1D9E75';
       document.getElementById('statusText').textContent = 'Connected';

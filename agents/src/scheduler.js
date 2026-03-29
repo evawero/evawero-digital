@@ -4,6 +4,18 @@ const { run: runMarketing } = require('./agents/marketing');
 const { run: runSales } = require('./agents/sales');
 
 // ============================================================
+// KILL SWITCH — in-memory pause flag
+// ============================================================
+let paused = false;
+
+function isPaused() { return paused; }
+function setPaused(value) {
+  paused = !!value;
+  console.log(`[Scheduler] Agents ${paused ? 'PAUSED' : 'RESUMED'}`);
+  return paused;
+}
+
+// ============================================================
 // SCHEDULE — Mon/Wed/Fri to manage API costs
 // ============================================================
 
@@ -12,6 +24,7 @@ function startScheduler() {
 
   // Marketing Agent — Mon/Wed/Fri at 07:00 UTC
   cron.schedule('0 7 * * 1,3,5', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Marketing Agent'); return; }
     console.log('[Scheduler] Triggering Marketing Agent...');
     try {
       await runMarketing();
@@ -22,6 +35,7 @@ function startScheduler() {
 
   // Sales Agent — Mon/Wed/Fri at 08:00 UTC
   cron.schedule('0 8 * * 1,3,5', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Sales Agent'); return; }
     console.log('[Scheduler] Triggering Sales Agent...');
     try {
       await runSales();
@@ -32,6 +46,7 @@ function startScheduler() {
 
   // Manager Digest — Mon/Wed/Fri at 09:00 UTC (after other agents run)
   cron.schedule('0 9 * * 1,3,5', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Manager Digest'); return; }
     console.log('[Scheduler] Triggering Manager Digest...');
     try {
       await runDigest();
@@ -42,6 +57,7 @@ function startScheduler() {
 
   // Alert Check — Every day at 14:00 UTC (midday check)
   cron.schedule('0 14 * * *', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Alert Check'); return; }
     console.log('[Scheduler] Triggering Alert Check...');
     try {
       await runAlertCheck();
@@ -57,4 +73,4 @@ function startScheduler() {
   console.log('  Alerts:     Daily 14:00 UTC');
 }
 
-module.exports = { startScheduler };
+module.exports = { startScheduler, isPaused, setPaused };

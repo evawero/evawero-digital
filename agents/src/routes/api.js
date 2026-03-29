@@ -5,6 +5,7 @@ const { run: runMarketing } = require('../agents/marketing');
 const { run: runSales } = require('../agents/sales');
 const { run: runSolutions } = require('../agents/solutions');
 const { checkForNewTasks } = require('../notion-watcher');
+const { isPaused, setPaused } = require('../scheduler');
 
 const router = express.Router();
 
@@ -108,8 +109,32 @@ router.get('/dashboard-summary', async (req, res) => {
 });
 
 // ============================================================
-// MANUAL TRIGGER ENDPOINTS
+// KILL SWITCH
 // ============================================================
+
+router.get('/status', (req, res) => {
+  res.json({ paused: isPaused(), uptime: process.uptime() });
+});
+
+router.post('/pause', (req, res) => {
+  setPaused(true);
+  res.json({ paused: true, message: 'All agents paused. Scheduled runs will be skipped.' });
+});
+
+router.post('/resume', (req, res) => {
+  setPaused(false);
+  res.json({ paused: false, message: 'Agents resumed. Scheduled runs will proceed.' });
+});
+
+// ============================================================
+// MANUAL TRIGGER ENDPOINTS (blocked when paused)
+// ============================================================
+
+// Guard: block all triggers when paused
+router.use('/trigger', (req, res, next) => {
+  if (isPaused()) return res.status(403).json({ error: 'Agents are paused. Resume first.' });
+  next();
+});
 
 router.post('/trigger/marketing', async (req, res) => {
   res.json({ message: 'Marketing agent triggered.' });
