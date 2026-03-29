@@ -28,13 +28,18 @@ const q = (text, params) => pool.query(text, params);
 // ── Middleware ─────────────────────────────────────────────────────
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : null,
+  'https://api.evawerodigital.com',
   'http://localhost:5173',
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes(origin)) cb(null, true);
-    else cb(new Error('CORS not allowed'));
+    // Allow same-origin requests (no origin header) and allowed origins
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    // Allow requests from the API's own domain (admin panel)
+    if (origin.includes('api.evawerodigital.com')) return cb(null, true);
+    cb(new Error('CORS not allowed'));
   },
   credentials: true,
 }));
