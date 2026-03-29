@@ -563,8 +563,8 @@ async function seedData() {
      'AI-powered platform that scans your Gmail and news feeds, then delivers a prioritised intelligence briefing with action steps. Built for CEOs, consultants, and investors across Nigeria and Europe.',
      ARRAY['Inbox Intelligence — AI analysis of your Gmail', 'Market Intelligence — curated RSS and news monitoring', 'Content Creation — AI-assisted content from your signals'],
      'https://app.evaweroukpevo.com',
-     '₦0 / €0 per month',
-     '₦5,000 / €3 per month',
+     '€0 per month',
+     '€10 per month',
      ARRAY['AI-Powered', 'Nigeria + Europe', 'Free to start'],
      true)
   `);

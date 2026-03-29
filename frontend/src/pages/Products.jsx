@@ -15,8 +15,8 @@ const fallbackProduct = {
   description: 'AI-powered platform that scans your Gmail and news feeds, then delivers a prioritised intelligence briefing with action steps. Built for CEOs, consultants, and investors across Nigeria and Europe.',
   features: ['Inbox Intelligence \u2014 AI analysis of your Gmail', 'Market Intelligence \u2014 curated RSS and news monitoring', 'Content Creation \u2014 AI-assisted content from your signals'],
   link: 'https://app.evaweroukpevo.com',
-  pricing_free: '\u20A60 / \u20AC0 per month',
-  pricing_pro: '\u20A65,000 / \u20AC3 per month',
+  pricing_free: '\u20AC0 per month',
+  pricing_pro: '\u20AC10 per month',
   badges: ['AI-Powered', 'Nigeria + Europe', 'Free to start'],
 };
 
@@ -116,12 +116,12 @@ export default function Products() {
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
               <div className="border border-rule rounded-md p-6">
                 <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Free</h4>
-                <p className="text-xl font-bold text-text mb-1">{product.pricing_free || '\u20A60 / \u20AC0'}</p>
+                <p className="text-xl font-bold text-text mb-1">{product.pricing_free || '\u20AC0'}</p>
                 <p className="text-sm text-text-muted">Basic inbox scanning and insights. Perfect for getting started.</p>
               </div>
               <div className="border border-brand rounded-md p-6">
                 <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Pro</h4>
-                <p className="text-xl font-bold text-text mb-1">{product.pricing_pro || '\u20A65,000 / \u20AC3'}</p>
+                <p className="text-xl font-bold text-text mb-1">{product.pricing_pro || '\u20AC10'}</p>
                 <p className="text-sm text-text-muted">Full AI insights, action dashboard, and priority support.</p>
               </div>
             </motion.div>
