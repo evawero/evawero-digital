@@ -38,7 +38,10 @@ app.use(cors({
     // Allow same-origin requests (no origin header) and allowed origins
     if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
     // Allow requests from the API's own domain (admin panel)
-    if (origin.includes('api.evawerodigital.com')) return cb(null, true);
+    if (origin && origin.includes('evawerodigital.com')) return cb(null, true);
+    // Allow Vercel preview deployments
+    if (origin && origin.includes('vercel.app')) return cb(null, true);
+    console.error('CORS blocked origin:', origin);
     cb(new Error('CORS not allowed'));
   },
   credentials: true,
