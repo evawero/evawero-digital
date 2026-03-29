@@ -525,45 +525,44 @@
             }).join('')}
 
             <div class="btn-row">
-              <button type="submit" class="btn btn-primary">Save Settings</button>
+              <button type="button" class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
             </div>
           </form>
         </div>
       `);
-
-      $('#settings-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        try {
-          const f = e.target;
-          const why_choose_us = [0,1,2,3].map(i => ({
-            icon: f.querySelector(`[name="wcu_icon_${i}"]`).value,
-            title: f.querySelector(`[name="wcu_title_${i}"]`).value,
-            description: f.querySelector(`[name="wcu_desc_${i}"]`).value,
-          })).filter(w => w.title);
-
-          const body = {
-            tagline: f.querySelector('[name="tagline"]').value,
-            mission_statement: f.querySelector('[name="mission_statement"]').value,
-            seo_title: f.querySelector('[name="seo_title"]').value,
-            seo_description: f.querySelector('[name="seo_description"]').value,
-            contact_email: f.querySelector('[name="contact_email"]').value,
-            contact_phone: f.querySelector('[name="contact_phone"]').value,
-            social_links: {
-              linkedin: f.querySelector('[name="social_linkedin"]').value,
-              instagram: f.querySelector('[name="social_instagram"]').value,
-              twitter: f.querySelector('[name="social_twitter"]').value,
-            },
-            why_choose_us,
-          };
-
-          await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
-          html($('#settings-alert'), '<div class="alert alert-success">Settings saved successfully.</div>');
-          setTimeout(() => html($('#settings-alert'), ''), 3000);
-        } catch (err) {
-          html($('#settings-alert'), `<div class="alert alert-error">Error: ${err.message}</div>`);
-        }
-      });
     }
+
+    window.saveSettings = async function() {
+      try {
+        const f = $('#settings-form');
+        const why_choose_us = [0,1,2,3].map(i => ({
+          icon: f.querySelector('[name="wcu_icon_' + i + '"]').value,
+          title: f.querySelector('[name="wcu_title_' + i + '"]').value,
+          description: f.querySelector('[name="wcu_desc_' + i + '"]').value,
+        })).filter(w => w.title);
+
+        const body = {
+          tagline: f.querySelector('[name="tagline"]').value,
+          mission_statement: f.querySelector('[name="mission_statement"]').value,
+          seo_title: f.querySelector('[name="seo_title"]').value,
+          seo_description: f.querySelector('[name="seo_description"]').value,
+          contact_email: f.querySelector('[name="contact_email"]').value,
+          contact_phone: f.querySelector('[name="contact_phone"]').value,
+          social_links: {
+            linkedin: f.querySelector('[name="social_linkedin"]').value,
+            instagram: f.querySelector('[name="social_instagram"]').value,
+            twitter: f.querySelector('[name="social_twitter"]').value,
+          },
+          why_choose_us,
+        };
+
+        await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
+        html($('#settings-alert'), '<div class="alert alert-success">Settings saved successfully.</div>');
+        setTimeout(function() { html($('#settings-alert'), ''); }, 3000);
+      } catch (err) {
+        html($('#settings-alert'), '<div class="alert alert-error">Error: ' + err.message + '</div>');
+      }
+    };
   </script>
 </body>
 </html>
