@@ -524,6 +524,7 @@
                 </div>`;
             }).join('')}
 
+            <div id="settings-alert-bottom"></div>
             <div class="btn-row">
               <button type="button" class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
             </div>
@@ -557,10 +558,14 @@
         };
 
         await api('/api/admin/site-settings', { method: 'PUT', body: JSON.stringify(body) });
-        html($('#settings-alert'), '<div class="alert alert-success">Settings saved successfully.</div>');
-        setTimeout(function() { html($('#settings-alert'), ''); }, 3000);
+        var alertEl = document.getElementById('settings-alert-bottom');
+        alertEl.innerHTML = '<div class="alert alert-success">Settings saved successfully.</div>';
+        alertEl.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function() { alertEl.innerHTML = ''; }, 3000);
       } catch (err) {
-        html($('#settings-alert'), '<div class="alert alert-error">Error: ' + err.message + '</div>');
+        var alertEl = document.getElementById('settings-alert-bottom');
+        alertEl.innerHTML = '<div class="alert alert-error">Error: ' + err.message + '</div>';
+        alertEl.scrollIntoView({ behavior: 'smooth' });
       }
     };
   </script>
