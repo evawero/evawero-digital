@@ -56,6 +56,19 @@ function requireAdmin(req, res, next) {
   }
 }
 
+// ── Root ──────────────────────────────────────────────────────────
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Evawero Digital Solutions API',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      admin: '/admin',
+      api: '/api/services, /api/products, /api/blog-posts, /api/team-members',
+    },
+  });
+});
+
 // ── Health ─────────────────────────────────────────────────────────
 app.get('/health', async (req, res) => {
   try {
