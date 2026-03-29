@@ -48,13 +48,15 @@ const tools = [
 
       // Save to Notion
       try {
-        await createPage(NOTION_DB.CONTENT, {
+        const properties = {
           'Title': { title: [{ text: { content: title } }] },
           'Platform': { select: { name: platform } },
-          'Language': { select: { name: language || 'en' } },
-          'Market': { select: { name: market || 'Both' } },
-          'Status': { select: { name: 'Draft' } },
-        });
+          'Status': { status: { name: 'Draft' } },
+          'Agent': { select: { name: 'Marketing' } },
+        };
+        if (content) properties['Content'] = { rich_text: [{ text: { content: content.slice(0, 2000) } }] };
+        if (scheduled_for) properties['Scheduled For'] = { date: { start: scheduled_for } };
+        await createPage(NOTION_DB.CONTENT, properties);
       } catch (err) {
         console.error('Notion content save failed:', err.message);
       }
