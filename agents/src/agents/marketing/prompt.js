@@ -108,12 +108,14 @@ INSTAGRAM (English):
   Hashtags:   8–12 (mix niche + broad)
   Tone:       Conversational, human, visual-friendly
 
-BLOG OUTLINE:
+BLOG POST (published to evawerodigital.com as draft):
   Title:      SEO-aware, contains primary keyword
   Structure:  Intro + 5–7 H2 sections + Conclusion + CTA
-  Per H2:     2-line description of what that section covers
-  Length:     1200–1800 words when written
+  Format:     Full HTML using <h2>, <p>, <ul>, <li>, <strong> tags
+  Length:     1200–1800 words — write the FULL post, not an outline
+  Excerpt:    1–2 sentence summary for the blog listing page
   Tone:       Practical, actionable, beginner-friendly
+  IMPORTANT:  Use publish_blog_post tool to save to the website (saves as draft)
 
 ── EVAS INTELLIGENCE RULES ────────────────────────
 
@@ -137,7 +139,7 @@ OUTPUT your results as JSON with this structure:
     "linkedin_ei":     { "content": "", "hashtags": [] },
     "x_thread":        { "tweets": [] },
     "instagram":       { "caption": "", "hashtags": [] },
-    "blog_outline":    { "title": "", "sections": [] }
+    "blog_post":       { "title": "", "slug": "", "published_to_site": true }
   },
   "german_content": {
     "linkedin_de": { "content": "", "hashtags": [], "market": "Baden-Württemberg" }

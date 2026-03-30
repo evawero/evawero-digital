@@ -17,7 +17,7 @@ const CONFIG = {
     linkedin_german: true,
     x_english: true,
     instagram_english: true,
-    blog_outline: true,
+    blog_post: true,
   },
   GERMAN_CONTENT: {
     enabled: true,
@@ -54,7 +54,7 @@ Specifically create:
 - 1 LinkedIn post (Evas Intelligence — use case focused, English)
 - 1 X thread (3–6 tweets, English)
 - 1 Instagram caption (English)
-- 1 blog post outline (English)
+- 1 full blog post (English, 1200-1800 words) — use publish_blog_post to save to evawerodigital.com as draft
 ${CONFIG.GERMAN_CONTENT.enabled ? '- 1 LinkedIn post in German (Baden-Württemberg/Ostalbkreis angle)' : ''}
 
 4. Save ALL content pieces to the Content Calendar via the save_to_content_calendar tool.

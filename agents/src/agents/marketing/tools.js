@@ -66,6 +66,54 @@ const tools = [
   },
 
   {
+    name: 'publish_blog_post',
+    description: 'Create a blog post draft on the evawerodigital.com website. Post is saved as DRAFT — owner reviews and publishes manually from the admin panel.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: 'SEO-aware blog post title' },
+        excerpt: { type: 'string', description: 'Short excerpt/summary (1-2 sentences) for the blog listing page' },
+        content: { type: 'string', description: 'Full blog post in HTML. Use <h2>, <p>, <ul>, <strong> tags. 1200-1800 words.' },
+        category: { type: 'string', description: 'Category: AI & Automation, Digital Transformation, Nigeria Tech, Germany Business, Evas Intelligence, Case Study' },
+      },
+      required: ['title', 'excerpt', 'content'],
+    },
+    handler: async ({ title, excerpt, content, category }) => {
+      const BACKEND_URL = process.env.BACKEND_URL || 'https://api.evawerodigital.com';
+      const AGENT_KEY = process.env.AGENT_API_KEY;
+
+      if (!AGENT_KEY) {
+        return { success: false, error: 'AGENT_API_KEY not configured' };
+      }
+
+      try {
+        const res = await fetch(BACKEND_URL + '/api/agent/blog-posts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-agent-key': AGENT_KEY,
+          },
+          body: JSON.stringify({ title, excerpt, content, author: 'Evawero Digital', category: category || 'General' }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) return { success: false, error: data.error };
+
+        return {
+          success: true,
+          post_id: data.id,
+          slug: data.slug,
+          status: data.status,
+          url: `https://evawerodigital.com/blog/${data.slug}`,
+          message: `Blog post drafted: "${title}". Review at admin panel before publishing.`,
+        };
+      } catch (err) {
+        return { success: false, error: err.message };
+      }
+    },
+  },
+
+  {
     name: 'get_recent_content',
     description: 'Get content created in the last N days to avoid topic repetition.',
     input_schema: {

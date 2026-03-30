@@ -361,6 +361,32 @@ app.delete('/api/admin/blog-posts/:id', requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
+// ── Agent API (API key auth for agent system) ────────────────────
+function requireAgentKey(req, res, next) {
+  const key = req.headers['x-agent-key'];
+  if (!key || key !== process.env.AGENT_API_KEY) {
+    return res.status(401).json({ error: 'Invalid agent key' });
+  }
+  next();
+}
+
+app.post('/api/agent/blog-posts', requireAgentKey, async (req, res) => {
+  const { title, slug, excerpt, content, author, category } = req.body;
+  if (!title || !content) return res.status(400).json({ error: 'title and content required' });
+  const finalSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  try {
+    const { rows } = await q(
+      `INSERT INTO blog_posts (title, slug, excerpt, content, author, published_date, category, status)
+       VALUES ($1,$2,$3,$4,$5,NOW(),$6,'draft') RETURNING id, slug, status`,
+      [title, finalSlug, excerpt || '', content, author || 'Evawero Digital', category || 'General']
+    );
+    res.json(rows[0]);
+  } catch (err) {
+    if (err.code === '23505') return res.status(409).json({ error: 'Slug already exists', slug: finalSlug });
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Team Members CRUD ─────────────────────────────────────────────
 app.get('/api/admin/team-members', requireAdmin, async (req, res) => {
   const { rows } = await q('SELECT * FROM team_members ORDER BY sort_order ASC');

@@ -10,7 +10,7 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ### 1. Marketing Agent
 **What it does:** Creates content for your brand across platforms.
-- Writes LinkedIn posts (English + German), Twitter threads, Instagram captions, blog outlines
+- Writes LinkedIn posts (English + German), X threads, Instagram captions, blog outlines
 - Follows your Brand Bible (tone, messaging, positioning) embedded in its prompt
 - Saves all content to the **Content Calendar** Notion database and PostgreSQL
 - Content ratio: 70% educational/value, 20% case studies, 10% promotional
@@ -31,7 +31,7 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ### 3. Solutions Agent
 **What it does:** Plans and scaffolds client project deliverables.
-- Triggered when you add a task to **Agent Tasks** in Notion with Status = "Ready"
+- Triggered when you add a project to **Client Projects** in Notion with Status = "Briefed"
 - Reads the client brief from Notion
 - Produces a project plan (deliverables, tech approach, timeline, assumptions)
 - Creates project files and README in the codebase
@@ -67,7 +67,7 @@ All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
 | 08:00 Mon/Wed/Fri | Sales | Prospects + drafts outreach |
 | 09:00 Mon/Wed/Fri | Manager | Sends digest email |
 | 14:00 Daily | Manager | Quick alert check (no email unless urgent) |
-| Every 30 min | Notion Watcher | Polls Agent Tasks for new projects |
+| Every 30 min | Notion Watcher | Polls Client Projects for new briefs |
 
 **Why Mon/Wed/Fri?** Each agent run costs money (Anthropic API calls). 3x/week balances coverage with cost. You can always trigger agents manually from the dashboard if needed between scheduled runs.
 
@@ -130,10 +130,13 @@ You don't create these manually — the agent does. Use this database as a visua
 - **Name** — Contact name
 - **Company** — Company name
 - **Market** — Nigeria, Germany, etc.
-- **Region** — More specific location
-- **Status** — new, contacted, replied, qualified, proposal, closed
+
+- **Status** — Identified, Contacted, Replied, Call Booked, Quantified, Won, Lost
 - **Email** — Contact email
-- **Source** — How the lead was found
+- **Notes** — Source, region, and other details (agent fills automatically)
+- **Lead Score** — Numeric score
+- **Phone** — Contact phone number
+- **Last Contacted** — Date of last contact
 
 ---
 
@@ -142,7 +145,7 @@ You don't create these manually — the agent does. Use this database as a visua
 The Marketing Agent has your full brand identity baked into its system prompt:
 
 - **Company:** Evawero Digital Solutions Limited
-- **Tagline:** "Ideas into Digital Reality"
+- **Tagline:** "From Analysis to AI — Your Digital Growth Partner"
 - **Founder:** Evawero Ukpevo
 - **Markets:** Nigeria (primary), Germany/DACH (secondary)
 - **Services:** Web apps, AI automation, Payload CMS solutions, digital strategy
@@ -179,12 +182,19 @@ The pause is in-memory — if the service restarts (redeploy), agents resume aut
 The Marketing Agent does NOT post to social media. It only creates draft content.
 
 1. Agent researches trending topics in your markets
-2. Writes content for each platform (LinkedIn, Twitter, Instagram, Blog)
+2. Writes content for each platform (LinkedIn, X, Instagram, Blog)
 3. Saves everything to the **Content Calendar** (Notion + PostgreSQL) with status `Draft`
 4. You review drafts in Notion
 5. You copy-paste and publish manually to each platform
 
 No social media accounts are connected. No APIs post on your behalf. You are always the one who publishes.
+
+**Exception: Blog posts** — the agent writes full blog posts (1200-1800 words) and saves them as **drafts** directly to evawerodigital.com via the backend API. To publish:
+1. Go to your admin panel at `api.evawerodigital.com/admin`
+2. Find the draft blog post
+3. Review/edit the content
+4. Change status from `draft` to `published`
+5. The post appears on `evawerodigital.com/blog`
 
 ---
 
