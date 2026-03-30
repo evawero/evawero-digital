@@ -1,561 +1,237 @@
-# Client Agent System Deployment Template
+# Client Agent System — Claude Code Prompt Template
 
-**Internal Use Only** -- Evawero Digital Solutions deployment guide for white-label agent systems.
-
-Fill in all `[PLACEHOLDER]` values per client engagement before starting setup.
+Use this prompt with Claude Code to build a 4-agent AI system for client projects. Copy, fill in the placeholders, and paste as your first message.
 
 ---
 
-## Table of Contents
-
-1. [Architecture Overview](#1-architecture-overview)
-2. [Folder Structure](#2-folder-structure)
-3. [Setup Guide](#3-setup-guide)
-4. [Configuration Points](#4-configuration-points)
-5. [Dashboard Setup](#5-dashboard-setup)
-6. [Post-Deployment Checklist](#6-post-deployment-checklist)
-7. [Maintenance Notes](#7-maintenance-notes)
-
----
-
-## 1. Architecture Overview
-
-The system runs four specialized AI agents coordinated by a manager layer. Each agent operates autonomously on a cron schedule, reads/writes to shared Notion databases, and logs all activity to PostgreSQL.
-
-### Agent Roles
-
-| Agent | Responsibility | Primary Output |
-|-------|---------------|----------------|
-| **Marketing Agent** | Content research, trend monitoring, post drafting, audience analysis | Draft posts, content calendar entries, research summaries |
-| **Sales Agent** | Lead identification, outreach drafting, follow-up sequencing, CRM updates | Lead records, outreach messages, pipeline updates |
-| **Solutions/Delivery Agent** | Project tracking, deliverable monitoring, client update drafting, task management | Status reports, task updates, client communications |
-| **Manager Agent** | Cross-agent coordination, conflict resolution, priority balancing, performance summaries | Daily digests, priority adjustments, escalation alerts |
-
-### Data Flow
+## THE PROMPT
 
 ```
-External Sources (web, social, email)
-        |
-        v
-  [Marketing Agent] ---> Notion: Content DB, Research DB
-  [Sales Agent]     ---> Notion: Leads DB, Outreach DB
-  [Solutions Agent] ---> Notion: Projects DB
-        |
-        v
-  [Manager Agent] reads all DBs, writes summaries & adjustments
-        |
-        v
-  PostgreSQL (activity logs, metrics, audit trail)
-        |
-        v
-  Dashboard (read-only view of agent activity & KPIs)
-```
+Build a 4-agent AI system for [CLIENT_NAME] ([CLIENT_DOMAIN]).
 
-Each agent:
-- Runs on its own cron schedule
-- Has a dedicated system prompt defining its persona, goals, and constraints
-- Uses Anthropic Claude as its LLM backbone
-- Can call tools (web search via Tavily, Notion API, Gmail API)
-- Logs every action to PostgreSQL for auditing
+## About the Client
+- Industry: [CLIENT_INDUSTRY]
+- Markets: [PRIMARY_MARKET] (primary), [SECONDARY_MARKET] (secondary)
+- Services/Products: [WHAT_THEY_SELL]
+- Brand voice: [e.g. professional but approachable, technical, casual]
+- Target customer: [ICP — titles, industries, company size, pain points]
+- Competitors: [TOP 3-5 COMPETITOR NAMES]
+- Timezone: [CLIENT_TIMEZONE]
+- Contact email: [CLIENT_EMAIL]
 
----
+## Architecture
 
-## 2. Folder Structure
+Build 4 autonomous AI agents in a /agents folder:
 
-Create this structure for each new client deployment:
+1. Marketing Agent — creates on-brand content (blog posts, social media drafts)
+2. Sales Agent — finds leads, drafts outreach emails, manages CRM pipeline
+3. Solutions/Delivery Agent — breaks client projects into tasks, scaffolds deliverables, drafts communications
+4. Manager Agent — reads all agent activity, sends daily digest email, creates alerts for urgent items
 
-```
-[client-slug]-agents/
-├── agents/
-│   ├── marketing/
-│   │   ├── index.ts            # Entry point & cron handler
-│   │   ├── prompt.ts           # System prompt
-│   │   ├── tools.ts            # Agent-specific tool definitions
-│   │   └── config.ts           # Schedule, platform toggles
-│   ├── sales/
-│   │   ├── index.ts
-│   │   ├── prompt.ts
-│   │   ├── tools.ts
-│   │   └── config.ts
-│   ├── solutions/
-│   │   ├── index.ts
-│   │   ├── prompt.ts
-│   │   ├── tools.ts
-│   │   └── config.ts
-│   └── manager/
-│       ├── index.ts
-│       ├── prompt.ts
-│       ├── tools.ts
-│       └── config.ts
-├── shared/
-│   ├── notion.ts               # Notion client & DB helpers
-│   ├── anthropic.ts            # Claude client wrapper
-│   ├── tavily.ts               # Web search client
-│   ├── gmail.ts                # Gmail OAuth helpers
-│   ├── db.ts                   # PostgreSQL connection & queries
-│   ├── logger.ts               # Structured logging
-│   └── types.ts                # Shared TypeScript types
-├── db/
-│   ├── migrations/
-│   │   ├── 001_create_activity_logs.sql
-│   │   ├── 002_create_agent_runs.sql
-│   │   └── 003_create_metrics.sql
-│   └── seed.sql                # Optional seed data
+All agents share:
+- PostgreSQL database (for logs, leads, content, projects, alerts)
+- Notion workspace (for CRM, content calendar, project tracking, agent logs, tasks)
+- Gmail OAuth2 (for sending digests, drafting outreach)
+- Anthropic SDK (Claude) as the LLM backbone
+- Tavily for web search/research
+
+## Tech Stack
+
+- Node.js + Express (single process, serves dashboard)
+- PostgreSQL (via pg library)
+- @anthropic-ai/sdk for Claude API (use tool_use loop pattern, max 15 iterations)
+- @notionhq/client v2 (NOT v5 — v5 breaks databases.query)
+- googleapis for Gmail OAuth2
+- tavily for web search
+- node-cron for scheduling
+- helmet + cors for Express security
+- dotenv for environment variables
+
+## Folder Structure
+
+agents/
+├── src/
+│   ├── core/              # Shared infrastructure
+│   │   ├── claude.js      # Anthropic SDK with tool_use loop
+│   │   ├── database.js    # PostgreSQL pool + migrations
+│   │   ├── gmail.js       # Gmail OAuth2 (send, draft, read)
+│   │   ├── notion.js      # Notion API client with DB constants
+│   │   ├── search.js      # Tavily web search
+│   │   ├── logger.js      # Agent run logger (DB + Notion)
+│   │   └── mailer.js      # Branded HTML email builder
+│   ├── agents/
+│   │   ├── marketing/     # index.js, prompt.js, tools.js
+│   │   ├── sales/         # index.js, prompt.js, tools.js
+│   │   ├── solutions/     # index.js, prompt.js, tools.js
+│   │   └── manager/       # index.js, prompt.js, tools.js
+│   ├── routes/api.js      # REST API for dashboard + manual triggers
+│   ├── scheduler.js       # Cron jobs with pause/resume kill switch
+│   ├── notion-watcher.js  # Polls Notion for new project briefs
+│   └── server.js          # Express entry point
 ├── dashboard/
-│   ├── src/
-│   │   ├── app/                # Next.js app router pages
-│   │   ├── components/         # UI components
-│   │   └── lib/                # API helpers
-│   ├── package.json
-│   └── next.config.js
-├── scripts/
-│   ├── run-agent.ts            # Manual agent trigger
-│   ├── migrate.ts              # DB migration runner
-│   └── test-notion.ts          # Notion connection test
+│   └── index.html         # Static HTML dashboard (dark theme, login, live data)
+├── migrations/
+│   └── 001_init.sql       # PostgreSQL schema
 ├── .env.example
+├── .gitignore
 ├── package.json
-├── tsconfig.json
-├── Procfile                    # Railway process config
-└── railway.toml
+└── README.md
+
+## Database Schema (PostgreSQL)
+
+Create these tables in migrations/001_init.sql:
+
+1. agent_logs — id, agent_name, status, actions_taken(JSON), results(JSON), needs_attention(JSON), metadata(JSON), run_at
+2. leads — id, name, company, email, phone, market, region, source, status, notes, created_at, updated_at
+3. projects — id, notion_task_id(unique), client_name, project_title, brief, deliverables, status, deadline, created_at, last_updated_at
+4. content_calendar — id, agent, platform, language, market, title, content, scheduled_for, status, created_at
+5. alerts — id, level(urgent/warning/info), source_agent, title, description, dismissed(bool), created_at
+
+Add indexes on: agent_logs(run_at), leads(status), leads(market), content_calendar(created_at), alerts(dismissed).
+
+## Notion Databases (5 databases)
+
+The client needs these 5 Notion databases. The agent code maps to env vars:
+- NOTION_CRM_DB_ID — CRM: Leads & Contacts
+- NOTION_PROJECTS_DB_ID — Client Projects
+- NOTION_CONTENT_DB_ID — Content Calendar
+- NOTION_LOGS_DB_ID — Agent Logs
+- NOTION_TASKS_DB_ID — Agent Tasks
+
+IMPORTANT: Check the actual Notion property types before writing integration code.
+- If Status is Notion's native "status" type, use { status: { name: '...' } }
+- If Status is a "select" type, use { select: { name: '...' } }
+- These are NOT interchangeable — using the wrong one causes silent failures.
+
+## Agent Details
+
+### Marketing Agent
+- Model: claude-sonnet-4-6
+- Schedule: [MARKETING_SCHEDULE, e.g. "Mon/Wed/Fri 07:00 UTC"]
+- Creates: blog posts for client website, social media drafts (platform toggles in CONFIG)
+- Tools: search_trending_topics, save_to_content_calendar, get_recent_content, publish_blog_post
+- Blog posts save as DRAFT to the client's website via API — never auto-publish
+- All social content saves to Content Calendar as Draft status
+- Embed the client's full brand bible in the system prompt
+- CONFIG block should have platform toggles (linkedin, x, instagram, blog) and content ratio
+
+### Sales Agent
+- Model: claude-sonnet-4-6
+- Schedule: [SALES_SCHEDULE, e.g. "Mon/Wed/Fri 08:00 UTC"]
+- Creates: Gmail drafts for outreach (NEVER sends), CRM entries in Notion
+- Tools: search_prospects, add_lead_to_crm, update_lead_status, get_leads_by_status, create_gmail_draft, check_gmail_replies
+- CONFIG block should have: leads_per_run, followup_after_days, markets, target segments
+- CRITICAL: Agent must NEVER send emails directly. Drafts only. Owner reviews and sends.
+
+### Solutions Agent
+- Model: claude-opus-4-6 (use best model — this is client-facing work)
+- Triggered by: Notion watcher polling Client Projects database for Status = "[TRIGGER_STATUS]" and Agent Triggered = false
+- Creates: project plans, README files, code scaffolds, kickoff email drafts, sub-tasks in Agent Tasks DB
+- Tools: get_notion_task, update_notion_task, create_file, read_file, create_gmail_draft, search_documentation, create_subtask
+- Breaks projects into 5-8 actionable sub-tasks
+- Sets status to "In Progress" not "Delivered" — owner delivers
+
+### Manager Agent
+- Model: claude-sonnet-4-6
+- Schedule: [DIGEST_SCHEDULE, e.g. "Mon/Wed/Fri 09:00 UTC"] + daily alert check at 14:00 UTC
+- Two run modes: runDigest() (full summary email) and runAlertCheck() (quick urgent-only check)
+- Tools: get_agent_logs, get_leads_summary, get_projects_summary, get_content_calendar, get_open_alerts, create_alert, dismiss_alert, send_email, check_gmail_replies, update_dashboard_data
+- Sends branded HTML digest email to owner
+- Alert triggers: lead replied, deadline within 48h, agent errors, content flagged
+
+## Dashboard
+
+Static HTML served from Express at /dashboard. Features:
+- Password login (uses API_SECRET_KEY)
+- Overview stats: total leads, active projects, content pieces, open alerts
+- Manual trigger buttons for all agents
+- Kill switch: pause/resume all agents (green/red button in header)
+- Tables: lead pipeline, content calendar, agent activity log, client projects
+- Alerts section with dismiss buttons
+- Auto-refresh every 60 seconds
+- Dark theme
+
+## API Endpoints
+
+All /api/* routes require x-api-key header.
+- GET /health — health check
+- GET /api/status — pause state
+- POST /api/pause — pause all agents
+- POST /api/resume — resume all agents
+- GET /api/logs, /api/leads, /api/projects, /api/content, /api/alerts
+- POST /api/alerts/:id/dismiss
+- POST /api/trigger/{marketing|sales|digest|alert-check|notion-check|solutions}
+
+## Kill Switch
+
+The scheduler must have an in-memory pause flag. When paused:
+- All scheduled cron runs are skipped
+- All manual trigger endpoints return 403
+- The Notion watcher still polls but won't trigger agents
+- Pause is in-memory — service restart resumes agents automatically
+
+## Environment Variables
+
+ANTHROPIC_API_KEY, DATABASE_URL, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REFRESH_TOKEN, GMAIL_USER, NOTION_API_KEY, NOTION_CRM_DB_ID, NOTION_PROJECTS_DB_ID, NOTION_CONTENT_DB_ID, NOTION_LOGS_DB_ID, NOTION_TASKS_DB_ID, TAVILY_API_KEY, API_SECRET_KEY, OWNER_EMAIL, NODE_ENV, PORT
+
+## Critical Rules
+
+1. NEVER send emails directly from any agent except the Manager (for digests/alerts). All other agents create DRAFTS only.
+2. Solutions Agent NEVER marks work as "Delivered" — only "In Progress" or "Review". Owner delivers.
+3. Blog posts always save as DRAFT. Never auto-publish.
+4. Use @notionhq/client v2, NOT v5. Version 5 breaks databases.query.
+5. Always check Notion property types (status vs select) before writing — they fail silently if wrong.
+6. The scheduler must include a kill switch (pause/resume).
+7. All agent prompts must embed the client's brand voice, not generic content.
+
+## Deployment
+
+- Deploy to Railway as a single service
+- Set root directory to agents/
+- Share PostgreSQL with the client's website backend if applicable
+- Add all env vars to Railway
+- Migrations run automatically on first boot
+- Generate a Railway domain for dashboard access
 ```
 
 ---
 
-## 3. Setup Guide
+## CLIENT ONBOARDING — Information to Collect
 
-### 3.1 Prerequisites
+Before starting, gather from the client:
 
-Ensure the following are available before starting:
-
-- [ ] **Node.js** >= 18.x
-- [ ] **PostgreSQL** 15+ (Railway provides this, or use local for dev)
-- [ ] **Railway account** with a project created for this client
-- [ ] **Notion workspace** -- either client's existing workspace or a new one created for them
-- [ ] **Notion integration** created at https://www.notion.so/my-integrations with read/write access
-- [ ] **Gmail OAuth credentials** -- OAuth 2.0 client ID from Google Cloud Console (for sending/reading email)
-- [ ] **Anthropic API key** -- from https://console.anthropic.com
-- [ ] **Tavily API key** -- from https://tavily.com (for web search/research)
-
-### 3.2 Notion Database Setup
-
-Create five databases in the client's Notion workspace. Share each with the Notion integration.
-
-#### Database 1: Content
-
-| Property | Type | Notes |
-|----------|------|-------|
-| Title | Title | Post/content title |
-| Status | Select | Options: `Idea`, `Researching`, `Drafted`, `Review`, `Approved`, `Published`, `Archived` |
-| Platform | Multi-select | Options: `LinkedIn`, `Twitter/X`, `Blog`, `Email`, `Instagram` (adjust per client) |
-| Content Type | Select | Options: `Post`, `Article`, `Thread`, `Newsletter`, `Case Study` |
-| Body | Rich text | The actual content |
-| Source URL | URL | Research source if applicable |
-| Scheduled Date | Date | Target publish date |
-| Agent Notes | Rich text | Internal notes from the marketing agent |
-| Created By | Select | Options: `Marketing Agent`, `Manual` |
-| Engagement Score | Number | Populated post-publish if tracking is enabled |
-
-#### Database 2: Research
-
-| Property | Type | Notes |
-|----------|------|-------|
-| Title | Title | Research topic or finding |
-| Category | Select | Options: `Industry Trend`, `Competitor`, `Market Data`, `Technology`, `Audience Insight` |
-| Summary | Rich text | Key findings |
-| Source URLs | Rich text | Reference links |
-| Relevance Score | Number | 1-10 rated by agent |
-| Date Found | Date | When the research was conducted |
-| Used In | Relation | Links to Content DB entries that used this research |
-
-#### Database 3: Leads
-
-| Property | Type | Notes |
-|----------|------|-------|
-| Name | Title | Contact or company name |
-| Company | Rich text | Company name if contact-level record |
-| Status | Select | Options: `Identified`, `Researching`, `Outreach Sent`, `Replied`, `Qualified`, `Meeting Booked`, `Closed Won`, `Closed Lost`, `Nurture` |
-| Source | Select | Options: `Web Research`, `Inbound`, `Referral`, `Event`, `Manual` |
-| LinkedIn URL | URL | |
-| Email | Email | |
-| Industry | Select | Customize options per client's target market |
-| Company Size | Select | Options: `1-10`, `11-50`, `51-200`, `201-500`, `500+` |
-| Notes | Rich text | Agent research notes |
-| Last Contact | Date | |
-| Next Action | Rich text | What the sales agent plans to do next |
-| Score | Number | Lead quality score 1-100 |
-
-#### Database 4: Outreach
-
-| Property | Type | Notes |
-|----------|------|-------|
-| Title | Title | Outreach subject/label |
-| Lead | Relation | Links to Leads DB |
-| Channel | Select | Options: `Email`, `LinkedIn`, `Twitter/X`, `Phone` |
-| Type | Select | Options: `Initial`, `Follow-up 1`, `Follow-up 2`, `Follow-up 3`, `Breakup` |
-| Status | Select | Options: `Drafted`, `Review`, `Approved`, `Sent`, `Replied`, `Bounced` |
-| Message Body | Rich text | The outreach message |
-| Sent Date | Date | |
-| Response | Rich text | If they replied, capture it here |
-
-#### Database 5: Projects
-
-| Property | Type | Notes |
-|----------|------|-------|
-| Title | Title | Project name |
-| Client | Rich text | Client/account name |
-| Status | Select | Options: `Discovery`, `In Progress`, `Review`, `Delivered`, `On Hold`, `Closed` |
-| Start Date | Date | |
-| Due Date | Date | |
-| Health | Select | Options: `On Track`, `At Risk`, `Blocked`, `Completed` |
-| Tasks Summary | Rich text | Agent-generated summary of open tasks |
-| Last Update | Date | |
-| Agent Notes | Rich text | Solutions agent observations |
-| Stakeholders | Rich text | Key contacts for this project |
-
-After creating all five databases, record their database IDs (the 32-character hex string in the Notion URL after the workspace name and before the `?v=` parameter).
-
-### 3.3 Environment Variables
-
-Create a `.env` file from the template. Every variable must be populated before deployment.
-
-```env
-# --- Core ---
-NODE_ENV=production
-PORT=3000
-
-# --- Anthropic ---
-ANTHROPIC_API_KEY=[obtain from Anthropic console]
-
-# --- Tavily (web search) ---
-TAVILY_API_KEY=[obtain from Tavily dashboard]
-
-# --- PostgreSQL ---
-DATABASE_URL=[Railway provides this, or use local connection string]
-# Format: postgresql://user:password@host:port/dbname
-
-# --- Notion ---
-NOTION_API_KEY=[from Notion integration page]
-NOTION_CONTENT_DB_ID=[32-char hex ID]
-NOTION_RESEARCH_DB_ID=[32-char hex ID]
-NOTION_LEADS_DB_ID=[32-char hex ID]
-NOTION_OUTREACH_DB_ID=[32-char hex ID]
-NOTION_PROJECTS_DB_ID=[32-char hex ID]
-
-# --- Gmail OAuth ---
-GMAIL_CLIENT_ID=[from Google Cloud Console]
-GMAIL_CLIENT_SECRET=[from Google Cloud Console]
-GMAIL_REFRESH_TOKEN=[obtained via OAuth flow]
-GMAIL_USER=[client's sending email address]
-
-# --- Agent Scheduling (cron expressions) ---
-MARKETING_CRON="0 8 * * 1-5"
-SALES_CRON="0 9 * * 1-5"
-SOLUTIONS_CRON="0 10 * * 1-5"
-MANAGER_CRON="0 17 * * 1-5"
-
-# --- Feature Flags ---
-ENABLE_MARKETING_AGENT=true
-ENABLE_SALES_AGENT=true
-ENABLE_SOLUTIONS_AGENT=true
-ENABLE_MANAGER_AGENT=true
-
-# --- Client Identity ---
-CLIENT_NAME=[CLIENT_NAME]
-CLIENT_DOMAIN=[CLIENT_DOMAIN]
-CLIENT_INDUSTRY=[CLIENT_INDUSTRY]
 ```
-
-### 3.4 Database Migration
-
-Run migrations against the target PostgreSQL instance:
-
-```bash
-# Set DATABASE_URL first, then:
-npm run migrate
-
-# Or manually:
-psql $DATABASE_URL -f db/migrations/001_create_activity_logs.sql
-psql $DATABASE_URL -f db/migrations/002_create_agent_runs.sql
-psql $DATABASE_URL -f db/migrations/003_create_metrics.sql
-```
-
-Core tables created by migrations:
-
-**activity_logs** -- Every action an agent takes:
-- `id`, `agent_name`, `action_type`, `description`, `metadata` (JSONB), `created_at`
-
-**agent_runs** -- Each scheduled or manual run:
-- `id`, `agent_name`, `started_at`, `finished_at`, `status`, `tokens_used`, `error_message`
-
-**metrics** -- Daily rollup KPIs:
-- `id`, `agent_name`, `metric_name`, `metric_value`, `date`, `created_at`
-
-### 3.5 Deployment to Railway
-
-1. **Create Railway project** at https://railway.app -- one project per client.
-
-2. **Provision PostgreSQL** -- add a Postgres plugin to the project. Railway auto-sets `DATABASE_URL`.
-
-3. **Connect repository** -- link the client's agent repo (GitHub) to a Railway service.
-
-4. **Set environment variables** -- paste all variables from Section 3.3 into Railway's service variables panel. `DATABASE_URL` is auto-populated by Railway if using their Postgres plugin.
-
-5. **Configure build**:
-   - Build command: `npm install && npm run build`
-   - Start command: `npm start`
-
-6. **Deploy** -- push to main branch or trigger manual deploy.
-
-7. **Run migrations** -- use Railway's CLI or shell:
-   ```bash
-   railway run npm run migrate
-   ```
-
-8. **Verify** -- check Railway logs to confirm agents start and cron schedules register. First runs will appear at the scheduled times.
-
-**railway.toml** reference:
-```toml
-[build]
-builder = "nixpacks"
-
-[deploy]
-startCommand = "npm start"
-healthcheckPath = "/health"
-restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 3
+Client Name:
+Domain:
+Industry:
+Brand Voice:        [professional/casual/technical/etc.]
+Target Platforms:    [LinkedIn, X, Instagram, Blog — which ones?]
+ICP:                [target customer — titles, industries, company size, pain points]
+Services/Products:  [what they sell/deliver]
+Competitors:        [top 3-5]
+Notion Workspace:   [existing or create new?]
+Gmail for Sending:  [email address]
+Timezone:           [for schedule alignment]
+Run Frequency:      [daily, 3x/week, custom]
+Website Backend:    [URL if blog publishing needed]
 ```
 
 ---
 
-## 4. Configuration Points
+## POST-DEPLOYMENT CHECKLIST
 
-These are the items that change per client deployment. Review each one during onboarding.
+After first deploy, verify:
 
-### 4.1 Agent Prompts
-
-Each agent's `prompt.ts` file contains its system prompt. Customize:
-
-| Variable | Where | What to Change |
-|----------|-------|----------------|
-| Brand voice | All agents | Tone, formality level, vocabulary |
-| ICP (Ideal Customer Profile) | Sales agent | Target industries, company sizes, job titles, pain points |
-| Market focus | Marketing agent | Topics, platforms, competitor names, hashtags |
-| Service offerings | Solutions agent | What the client delivers, typical project types |
-| Escalation rules | Manager agent | When to flag issues, thresholds for alerts |
-
-**Prompt template pattern** -- each prompt.ts should export a function that interpolates client config:
-
-```typescript
-export function getSystemPrompt(config: ClientConfig): string {
-  return `You are a ${config.agentRole} agent working for ${config.clientName}.
-
-  Brand voice: ${config.brandVoice}
-  Target market: ${config.targetMarket}
-  // ... rest of prompt
-  `;
-}
-```
-
-### 4.2 Schedule
-
-Default schedules (all times UTC, weekdays only):
-
-| Agent | Default Cron | Runs At |
-|-------|-------------|---------|
-| Marketing | `0 8 * * 1-5` | 8:00 AM Mon-Fri |
-| Sales | `0 9 * * 1-5` | 9:00 AM Mon-Fri |
-| Solutions | `0 10 * * 1-5` | 10:00 AM Mon-Fri |
-| Manager | `0 17 * * 1-5` | 5:00 PM Mon-Fri |
-
-Adjust per client timezone and preferences. Some clients may want:
-- Multiple runs per day: `0 8,14 * * 1-5`
-- Weekend runs: `0 8 * * *`
-- Reduced frequency: `0 8 * * 1,3,5`
-
-### 4.3 Platform Toggles
-
-In each agent's `config.ts`, toggle which platforms/channels are active:
-
-```typescript
-export const platformConfig = {
-  linkedin: true,
-  twitter: false,
-  blog: true,
-  email: true,
-  instagram: false,
-};
-```
-
-### 4.4 Tool Integrations
-
-Some clients may need additional integrations beyond the base set. Common additions:
-
-| Integration | Use Case | Setup Required |
-|-------------|----------|----------------|
-| Slack webhook | Real-time alerts to client's Slack | Webhook URL in env vars |
-| HubSpot API | CRM sync instead of/alongside Notion | API key + field mapping |
-| WordPress API | Direct blog publishing | App password + site URL |
-| Calendly | Meeting booking from sales agent | API key + event type |
-| Stripe | Revenue tracking in manager reports | Restricted API key |
-
-Add new tool files to the relevant agent's directory and register them in `tools.ts`.
-
----
-
-## 5. Dashboard Setup
-
-The dashboard is a Next.js app that reads from the shared PostgreSQL database and Notion databases. It gives the team (not the client) visibility into agent performance.
-
-### 5.1 Pages to Include
-
-| Page | Shows |
-|------|-------|
-| `/` | Overview: agent run counts, success rates, token usage (last 7 days) |
-| `/agents/[name]` | Per-agent detail: recent runs, logs, error history |
-| `/content` | Content pipeline from Notion Content DB |
-| `/leads` | Lead pipeline from Notion Leads DB |
-| `/projects` | Project health from Notion Projects DB |
-| `/logs` | Searchable activity log from PostgreSQL |
-| `/costs` | Token usage and estimated API cost breakdown |
-
-### 5.2 Deployment
-
-Deploy the dashboard as a separate Railway service within the same project. It shares `DATABASE_URL` and Notion credentials.
-
-```bash
-# In the dashboard/ directory:
-npm install
-npm run build
-npm start
-```
-
-Set `NEXT_PUBLIC_API_URL` if the dashboard calls a separate API service.
-
-Password-protect the dashboard (basic auth or a simple login) -- it exposes operational data that should not be public.
-
----
-
-## 6. Post-Deployment Checklist
-
-Run through this after the first deploy and first successful agent run cycle.
-
-### Connectivity
-- [ ] All four agents start without errors in Railway logs
-- [ ] Agents can read from Notion databases (check for 401/403 errors)
-- [ ] Agents can write to Notion databases
-- [ ] PostgreSQL activity_logs table is receiving entries
-- [ ] Gmail OAuth token is valid and sending works (test with a draft, not a live send)
-- [ ] Tavily search returns results (check for API key errors)
-
-### Agent Behavior
-- [ ] Marketing agent produces content drafts in the Content DB
-- [ ] Sales agent identifies leads and writes to the Leads DB
-- [ ] Solutions agent reads Projects DB and writes status updates
-- [ ] Manager agent produces a daily summary that references the other agents' work
-- [ ] No agent is hallucinating database IDs or writing to wrong databases
-
-### Quality
-- [ ] Content drafts match the client's brand voice
-- [ ] Lead targeting matches the client's ICP
-- [ ] Outreach messages are appropriate in tone and do not make false claims
-- [ ] Manager summaries are accurate and actionable
-
-### Operations
-- [ ] Cron schedules fire at expected times (check `agent_runs` table)
-- [ ] Error handling works -- agents recover gracefully from API failures
-- [ ] Token usage per run is within acceptable bounds (check `agent_runs.tokens_used`)
-- [ ] Dashboard loads and displays current data
-- [ ] Railway health check endpoint responds
-
----
-
-## 7. Maintenance Notes
-
-### 7.1 Monitoring
-
-**Daily (automated):** The manager agent's summary serves as a daily health check. If it stops arriving, investigate.
-
-**Weekly (manual):**
-- Review `agent_runs` table for failed runs and recurring errors
-- Check token usage trends -- sudden spikes may indicate prompt issues or infinite loops
-- Scan Notion databases for low-quality outputs that slipped through
-- Verify cron jobs are still registered (Railway can drop them on redeploy)
-
-**Monthly:**
-- Review and refresh agent prompts based on output quality
-- Update ICP and market focus if client's strategy has shifted
-- Rotate API keys if required by client's security policy
-- Check for Anthropic model updates and test new models in staging
-
-### 7.2 Cost Management
-
-Primary cost drivers:
-
-| Cost | Source | Control Lever |
-|------|--------|---------------|
-| LLM tokens | Anthropic API | Prompt length, run frequency, max_tokens setting |
-| Web search | Tavily API | Number of searches per agent run |
-| Database | Railway PostgreSQL | Retention policy on logs (drop old rows) |
-| Compute | Railway service | Instance size, run duration |
-
-**Cost reduction tactics:**
-- Use `claude-3-5-haiku` for routine tasks, reserve `claude-sonnet` or `claude-opus` for complex reasoning
-- Cache Tavily results in PostgreSQL to avoid duplicate searches
-- Set `max_tokens` caps per agent to prevent runaway responses
-- Implement log retention: delete `activity_logs` older than 90 days
-- Reduce cron frequency if agent output quality is consistent
-
-**Typical monthly cost range per client:** Track and document after the first billing cycle. Initial estimate depends on run frequency and prompt complexity.
-
-### 7.3 Prompt Tuning
-
-Prompts degrade over time as markets shift and agent outputs become stale. Schedule prompt reviews:
-
-- **Week 1-2 post-launch:** Review daily, expect 2-3 prompt revisions
-- **Week 3-4:** Review every other day
-- **Month 2+:** Weekly review, tune as needed
-- **Quarterly:** Full prompt audit across all four agents
-
-**Common prompt issues and fixes:**
-
-| Symptom | Likely Cause | Fix |
-|---------|-------------|-----|
-| Generic, bland content | Prompt lacks specificity | Add concrete examples, competitor names, industry jargon |
-| Wrong audience targeting | ICP not detailed enough | Add job titles, company characteristics, pain points to sales prompt |
-| Repetitive outputs | No variety instructions | Add rotation rules ("alternate between formats", "never repeat a topic within 7 days") |
-| Hallucinated facts | No grounding instructions | Add "only cite information found via web search" constraint |
-| Overly long outputs | No length constraints | Add explicit word/character limits per output type |
-
-### 7.4 Troubleshooting Quick Reference
-
-| Issue | Check |
-|-------|-------|
-| Agent not running | Railway logs, cron registration, `ENABLE_*` env vars |
-| Notion 401 error | Integration token expired or not shared with database |
-| Gmail send failure | OAuth refresh token expired -- re-run OAuth flow |
-| Tavily empty results | API key quota, search query too narrow |
-| High token usage | Check prompt length, look for retry loops in logs |
-| Dashboard blank | `DATABASE_URL` mismatch, CORS issues, build errors |
-| Duplicate entries in Notion | Deduplication logic missing, agent ran twice (check cron overlap) |
-
----
-
-## Appendix: Client Onboarding Information to Collect
-
-Before starting setup, gather from the client:
-
-```
-Client Name:          [CLIENT_NAME]
-Domain:               [CLIENT_DOMAIN]
-Industry:             [CLIENT_INDUSTRY]
-Brand Voice:          [e.g., professional but approachable, technical, casual]
-Target Platforms:     [e.g., LinkedIn, Twitter/X, Blog]
-ICP Description:      [target customer profile -- titles, industries, company size, pain points]
-Services/Products:    [what they sell/deliver]
-Competitors:          [top 3-5 competitor names]
-Existing Notion?:     [yes/no -- if yes, get workspace invite]
-Gmail for Sending:    [email address agents will send from]
-Timezone:             [for cron schedule alignment]
-Agent Run Frequency:  [daily, twice daily, custom]
-Dashboard Access:     [who on our team needs access]
-```
+- [ ] All 4 agents start without errors in Railway logs
+- [ ] Database connected + migrations applied
+- [ ] Cron jobs registered at correct times
+- [ ] Notion Watcher polling without errors
+- [ ] Dashboard loads and login works
+- [ ] Kill switch (pause/resume) works
+- [ ] Trigger each agent manually from dashboard
+- [ ] Marketing: content appears in Content Calendar (Notion + PostgreSQL)
+- [ ] Sales: leads appear in CRM, Gmail drafts created
+- [ ] Manager: digest email received, alerts created
+- [ ] Solutions: test with a project brief — plan created, sub-tasks generated
+- [ ] All Notion databases receiving data without property type errors
+- [ ] Blog posts save as draft on client website (if applicable)
