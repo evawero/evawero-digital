@@ -112,7 +112,7 @@ BLOG POST (published to evawerodigital.com as draft):
   Title:      SEO-aware, contains primary keyword
   Structure:  Intro + 5–7 H2 sections + Conclusion + CTA
   Format:     Full HTML using <h2>, <p>, <ul>, <li>, <strong> tags
-  Length:     1200–1800 words — write the FULL post, not an outline
+  Length:     600–1200 words — write the FULL post, not an outline
   Excerpt:    1–2 sentence summary for the blog listing page
   Tone:       Practical, actionable, beginner-friendly
   IMPORTANT:  Use publish_blog_post tool to save to the website (saves as draft)

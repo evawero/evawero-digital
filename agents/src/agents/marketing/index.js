@@ -53,7 +53,7 @@ Specifically create:
 ${CONFIG.PLATFORMS.linkedin_english ? '- 1 LinkedIn post (Evawero brand — thought leadership, English)\n- 1 LinkedIn post (Evas Intelligence — use case focused, English)' : ''}
 ${CONFIG.PLATFORMS.x_english ? '- 1 X thread (3–6 tweets, English)' : ''}
 ${CONFIG.PLATFORMS.instagram_english ? '- 1 Instagram caption (English)' : ''}
-${CONFIG.PLATFORMS.blog_post ? '- 1 full blog post (English, 1200-1800 words) — use publish_blog_post to save to evawerodigital.com as draft' : ''}
+${CONFIG.PLATFORMS.blog_post ? '- 1 full blog post (English, 600-1200 words) — use publish_blog_post to save to evawerodigital.com as draft' : ''}
 ${CONFIG.PLATFORMS.linkedin_german && CONFIG.GERMAN_CONTENT.enabled ? '- 1 LinkedIn post in German (Baden-Württemberg/Ostalbkreis angle)' : ''}
 
 4. Save ALL content pieces to the Content Calendar via the save_to_content_calendar tool.

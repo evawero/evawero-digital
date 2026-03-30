@@ -73,7 +73,7 @@ const tools = [
       properties: {
         title: { type: 'string', description: 'SEO-aware blog post title' },
         excerpt: { type: 'string', description: 'Short excerpt/summary (1-2 sentences) for the blog listing page' },
-        content: { type: 'string', description: 'Full blog post in HTML. Use <h2>, <p>, <ul>, <strong> tags. 1200-1800 words.' },
+        content: { type: 'string', description: 'Full blog post in HTML. Use <h2>, <p>, <ul>, <strong> tags. 600-1200 words.' },
         category: { type: 'string', description: 'Category: AI & Automation, Digital Transformation, Nigeria Tech, Germany Business, Evas Intelligence, Case Study' },
       },
       required: ['title', 'excerpt', 'content'],
