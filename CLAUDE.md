@@ -3,6 +3,9 @@
 ## Agent Guide Maintenance
 Whenever a change is made to how agents work, new tools are added, agent prompts are modified, Notion database properties change, scheduling changes, or any relevant feature change occurs — **always update `AGENT-GUIDE.md`** to reflect the current state. The agent guide must stay accurate and up to date at all times.
 
+## Email Safety
+No agent may **send** emails directly. All outreach, follow-ups, and client communications must be saved as **Gmail drafts only**. The owner reviews and sends manually. The only exception is the Manager Agent, which sends digest/alert emails to the owner. Never change this without explicit owner confirmation.
+
 ## Blog Publishing
 All blog posts created by the marketing agent must save as **draft** status. Never switch to auto-publish without explicit owner confirmation.
 
