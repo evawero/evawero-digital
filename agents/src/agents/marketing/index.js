@@ -11,6 +11,7 @@ const CONFIG = {
   CONTENT_RATIO: {
     evawero_brand: 2,
     evas_intelligence: 1,
+    ai_agent_systems: 1,
   },
   PLATFORMS: {
     linkedin_english: false,
