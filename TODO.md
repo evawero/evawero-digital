@@ -60,7 +60,10 @@ The admin panel exists but may need a proper blog post editor UI for manual post
 
 ---
 
-### Create Reusable Agent System Template for Clients
+### ~~Create Reusable Agent System Template for Clients~~ DONE
+See `AGENT-SYSTEM-TEMPLATE.md` in project root.
+
+### Original spec:
 Build a white-label version of the 4-agent architecture that can be deployed for clients. Should include:
 - Generic scaffolding (no Evawero-specific branding or prompts)
 - Configurable agent prompts, schedules, and tool sets
@@ -68,7 +71,10 @@ Build a white-label version of the 4-agent architecture that can be deployed for
 - Notion database templates
 - Environment variable checklist
 
-### Productify Agent System as an Evawero Service
+### ~~Productify Agent System as an Evawero Service~~ DONE
+Added to Products page on evawerodigital.com. Pricing: custom quote.
+
+### Original spec:
 Package the agent system as a product offering for Evawero Digital Solutions. Add to the website's services/products.
 - Marketing-friendly description (outcomes, not implementation details)
 - Tiered pricing (e.g. number of agents, run frequency, customisation level)
