@@ -44,7 +44,7 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    'w-full border border-rule rounded-md px-4 py-3 text-sm text-text bg-white placeholder:text-text-faint focus:outline-none focus:border-brand transition-colors';
+    'w-full border border-text-muted/40 rounded-md px-4 py-3 text-sm text-text bg-white placeholder:text-text-muted focus:outline-none focus:border-brand transition-colors';
 
   if (status === 'success') {
     return (
