@@ -20,10 +20,12 @@ async function logRun(agentName, status, actions, results, needsAttention, metad
   );
 
   // Write to Notion Logs database
+  // Map internal status to Notion status options: Completed, Failed, Skipped
+  const notionStatus = status === 'success' ? 'Completed' : status === 'error' ? 'Failed' : 'Skipped';
   try {
     await createPage(NOTION_DB.LOGS, {
       'Agent': { title: [{ text: { content: agentName } }] },
-      'Status': { select: { name: status } },
+      'Status': { status: { name: notionStatus } },
       'Run At': { date: { start: new Date().toISOString() } },
       'Summary': { rich_text: [{ text: { content: summarize(actions, results) } }] },
     });
