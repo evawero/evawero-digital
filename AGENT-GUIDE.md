@@ -76,7 +76,7 @@ All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
 ## Dashboard
 
 **URL:** Your Railway service URL + `/dashboard`
-(e.g. `https://your-service.up.railway.app/dashboard`)
+(e.g. `https://evawero-digital-production.up.railway.app/dashboard`)
 
 **Login:** Use the `API_SECRET_KEY` value from your environment variables (`addict-language-want`)
 
