@@ -9,7 +9,10 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
+const { google } = require('googleapis');
+
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.PAYLOAD_SECRET || process.env.JWT_SECRET || 'change-me-in-production';
 
@@ -179,30 +182,36 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GMAIL_CLIENT_ID,
+      process.env.GMAIL_CLIENT_SECRET
+    );
+    oauth2Client.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN });
 
-    await transporter.sendMail({
-      from: `"Evawero Website" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER || 'theherosmind@gmail.com',
-      replyTo: email,
-      subject: `New enquiry from ${name}${service ? ` — ${service}` : ''}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-        ${business ? `<p><strong>Business:</strong> ${business}</p>` : ''}
-        ${service ? `<p><strong>Service:</strong> ${service}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
-    });
+    const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+    const to = process.env.GMAIL_USER || 'theherosmind@gmail.com';
+    const subject = `New enquiry from ${name}${service ? ' \u2014 ' + service : ''}`;
+    const htmlBody = `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
+      ${business ? `<p><strong>Business:</strong> ${business}</p>` : ''}
+      ${service ? `<p><strong>Service:</strong> ${service}</p>` : ''}
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+    `;
+
+    const raw = Buffer.from(
+      `From: "Evawero Website" <${to}>\r\n` +
+      `To: ${to}\r\n` +
+      `Reply-To: ${email}\r\n` +
+      `Subject: ${subject}\r\n` +
+      `Content-Type: text/html; charset=utf-8\r\n\r\n` +
+      htmlBody
+    ).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+    await gmail.users.messages.send({ userId: 'me', requestBody: { raw } });
 
     res.json({ success: true });
   } catch (e) {
