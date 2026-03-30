@@ -49,16 +49,19 @@ const tools = [
       );
 
       // Add to Notion CRM
+      // Capitalise market to match Notion select options: Nigeria, Germany, Other
+      const marketName = market ? market.charAt(0).toUpperCase() + market.slice(1).toLowerCase() : 'Other';
       try {
-        await createPage(NOTION_DB.CRM, {
+        const properties = {
           'Name': { title: [{ text: { content: name } }] },
           'Company': { rich_text: [{ text: { content: company || '' } }] },
-          'Email': { email: email || null },
-          'Market': { select: { name: market } },
-          'Region': { rich_text: [{ text: { content: region || '' } }] },
-          'Status': { select: { name: 'Identified' } },
-          'Source': { rich_text: [{ text: { content: source || 'agent-search' } }] },
-        });
+          'Market': { select: { name: marketName } },
+          'Status': { status: { name: 'Identified' } },
+          'Notes': { rich_text: [{ text: { content: [source ? `Source: ${source}` : '', region ? `Region: ${region}` : '', notes || ''].filter(Boolean).join('. ').slice(0, 2000) } }] },
+        };
+        if (email) properties['Email'] = { email: email };
+        if (phone) properties['Phone'] = { phone_number: phone };
+        await createPage(NOTION_DB.CRM, properties);
       } catch (err) {
         console.error('Notion CRM add failed:', err.message);
       }
