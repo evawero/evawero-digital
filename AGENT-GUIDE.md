@@ -10,7 +10,8 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ### 1. Marketing Agent
 **What it does:** Creates content for your brand across platforms.
-- Writes LinkedIn posts (English + German), X threads, Instagram captions, blog outlines
+- Writes full blog posts for evawerodigital.com (saved as drafts)
+- Social media content (LinkedIn, X, Instagram) is currently **paused** until accounts are created
 - Follows your Brand Bible (tone, messaging, positioning) embedded in its prompt
 - Saves all content to the **Content Calendar** Notion database and PostgreSQL
 - Content ratio: 70% educational/value, 20% case studies, 10% promotional

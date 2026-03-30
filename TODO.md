@@ -30,14 +30,22 @@ The website already has full blog infrastructure (frontend pages, backend API, d
 5. Update Content Calendar save to include the blog post URL after publishing
 6. Test the full flow: agent creates post → appears in admin panel → publish → visible on site
 
-**Decision needed:** Auto-publish or draft-first? Recommendation: start with draft-first for safety.
+**Decision:** Draft-first. All blog posts save as drafts. Do NOT switch to auto-publish until owner (Evawero) explicitly confirms. This is a standing instruction.
 
 ---
 
 ## Medium Priority
 
+### Reactivate Social Media Content Creation
+Social media content (LinkedIn, X, Instagram) is currently **paused** — the marketing agent only creates blog posts. To reactivate:
+1. Create social media accounts (LinkedIn, X, Instagram)
+2. Tell Claude to set platform toggles back to `true` in `agents/src/agents/marketing/index.js`
+3. Content will resume on the next scheduled run
+
+Do NOT reactivate until owner confirms accounts are created.
+
 ### Connect Social Media APIs (Future)
-Currently all content is draft-only. When ready, consider:
+Once accounts exist and content is reactivated, consider connecting APIs for direct posting:
 - LinkedIn API (requires company page admin access)
 - X/Twitter API (requires developer account)
 - Instagram Graph API (requires Facebook Business account)

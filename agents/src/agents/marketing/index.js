@@ -13,10 +13,10 @@ const CONFIG = {
     evas_intelligence: 1,
   },
   PLATFORMS: {
-    linkedin_english: true,
-    linkedin_german: true,
-    x_english: true,
-    instagram_english: true,
+    linkedin_english: false,
+    linkedin_german: false,
+    x_english: false,
+    instagram_english: false,
     blog_post: true,
   },
   GERMAN_CONTENT: {
@@ -50,12 +50,11 @@ TASKS (in order):
 3. Generate content for these enabled platforms: ${enabledPlatforms}
 
 Specifically create:
-- 1 LinkedIn post (Evawero brand — thought leadership, English)
-- 1 LinkedIn post (Evas Intelligence — use case focused, English)
-- 1 X thread (3–6 tweets, English)
-- 1 Instagram caption (English)
-- 1 full blog post (English, 1200-1800 words) — use publish_blog_post to save to evawerodigital.com as draft
-${CONFIG.GERMAN_CONTENT.enabled ? '- 1 LinkedIn post in German (Baden-Württemberg/Ostalbkreis angle)' : ''}
+${CONFIG.PLATFORMS.linkedin_english ? '- 1 LinkedIn post (Evawero brand — thought leadership, English)\n- 1 LinkedIn post (Evas Intelligence — use case focused, English)' : ''}
+${CONFIG.PLATFORMS.x_english ? '- 1 X thread (3–6 tweets, English)' : ''}
+${CONFIG.PLATFORMS.instagram_english ? '- 1 Instagram caption (English)' : ''}
+${CONFIG.PLATFORMS.blog_post ? '- 1 full blog post (English, 1200-1800 words) — use publish_blog_post to save to evawerodigital.com as draft' : ''}
+${CONFIG.PLATFORMS.linkedin_german && CONFIG.GERMAN_CONTENT.enabled ? '- 1 LinkedIn post in German (Baden-Württemberg/Ostalbkreis angle)' : ''}
 
 4. Save ALL content pieces to the Content Calendar via the save_to_content_calendar tool.
 5. Return your results as JSON.
