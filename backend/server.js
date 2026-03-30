@@ -610,7 +610,7 @@ async function seedData() {
     ('From Analysis to AI — Your Digital Growth Partner',
      'Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them. We combine deep technical expertise with practical business understanding to deliver solutions that create real, measurable impact.',
      '[{"icon":"sync","title":"End-to-End Consulting & Implementation","description":"From strategy to deployment, we handle the full journey — not just advice."},{"icon":"target","title":"Solutions Tailored to Your Business","description":"No cookie-cutter approaches. Every solution is designed around your specific needs and goals."},{"icon":"brain","title":"Expert Support in AI, Automation & Digital Growth","description":"Our team brings deep expertise across AI, process automation, and modern web technologies."},{"icon":"globe","title":"Helping Businesses Stay Competitive","description":"We help businesses across Nigeria and Europe leverage technology to stay ahead in a digital world."}]',
-     'evawerodigitalsolutions@gmail.com',
+     'theherosmind@gmail.com',
      '08082552357',
      '{"linkedin":"#","instagram":"#","twitter":"#"}',
      'Evawero Digital Solutions | From Analysis to AI',

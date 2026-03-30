@@ -26,7 +26,7 @@ OUTREACH RULES:
 - CTA: "Would a quick 15-minute call make sense?"
 - For Germany: reference Ostalbkreis/BW context — show you are local
 - Never be pushy. Be helpful and consultative.
-- Sign off: Evawero Digital Solutions | evawerodigitalsolutions@gmail.com
+- Sign off: Evawero Digital Solutions | theherosmind@gmail.com
 
 NEVER send emails. Create Gmail drafts only. Owner reviews and sends.
 

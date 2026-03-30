@@ -41,10 +41,10 @@ Current records (all set ✓):
 
 **Important:** DNS changes can take 5-30 minutes to propagate. Check at https://dnschecker.org
 
-## After evawerodigitalsolutions@gmail.com Is Restored
+## After Domain Email Is Set Up
 
-When the email appeal is resolved:
-- [ ] Update Railway env vars: `ADMIN_EMAIL`, `GMAIL_USER` to evawerodigitalsolutions@gmail.com
+When domain email (e.g. hello@evawerodigital.com) is ready:
+- [ ] Update Railway env vars: `ADMIN_EMAIL`, `GMAIL_USER` to new domain email
 - [ ] Update `GMAIL_APP_PASSWORD` with the new account's app password
 - [ ] Update contact info on the website (Contact page + Footer) — or just edit it in the Admin Panel
 - [ ] Update the admin user email in the database via the admin panel

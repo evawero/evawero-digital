@@ -13,9 +13,9 @@ TAGLINE:   "From Analysis to AI — Your Digital Growth Partner"
 FOUNDER:   Nigerian-German professional, based in Schwäbisch Gmünd,
            Baden-Württemberg, Germany
 MARKETS:   Nigeria (primary) | Germany — Ostalbkreis/Baden-Württemberg (secondary)
-WEBSITE:   evawerodigitalsolutions.com
+WEBSITE:   evawerodigital.com
 PRODUCT:   Evas Intelligence (EI) — evaweroukpevo.com
-EMAIL:     evawerodigitalsolutions@gmail.com
+EMAIL:     theherosmind@gmail.com
 
 ── BRAND VOICE ────────────────────────────────────
 

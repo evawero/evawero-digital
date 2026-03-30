@@ -62,12 +62,12 @@ The Vite dev server proxies `/api` requests to `localhost:3000`.
 | `ADMIN_PASSWORD` | Admin login password (only used on first run to create the account) |
 | `GMAIL_USER` | Gmail address for sending contact form emails |
 | `GMAIL_APP_PASSWORD` | Gmail app password |
-| `FRONTEND_URL` | Frontend URL for CORS (e.g. `https://www.evawerodigitalsolutions.com`) |
+| `FRONTEND_URL` | Frontend URL for CORS (e.g. `https://evawerodigital.com`) |
 
 ### Frontend (Vercel)
 | Variable | Description |
 |---|---|
-| `VITE_API_URL` | Backend API URL (e.g. `https://api.evawerodigitalsolutions.com`) |
+| `VITE_API_URL` | Backend API URL (e.g. `https://api.evawerodigital.com`) |
 
 ## Deployment
 
