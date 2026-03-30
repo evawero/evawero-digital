@@ -115,13 +115,13 @@ export default function ContactForm() {
         value={form.service}
         onChange={update}
         required
-        className={`${inputClass} ${!form.service ? 'text-text-faint' : ''}`}
+        className={`${inputClass} ${!form.service ? 'text-text-muted' : ''}`}
       >
-        <option value="" disabled>
+        <option value="" disabled className="text-text-muted">
           Select a Service
         </option>
         {serviceOptions.map((opt) => (
-          <option key={opt} value={opt}>
+          <option key={opt} value={opt} className="text-brand-dark">
             {opt}
           </option>
         ))}
