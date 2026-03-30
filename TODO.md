@@ -50,6 +50,13 @@ Once accounts exist and content is reactivated, consider connecting APIs for dir
 - X/Twitter API (requires developer account)
 - Instagram Graph API (requires Facebook Business account)
 
+### Switch to Domain Email
+When domain email is ready (e.g. hello@evawerodigital.com):
+- If Google Workspace: re-run OAuth flow with new account, update GMAIL_USER and GMAIL_REFRESH_TOKEN on both Railway services (api + agents)
+- If non-Google provider: need different email integration entirely
+- Update OWNER_EMAIL on agents service
+- Test: contact form, agent digests, sales drafts, solutions kickoff emails
+
 ### Add Language/Market Properties to Content Calendar
 The Notion Content Calendar doesn't have Language or Market properties. The PostgreSQL table stores them but Notion doesn't. Consider adding:
 - Language (select: en, de)

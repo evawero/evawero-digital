@@ -12,3 +12,5 @@ media/
 .vercel
 .claude/
 .mcp.json
+RAILWAY-AGENT-VARS.txt
+evawero-agents-prompt.md
