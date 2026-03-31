@@ -2,35 +2,8 @@
 
 ## High Priority
 
-### Allow Marketing Agent to Publish Blog Posts on evawerodigital.com
-The website already has full blog infrastructure (frontend pages, backend API, database table). The marketing agent currently only saves blog outlines to the Content Calendar. It needs to write full posts and publish them directly.
-
-**What exists:**
-- `blog_posts` table in PostgreSQL (title, slug, excerpt, content, cover_image, author, category, status)
-- Public API: `GET /api/blog-posts`, `GET /api/blog-posts/:slug`
-- Admin API: `POST /api/admin/blog-posts` (JWT-protected)
-- Frontend: `/blog` listing page, `/blog/:slug` post page, `BlogCard` component
-- Navigation already links to `/blog`
-
-**What needs to be done:**
-1. Add a `publish_blog_post` tool to the marketing agent (`agents/src/agents/marketing/tools.js`)
-   - Calls the backend admin API to create a blog post
-   - Sets status to `draft` (owner reviews before publishing) OR `published` (auto-publish)
-   - Generates a URL-friendly slug from the title
-   - Should write full 1200-1800 word posts, not just outlines
-2. Add backend API auth for the agent — either:
-   - A shared API key header the agent can use (simpler, recommended)
-   - Or generate a JWT token for the agent (more complex)
-3. Update the marketing agent prompt to write full blog posts instead of outlines
-   - Change "BLOG OUTLINE" section to "BLOG POST" in the Brand Bible
-   - Instruct the agent to write complete, SEO-optimised posts
-4. Update the marketing agent's CONFIG to include a `blog_auto_publish` flag (default: false)
-   - When false: saves as draft, you review in admin panel and publish
-   - When true: publishes directly to the live site
-5. Update Content Calendar save to include the blog post URL after publishing
-6. Test the full flow: agent creates post → appears in admin panel → publish → visible on site
-
-**Decision:** Draft-first. All blog posts save as drafts. Do NOT switch to auto-publish until owner (Evawero) explicitly confirms. This is a standing instruction.
+### ~~Allow Marketing Agent to Publish Blog Posts on evawerodigital.com~~ DONE
+Marketing agent writes full blog posts with Unsplash cover images, saves as drafts via agent API endpoint. Owner reviews and publishes from admin panel. Draft-first is a standing instruction.
 
 ---
 
@@ -50,12 +23,8 @@ Once accounts exist and content is reactivated, consider connecting APIs for dir
 - X/Twitter API (requires developer account)
 - Instagram Graph API (requires Facebook Business account)
 
-### Switch to Domain Email
-When domain email is ready (e.g. hello@evawerodigital.com):
-- If Google Workspace: re-run OAuth flow with new account, update GMAIL_USER and GMAIL_REFRESH_TOKEN on both Railway services (api + agents)
-- If non-Google provider: need different email integration entirely
-- Update OWNER_EMAIL on agents service
-- Test: contact form, agent digests, sales drafts, solutions kickoff emails
+### ~~Switch to Domain Email~~ DONE
+Switched to info@evawerodigital.com via Google Workspace. OAuth credentials, Railway env vars, and admin login updated. Google Workspace setup guide removed (setup complete).
 
 ### Add Language/Market Properties to Content Calendar
 The Notion Content Calendar doesn't have Language or Market properties. The PostgreSQL table stores them but Notion doesn't. Consider adding:
