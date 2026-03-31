@@ -387,14 +387,14 @@ function requireAgentKey(req, res, next) {
 }
 
 app.post('/api/agent/blog-posts', requireAgentKey, async (req, res) => {
-  const { title, slug, excerpt, content, author, category } = req.body;
+  const { title, slug, excerpt, content, cover_image, author, category } = req.body;
   if (!title || !content) return res.status(400).json({ error: 'title and content required' });
   const finalSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   try {
     const { rows } = await q(
-      `INSERT INTO blog_posts (title, slug, excerpt, content, author, published_date, category, status)
-       VALUES ($1,$2,$3,$4,$5,NOW(),$6,'draft') RETURNING id, slug, status`,
-      [title, finalSlug, excerpt || '', content, author || 'Evawero Digital', category || 'General']
+      `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image, author, published_date, category, status)
+       VALUES ($1,$2,$3,$4,$5,$6,NOW(),$7,'draft') RETURNING id, slug, status`,
+      [title, finalSlug, excerpt || '', content, cover_image || null, author || 'Evawero Digital', category || 'General']
     );
     res.json(rows[0]);
   } catch (err) {

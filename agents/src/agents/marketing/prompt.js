@@ -122,6 +122,10 @@ BLOG POST (published to evawerodigital.com as draft):
   Format:     Full HTML using <h2>, <p>, <ul>, <li>, <strong> tags
   Length:     600–1200 words — write the FULL post, not an outline
   Excerpt:    1–2 sentence summary for the blog listing page
+  Cover:      Include a cover_image URL from Unsplash. Use the direct image URL format:
+              https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop
+              Pick a professional, relevant image that matches the blog topic.
+              Search Unsplash topics: technology, business, data, africa, germany, automation.
   Tone:       Practical, actionable, beginner-friendly
   IMPORTANT:  Use publish_blog_post tool to save to the website (saves as draft)
 

@@ -46,7 +46,7 @@ export default function Blog() {
           ) : posts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
-                <BlogCard key={post.slug} title={post.title} excerpt={post.excerpt} date={post.published_date?.slice(0, 10)} category={post.category} slug={post.slug} />
+                <BlogCard key={post.slug} title={post.title} excerpt={post.excerpt} date={post.published_date?.slice(0, 10)} category={post.category} slug={post.slug} cover_image={post.cover_image} />
               ))}
             </div>
           ) : (

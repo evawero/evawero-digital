@@ -61,10 +61,14 @@ export default function BlogPost() {
 
           <h1 className="font-display text-3xl md:text-4xl font-bold text-brand-dark mb-4">{post.title}</h1>
 
-          <div className="flex items-center gap-4 mb-10">
+          <div className="flex items-center gap-4 mb-6">
             {post.author && <span className="text-sm text-text-mid">{post.author}</span>}
             {post.published_date && <time className="text-sm text-text-muted">{post.published_date.slice(0, 10)}</time>}
           </div>
+
+          {post.cover_image && (
+            <img src={post.cover_image} alt={post.title} className="w-full rounded-md mb-10" loading="lazy" />
+          )}
 
           <div className="prose prose-sm max-w-none text-text-mid leading-relaxed" dangerouslySetInnerHTML={{ __html: post.content }} />
         </motion.div>

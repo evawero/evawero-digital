@@ -62,8 +62,8 @@ The Notion Content Calendar doesn't have Language or Market properties. The Post
 - Language (select: en, de)
 - Market (select: Nigeria, Germany, Both)
 
-### Admin Panel Blog Editor
-The admin panel exists but may need a proper blog post editor UI for manual post creation/editing. Currently would need to use the API directly.
+### ~~Admin Panel Blog Editor~~ DONE
+Admin panel already has a blog post editor with Add New and edit functionality.
 
 ---
 

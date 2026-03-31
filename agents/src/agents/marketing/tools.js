@@ -75,10 +75,11 @@ const tools = [
         excerpt: { type: 'string', description: 'Short excerpt/summary (1-2 sentences) for the blog listing page' },
         content: { type: 'string', description: 'Full blog post in HTML. Use <h2>, <p>, <ul>, <strong> tags. 600-1200 words.' },
         category: { type: 'string', description: 'Category: AI & Automation, Digital Transformation, Nigeria Tech, Germany Business, Evas Intelligence, Case Study' },
+        cover_image: { type: 'string', description: 'URL for the cover image. Use an Unsplash URL, e.g. https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop — pick an image relevant to the blog topic.' },
       },
-      required: ['title', 'excerpt', 'content'],
+      required: ['title', 'excerpt', 'content', 'cover_image'],
     },
-    handler: async ({ title, excerpt, content, category }) => {
+    handler: async ({ title, excerpt, content, category, cover_image }) => {
       const BACKEND_URL = process.env.BACKEND_URL || 'https://api.evawerodigital.com';
       const AGENT_KEY = process.env.AGENT_API_KEY;
 
@@ -93,7 +94,7 @@ const tools = [
             'Content-Type': 'application/json',
             'x-agent-key': AGENT_KEY,
           },
-          body: JSON.stringify({ title, excerpt, content, author: 'Evawero Digital', category: category || 'General' }),
+          body: JSON.stringify({ title, excerpt, content, cover_image: cover_image || null, author: 'Evawero Digital', category: category || 'General' }),
         });
 
         const data = await res.json();
