@@ -10,7 +10,7 @@ You need new OAuth2 credentials because the Gmail API requires authorization fro
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Sign in with **info@evawerodigital.com** (your Google Workspace account)
-3. Create a new project (or reuse an existing one):
+3. Create a **new project** (do NOT reuse the project on theherosmind@gmail.com — keep credentials under the business account):
    - Project name: `Evawero Digital`
 4. Enable the **Gmail API**:
    - Go to **APIs & Services → Library**
@@ -115,6 +115,7 @@ After all variables are updated and both services have redeployed:
 
 ## Notes
 
+- **Why a new project?** You could technically reuse the Google Cloud project on `theherosmind@gmail.com` by switching the consent screen to External and adding `info@` as a test user. But this ties business credentials to a personal account, requires staying in "Testing" mode (or going through Google verification), and you'd lose access if the personal account is ever compromised. A fresh project under `info@evawerodigital.com` with an Internal consent screen is cleaner and simpler.
 - The old `theherosmind@gmail.com` credentials (Client ID, Client Secret, Refresh Token) will stop being used once you update Railway. No need to revoke them unless you want to clean up.
 - If you ever need to regenerate the refresh token (e.g. it expires or gets revoked), repeat Step 2 only.
 - The `GMAIL_APP_PASSWORD` variable (if it still exists on Railway) is no longer used — the backend uses Gmail OAuth2 API, not SMTP. You can delete it.

@@ -19,6 +19,9 @@ All blog posts created by the marketing agent must save as **draft** status. Nev
 ## Notion Databases
 All 5 Notion databases use Notion's native `status` property type except DB5 (Agent Tasks) which uses `select`. Always use `{ status: { name: '...' } }` for native status types, not `{ select: { name: '...' } }`. Check actual Notion property types before writing new integration code.
 
+## Dependency Safety
+If axios is ever added as a dependency, always pin it to an exact version (e.g., `"axios": "1.14.0"` — no `^` or `~` prefix) to prevent automatic installation of compromised versions via supply chain attacks.
+
 ## Key Files
 - `AGENT-GUIDE.md` — Owner-facing documentation for the agent system
 - `TODO.md` — Project roadmap and pending features

@@ -99,16 +99,23 @@ async function getThread(threadId) {
   return res.data;
 }
 
+function mimeEncodeSubject(subject) {
+  // RFC 2047: encode non-ASCII characters in email headers
+  if (/^[\x20-\x7E]*$/.test(subject)) return subject;
+  return '=?UTF-8?B?' + Buffer.from(subject, 'utf-8').toString('base64') + '?=';
+}
+
 function buildRawEmail(to, subject, body) {
   const from = process.env.GMAIL_USER;
   const lines = [
     `From: ${from}`,
     `To: ${to}`,
-    `Subject: ${subject}`,
+    `Subject: ${mimeEncodeSubject(subject)}`,
     'MIME-Version: 1.0',
     'Content-Type: text/html; charset=utf-8',
+    'Content-Transfer-Encoding: base64',
     '',
-    body,
+    Buffer.from(body, 'utf-8').toString('base64'),
   ];
   const raw = Buffer.from(lines.join('\r\n')).toString('base64url');
   return raw;

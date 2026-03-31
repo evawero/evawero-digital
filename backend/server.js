@@ -202,13 +202,20 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
       <p>${message.replace(/\n/g, '<br>')}</p>
     `;
 
+    // RFC 2047: MIME-encode subject if it contains non-ASCII characters
+    const encodedSubject = /^[\x20-\x7E]*$/.test(subject)
+      ? subject
+      : '=?UTF-8?B?' + Buffer.from(subject, 'utf-8').toString('base64') + '?=';
+    const bodyBase64 = Buffer.from(htmlBody, 'utf-8').toString('base64');
     const raw = Buffer.from(
       `From: "Evawero Website" <${to}>\r\n` +
       `To: ${to}\r\n` +
       `Reply-To: ${email}\r\n` +
-      `Subject: ${subject}\r\n` +
-      `Content-Type: text/html; charset=utf-8\r\n\r\n` +
-      htmlBody
+      `Subject: ${encodedSubject}\r\n` +
+      `MIME-Version: 1.0\r\n` +
+      `Content-Type: text/html; charset=utf-8\r\n` +
+      `Content-Transfer-Encoding: base64\r\n\r\n` +
+      bodyBase64
     ).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
     await gmail.users.messages.send({ userId: 'me', requestBody: { raw } });

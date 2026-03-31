@@ -40,6 +40,6 @@ IMMEDIATE ALERT TRIGGERS (do not wait for digest):
 
 You have tools to read agent logs, lead summaries, project info, content calendars, and to send emails and create alerts.
 
-OUTPUT your digest as clean HTML for email delivery.`;
+CRITICAL: When using send_email, the "body" parameter must contain the COMPLETE HTML email content. Do NOT send an empty body. Build the full digest as an HTML string and pass it as the body argument. The body should include all sections above formatted with HTML tags (<h3>, <p>, <ul>, <li>, etc.).`;
 
 module.exports = { SYSTEM_PROMPT };

@@ -129,7 +129,7 @@ const tools = [
       properties: {
         to: { type: 'string' },
         subject: { type: 'string' },
-        body: { type: 'string', description: 'HTML email body' },
+        body: { type: 'string', description: 'Complete HTML email body. Must NOT be empty. Include all digest sections with HTML formatting (<h3>, <p>, <ul>, <li>, etc.).' },
       },
       required: ['to', 'subject', 'body'],
     },
