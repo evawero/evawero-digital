@@ -16,7 +16,7 @@ MARKETS:   Nigeria (primary) | Germany — Ostalbkreis/Baden-Württemberg (secon
 WEBSITE:   evawerodigital.com
 PRODUCTS:  Evas Intelligence (EI) — evaweroukpevo.com
            AI Agent Systems — custom-built autonomous agent teams
-EMAIL:     theherosmind@gmail.com
+EMAIL:     info@evawerodigital.com
 
 ── BRAND VOICE ────────────────────────────────────
 

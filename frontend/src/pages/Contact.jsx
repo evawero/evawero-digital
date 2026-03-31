@@ -12,7 +12,7 @@ const fadeUp = {
 export default function Contact() {
   const [settings, setSettings] = useState({
     contact_phone: '08082552357',
-    contact_email: 'theherosmind@gmail.com',
+    contact_email: 'info@evawerodigital.com',
   });
 
   useEffect(() => {

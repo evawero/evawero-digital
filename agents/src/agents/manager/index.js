@@ -5,7 +5,7 @@ const { SYSTEM_PROMPT } = require('./prompt');
 const { tools } = require('./tools');
 const { sendDigest, sendAlert } = require('../../core/mailer');
 
-const OWNER_EMAIL = process.env.OWNER_EMAIL || 'theherosmind@gmail.com';
+const OWNER_EMAIL = process.env.OWNER_EMAIL || 'info@evawerodigital.com';
 
 // ============================================================
 // DAILY DIGEST — runs on schedule (Mon/Wed/Fri)

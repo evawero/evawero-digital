@@ -50,7 +50,7 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 ### 4. Manager Agent
 **What it does:** Synthesises everything and reports to you.
 - Reads logs from all 3 agents, lead pipeline, project status, content calendar
-- Sends you a formatted digest email at theherosmind@gmail.com
+- Sends you a formatted digest email at info@evawerodigital.com
 - Creates alerts for urgent items (lead replied, deadline approaching, agent errors)
 - Stores dashboard summary data for the web dashboard
 

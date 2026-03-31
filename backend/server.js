@@ -189,7 +189,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
     oauth2Client.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN });
 
     const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
-    const to = process.env.GMAIL_USER || 'theherosmind@gmail.com';
+    const to = process.env.GMAIL_USER || 'info@evawerodigital.com';
     const subject = `New enquiry from ${name}${service ? ' \u2014 ' + service : ''}`;
     const htmlBody = `
       <h2>New Contact Form Submission</h2>
@@ -543,7 +543,7 @@ const schema = `
 
 async function seedData() {
   // Create or update admin user
-  const adminEmail = process.env.ADMIN_EMAIL || 'theherosmind@gmail.com';
+  const adminEmail = process.env.ADMIN_EMAIL || 'info@evawerodigital.com';
   const adminPass = process.env.ADMIN_PASSWORD || 'changeme123';
   const { rows: admins } = await q('SELECT COUNT(*) FROM admin_users WHERE email = $1', [adminEmail]);
   const hash = await bcrypt.hash(adminPass, 12);
@@ -610,7 +610,7 @@ async function seedData() {
     ('From Analysis to AI — Your Digital Growth Partner',
      'Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them. We combine deep technical expertise with practical business understanding to deliver solutions that create real, measurable impact.',
      '[{"icon":"sync","title":"End-to-End Consulting & Implementation","description":"From strategy to deployment, we handle the full journey — not just advice."},{"icon":"target","title":"Solutions Tailored to Your Business","description":"No cookie-cutter approaches. Every solution is designed around your specific needs and goals."},{"icon":"brain","title":"Expert Support in AI, Automation & Digital Growth","description":"Our team brings deep expertise across AI, process automation, and modern web technologies."},{"icon":"globe","title":"Helping Businesses Stay Competitive","description":"We help businesses across Nigeria and Europe leverage technology to stay ahead in a digital world."}]',
-     'theherosmind@gmail.com',
+     'info@evawerodigital.com',
      '08082552357',
      '{"linkedin":"#","instagram":"#","twitter":"#"}',
      'Evawero Digital Solutions | From Analysis to AI',

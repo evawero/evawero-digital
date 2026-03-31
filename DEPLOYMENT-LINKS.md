@@ -15,7 +15,7 @@
 - **GitHub Repo:** https://github.com/evawero/evawero-digital
 
 ## Admin Login
-- **Email:** theherosmind@gmail.com
+- **Email:** info@evawerodigital.com
 - **Password:** Evawero2026Admin
 
 ## Domain Registrar

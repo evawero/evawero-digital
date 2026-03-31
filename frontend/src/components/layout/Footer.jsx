@@ -23,7 +23,7 @@ const linkGroups = [
 ];
 
 const fallbackSettings = {
-  contact_email: 'theherosmind@gmail.com',
+  contact_email: 'info@evawerodigital.com',
   contact_phone: '08082552357',
   social_links: { linkedin: 'https://linkedin.com', instagram: 'https://instagram.com', twitter: 'https://x.com' },
 };
