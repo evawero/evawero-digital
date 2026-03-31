@@ -26,10 +26,8 @@ Once accounts exist and content is reactivated, consider connecting APIs for dir
 ### ~~Switch to Domain Email~~ DONE
 Switched to info@evawerodigital.com via Google Workspace. OAuth credentials, Railway env vars, and admin login updated. Google Workspace setup guide removed (setup complete).
 
-### Add Language/Market Properties to Content Calendar
-The Notion Content Calendar doesn't have Language or Market properties. The PostgreSQL table stores them but Notion doesn't. Consider adding:
-- Language (select: en, de)
-- Market (select: Nigeria, Germany, Both)
+### ~~Add Language/Market Properties to Content Calendar~~ DONE
+Agent code now saves Language and Market to Notion. Requires Language (select: en, de) and Market (select: Nigeria, Germany, Both) properties to exist in the Notion Content Calendar database.
 
 ### ~~Admin Panel Blog Editor~~ DONE
 Admin panel already has a blog post editor with Add New and edit functionality.

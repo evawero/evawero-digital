@@ -53,6 +53,8 @@ const tools = [
           'Platform': { select: { name: platform } },
           'Status': { status: { name: 'Draft' } },
           'Agent': { select: { name: 'Marketing' } },
+          'Language': { select: { name: language || 'en' } },
+          'Market': { select: { name: market || 'Both' } },
         };
         if (content) properties['Content'] = { rich_text: [{ text: { content: content.slice(0, 2000) } }] };
         if (scheduled_for) properties['Scheduled For'] = { date: { start: scheduled_for } };
