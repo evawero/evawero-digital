@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Evawero Admin</title>
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -77,6 +78,11 @@
 
     .empty { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
     .hidden { display: none !important; }
+
+    /* Quill editor overrides */
+    .ql-editor { min-height: 250px; font-size: 14px; font-family: inherit; line-height: 1.7; }
+    .ql-toolbar.ql-snow { border-color: var(--rule); border-radius: 6px 6px 0 0; }
+    .ql-container.ql-snow { border-color: var(--rule); border-radius: 0 0 6px 6px; }
   </style>
 </head>
 <body>
@@ -116,8 +122,10 @@
     <div class="main" id="content"></div>
   </div>
 
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
   <script>
     const API = window.location.origin;
+    let blogQuill = null;
 
     // ── Helpers ──────────────────────────────────────────────
     async function api(path, opts = {}) {
@@ -258,6 +266,9 @@
     function buildForm(fields, data = {}) {
       return fields.map(f => {
         const val = data[f.key] || '';
+        if (f.type === 'richtext') {
+          return `<div class="form-group"><label>${f.label}</label><div id="quill-editor">${val}</div></div>`;
+        }
         if (f.type === 'textarea') {
           return `<div class="form-group"><label>${f.label}</label><textarea name="${f.key}" rows="${f.rows || 4}">${val}</textarea>${f.help ? `<div class="help">${f.help}</div>` : ''}</div>`;
         }
@@ -279,7 +290,9 @@
     function getFormData(formEl, fields) {
       const data = {};
       fields.forEach(f => {
-        if (f.type === 'checkbox') {
+        if (f.type === 'richtext') {
+          data[f.key] = blogQuill ? blogQuill.root.innerHTML : '';
+        } else if (f.type === 'checkbox') {
           data[f.key] = formEl.querySelector(`[name="${f.key}"]`).checked;
         } else if (f.type === 'array') {
           data[f.key] = formEl.querySelector(`[name="${f.key}"]`).value.split('\n').map(s => s.trim()).filter(Boolean);
@@ -398,11 +411,11 @@
       { key: 'title', label: 'Title' },
       { key: 'slug', label: 'Slug' },
       { key: 'excerpt', label: 'Excerpt', type: 'textarea', rows: 2 },
-      { key: 'content', label: 'Content (HTML)', type: 'textarea', rows: 12 },
+      { key: 'content', label: 'Content', type: 'richtext' },
       { key: 'cover_image', label: 'Cover Image URL' },
       { key: 'author', label: 'Author' },
       { key: 'published_date', label: 'Published Date', type: 'date' },
-      { key: 'category', label: 'Category', type: 'select', options: ['AI', 'Automation', 'Web', 'Digital Marketing', 'News'] },
+      { key: 'category', label: 'Category', type: 'select', options: ['AI & Automation', 'Digital Transformation', 'Nigeria Tech', 'Germany Business', 'Evas Intelligence', 'Case Study'] },
       { key: 'status', label: 'Status', type: 'select', options: ['draft', 'published'] },
     ];
 
@@ -425,16 +438,30 @@
           <form id="blog-form">${buildForm(blogFields, data)}
             <div class="btn-row">
               <button type="submit" class="btn btn-primary">${isEdit ? 'Update' : 'Create'}</button>
-              <button type="button" class="btn btn-secondary" onclick="html($('#form-area-blog-posts'),'')">Cancel</button>
+              <button type="button" class="btn btn-secondary" onclick="blogQuill=null;html($('#form-area-blog-posts'),'')">Cancel</button>
             </div>
           </form>
         </div>
       `);
+      // Initialize Quill rich text editor
+      blogQuill = new Quill('#quill-editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ header: [2, 3, false] }],
+            ['bold', 'italic', 'underline'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['link', 'image'],
+            ['clean'],
+          ],
+        },
+      });
       $('#blog-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const body = getFormData(e.target, blogFields);
         if (isEdit) await api(`/api/admin/blog-posts/${data.id}`, { method: 'PUT', body: JSON.stringify(body) });
         else await api('/api/admin/blog-posts', { method: 'POST', body: JSON.stringify(body) });
+        blogQuill = null;
         await renderBlogPosts();
         showAlert('blog-posts', isEdit ? 'Blog post updated successfully.' : 'Blog post created successfully.');
       });
