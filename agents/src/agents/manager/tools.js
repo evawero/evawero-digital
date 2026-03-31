@@ -1,5 +1,5 @@
 const { q } = require('../../core/database');
-const { NOTION_DB, queryDatabase } = require('../../core/notion');
+const { NOTION_DB, queryDatabase, updatePage } = require('../../core/notion');
 const { sendEmail, readEmails } = require('../../core/gmail');
 
 const tools = [
@@ -153,6 +153,41 @@ const tools = [
       const query = `is:inbox after:${since_date} -from:me`;
       const emails = await readEmails(query, 20);
       return emails;
+    },
+  },
+
+  {
+    name: 'sync_content_calendar',
+    description: 'Sync Content Calendar statuses from PostgreSQL to Notion. Call this during every digest to keep Notion up to date (e.g. when owner publishes a blog post from the admin panel).',
+    input_schema: { type: 'object', properties: {} },
+    handler: async () => {
+      try {
+        // Get published entries from PostgreSQL that might need syncing
+        const { rows: published } = await q(
+          `SELECT title FROM content_calendar WHERE status = 'published' AND platform = 'Blog'`
+        );
+        if (!published.length) return { synced: 0, message: 'No published blog entries to sync.' };
+
+        // Query Notion for Blog entries that are still Draft
+        const notionEntries = await queryDatabase(NOTION_DB.CONTENT, {
+          and: [
+            { property: 'Platform', select: { equals: 'Blog' } },
+            { property: 'Status', status: { equals: 'Draft' } },
+          ],
+        });
+
+        let synced = 0;
+        for (const entry of notionEntries) {
+          const notionTitle = entry.properties?.Title?.title?.[0]?.plain_text;
+          if (notionTitle && published.some(p => p.title === notionTitle)) {
+            await updatePage(entry.id, { 'Status': { status: { name: 'Published' } } });
+            synced++;
+          }
+        }
+        return { synced, message: `Synced ${synced} entries to Published in Notion.` };
+      } catch (err) {
+        return { synced: 0, error: err.message };
+      }
     },
   },
 

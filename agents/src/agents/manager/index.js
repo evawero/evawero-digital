@@ -20,16 +20,17 @@ async function runDigest() {
 Generate today's daily digest. Today is ${today}.
 
 STEPS:
-1. Use get_agent_logs to check all agent activity since "${threeDaysAgo}".
-2. Use get_leads_summary to get the current pipeline state.
-3. Use get_projects_summary to check active client projects.
-4. Use get_content_calendar with days=7 to see recent and upcoming content.
-5. Use get_open_alerts to check for any undismissed alerts.
-6. Use check_gmail_replies with since_date="${threeDaysAgo}" to find any incoming replies.
-7. Synthesise everything into the daily digest format from your instructions.
-8. Use send_email to send the digest to "${OWNER_EMAIL}" with subject "Evawero Daily Digest — ${today}".
-9. Use update_dashboard_data to store the summary for the dashboard.
-10. If anything triggers an immediate alert (lead replied, deadline within 48h, agent errors), use create_alert.
+1. Use sync_content_calendar to sync any blog posts published from the admin panel to Notion.
+2. Use get_agent_logs to check all agent activity since "${threeDaysAgo}".
+3. Use get_leads_summary to get the current pipeline state.
+4. Use get_projects_summary to check active client projects.
+5. Use get_content_calendar with days=7 to see recent and upcoming content.
+6. Use get_open_alerts to check for any undismissed alerts.
+7. Use check_gmail_replies with since_date="${threeDaysAgo}" to find any incoming replies.
+8. Synthesise everything into the daily digest format from your instructions.
+9. Use send_email to send the digest to "${OWNER_EMAIL}" with subject "Evawero Daily Digest — ${today}".
+10. Use update_dashboard_data to store the summary for the dashboard.
+11. If anything triggers an immediate alert (lead replied, deadline within 48h, agent errors), use create_alert.
 
 OUTPUT your analysis as JSON:
 {
