@@ -10,7 +10,7 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ### 1. Marketing Agent
 **What it does:** Creates content for your brand across platforms.
-- Writes full blog posts for evawerodigital.com (saved as drafts)
+- Writes full blog posts with Unsplash cover images for evawerodigital.com (saved as drafts)
 - Social media content (LinkedIn, X, Instagram) is currently **paused** until accounts are created
 - Follows your Brand Bible (tone, messaging, positioning) embedded in its prompt
 - Saves all content to the **Content Calendar** Notion database and PostgreSQL
@@ -24,6 +24,8 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 - Searches the web for potential clients matching your ICP (SMEs needing digital transformation)
 - Adds prospects to **CRM: Leads & Contacts** in Notion
 - Creates Gmail drafts for outreach — NEVER sends automatically
+- Only uses email addresses found in search results — never fabricates/guesses emails
+- If no verified email is found, lead is added to CRM without a draft (flagged for manual research)
 - Tracks lead status: new → contacted → replied → qualified → proposal → closed
 - Market priority: Nigeria first, then Germany/DACH, then rest of Africa
 - Checks Gmail for replies to previous outreach
@@ -100,7 +102,7 @@ All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
 |----------|---------|------------------|
 | CRM: Leads & Contacts | Lead tracking | Sales Agent + you |
 | Client Projects | Active project tracking | Solutions Agent + you |
-| Content Calendar | All created content | Marketing Agent |
+| Content Calendar | All created content (with Language + Market tags) | Marketing Agent |
 | Agent Logs | Run history for all agents | All agents (automatic) |
 | Agent Tasks | Sub-tasks per project | Solutions Agent creates, you track |
 
@@ -184,13 +186,13 @@ The Marketing Agent does NOT post to social media. It only creates draft content
 
 1. Agent researches trending topics in your markets
 2. Writes content for each platform (LinkedIn, X, Instagram, Blog)
-3. Saves everything to the **Content Calendar** (Notion + PostgreSQL) with status `Draft`
+3. Saves everything to the **Content Calendar** (Notion + PostgreSQL) with status `Draft`, tagged with Language (en/de) and Market (Nigeria/Germany/Both)
 4. You review drafts in Notion
 5. You copy-paste and publish manually to each platform
 
 No social media accounts are connected. No APIs post on your behalf. You are always the one who publishes.
 
-**Exception: Blog posts** — the agent writes full blog posts (1200-1800 words) and saves them as **drafts** directly to evawerodigital.com via the backend API. To publish:
+**Exception: Blog posts** — the agent writes full blog posts (600-1200 words) with Unsplash cover images and saves them as **drafts** directly to evawerodigital.com via the backend API. To publish:
 1. Go to your admin panel at `api.evawerodigital.com/admin`
 2. Find the draft blog post
 3. Review/edit the content
@@ -313,3 +315,5 @@ From the dashboard, the Agent Activity Log shows recent runs. For deeper debuggi
 | TAVILY_API_KEY | Tavily | Web search for agents |
 | API_SECRET_KEY | Internal | Dashboard login + API auth |
 | OWNER_EMAIL | Internal | Where digests get sent |
+| AGENT_API_KEY | Internal | Agent → backend auth for blog posts |
+| ADMIN_EMAIL | Backend | Admin panel login email |
