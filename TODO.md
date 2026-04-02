@@ -7,6 +7,15 @@ Marketing agent writes full blog posts with Unsplash cover images, saves as draf
 
 ---
 
+### Investigate Tavily API & Sales Agent Search
+Tavily dashboard showed 0/1000 credits used despite TAVILY_API_KEY being set on Railway. Need to confirm:
+1. Is the Tavily key actually working? (test it directly)
+2. If Tavily is down/broken, what has the sales agent been using to find prospect contact info?
+3. Check Railway logs for Tavily-related errors
+4. Fix or replace if needed — the sales agent should not be fabricating email addresses
+
+---
+
 ## Medium Priority
 
 ### Reactivate Social Media Content Creation
