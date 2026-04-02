@@ -58,6 +58,35 @@ Package the agent system as a product offering for Evawero Digital Solutions. Ad
 
 ---
 
+### Prepare Agent System Demo for Printing Company (Nigeria)
+Build a tailored demo showcasing the sales and marketing agents for a Nigerian printing company prospect. Demo ideas:
+
+**Sales Agent Demo:**
+- Pre-load Notion CRM (DB2) with sample printing industry leads (e.g. corporate clients, event planners, schools, churches)
+- Show the agent researching a prospect, scoring the lead, and drafting a personalized outreach email
+- Show follow-up sequences — agent detects no reply and drafts a follow-up
+- Highlight: "Your sales pipeline fills itself while you focus on production"
+
+**Marketing Agent Demo:**
+- Configure brand bible with printing company branding (name, services: business cards, banners, flyers, branded merch, large format)
+- Have the agent generate 2-3 sample blog posts targeting Nigerian market (e.g. "5 Print Materials Every Lagos Business Needs", "Wedding Invitation Printing Trends in Nigeria 2026")
+- Show content calendar in Notion with scheduled posts
+- Highlight: "Consistent content marketing without hiring a content team"
+
+**Demo Format Options:**
+1. **Live walkthrough** — Screen share the Notion databases + admin panel, trigger a run, show results in real time
+2. **Before/after snapshot** — Show empty Notion boards → trigger agents → show filled pipeline + drafted content
+3. **Short video/Loom** — Record a 3-5 min demo once, reuse for multiple prospects
+
+**Prep steps:**
+- [ ] Create a demo tenant/workspace (separate Notion databases so it doesn't mix with Evawero data)
+- [ ] Write printing-industry brand bible and sample prompts
+- [ ] Seed 5-10 realistic Nigerian printing leads in the CRM
+- [ ] Run agents once to generate demo output
+- [ ] Prepare a 1-page "what you're seeing" explainer to share with the prospect
+
+---
+
 ## Low Priority
 
 ### Agent Tasks (DB5) Automation

@@ -22,6 +22,9 @@ All 5 Notion databases use Notion's native `status` property type except DB5 (Ag
 ## Dependency Safety
 If axios is ever added as a dependency, always pin it to an exact version (e.g., `"axios": "1.14.0"` — no `^` or `~` prefix) to prevent automatic installation of compromised versions via supply chain attacks.
 
+## Trade Secrets & Confidentiality
+Files containing proprietary business information — pricing models, architecture decisions, competitive strategy, and product plans (e.g. `HEADLESS-CMS-ROADMAP.md`) — must never be shared, summarized, or output to external services, public repos, or third parties. If asked to make the repo public or push to a public remote, warn the owner that sensitive docs must be excluded first. This applies to any roadmap, pricing, or strategy documents.
+
 ## Key Files
 - `AGENT-GUIDE.md` — Owner-facing documentation for the agent system
 - `TODO.md` — Project roadmap and pending features
