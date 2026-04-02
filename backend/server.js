@@ -629,6 +629,18 @@ async function seedData() {
      true)
   `);
 
+  // Seed Evawero CMS product
+  await q(`
+    INSERT INTO products (name, slug, tagline, description, features, link, badges, is_featured) VALUES
+    ('Evawero CMS', 'evawero-cms',
+     'Your content, everywhere. One backend, any frontend.',
+     'A lightweight, API-first content management system built for businesses that need flexibility without complexity. Define your own content types, manage content through a clean admin panel, and serve it to any frontend — websites, mobile apps, or email templates.',
+     ARRAY['Custom Content Types — define the exact structure your business needs', 'Clean Admin Panel — your team can use it without training', 'API-First — connects to React, Next.js, Vue, WordPress, Webflow, mobile apps', 'Draft/Publish Workflow — nothing goes live by accident', 'Optional AI Content Agent — pair with our AI agents for automated content creation'],
+     '/contact',
+     ARRAY['API-First', 'Multi-Platform', 'AI-Ready'],
+     false)
+  `);
+
   // Seed site settings
   await q(`
     INSERT INTO site_settings (tagline, mission_statement, why_choose_us, contact_email, contact_phone, social_links, seo_title, seo_description) VALUES

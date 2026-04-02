@@ -47,6 +47,27 @@ const agentSteps = [
   { step: '04', text: 'You review, approve, and stay in control' },
 ];
 
+const cmsProduct = {
+  name: 'Evawero CMS',
+  tagline: 'Your content, everywhere. One backend, any frontend.',
+  description: 'A lightweight, API-first content management system built for businesses that need flexibility without complexity. Define your own content types \u2014 blog posts, team bios, FAQs, products, case studies, whatever your business needs. Create and manage content through a clean admin panel with a rich text editor. Serve it to any frontend: your website, mobile app, digital signage, or email templates.',
+  features: [
+    'Custom Content Types \u2014 Define the exact content structure your business needs, not a one-size-fits-all template',
+    'Clean Admin Panel \u2014 Your team can use it without training. Rich text editor, draft/publish workflow, media library',
+    'API-First \u2014 Connects to any frontend: React, Next.js, Vue, WordPress, Webflow, mobile apps',
+    'Multi-Platform \u2014 One content source for your website, app, kiosk, email templates, or any other channel',
+    'Optional AI Content Agent \u2014 Pair with our AI Agent System and your content writes itself, on-brand and on-schedule',
+  ],
+  badges: ['API-First', 'Multi-Platform', 'AI-Ready'],
+};
+
+const cmsSteps = [
+  { step: '01', text: 'We scope your content needs and define your content types' },
+  { step: '02', text: 'We set up your CMS with a tailored admin panel' },
+  { step: '03', text: 'Your team creates and manages content through a clean interface' },
+  { step: '04', text: 'Your frontend fetches content via API \u2014 any platform, any framework' },
+];
+
 export default function Products() {
   const [product, setProduct] = useState(fallbackProduct);
 
@@ -58,7 +79,7 @@ export default function Products() {
     <>
       <Helmet>
         <title>Our Products | Evawero Digital Solutions</title>
-        <meta name="description" content="AI-powered products and services: Evas Intelligence for business briefings and custom AI Agent Systems for autonomous operations." />
+        <meta name="description" content="AI-powered products: Evas Intelligence for business briefings, AI Agent Systems for autonomous operations, and Evawero CMS — a lightweight headless content management system." />
       </Helmet>
 
       {/* Hero */}
@@ -221,8 +242,79 @@ export default function Products() {
         </div>
       </section>
 
-      {/* More Coming Soon */}
+      {/* ── Evawero CMS ── */}
       <section className="border-t border-rule">
+        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
+            <div className="bg-brand-dark rounded-md p-8 md:p-12">
+              <p className="text-brand-mid text-sm font-medium uppercase tracking-wider mb-2">New</p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">{cmsProduct.name}</h2>
+              <p className="text-brand-border text-lg italic mb-6">{cmsProduct.tagline}</p>
+              <p className="text-white/80 leading-relaxed max-w-2xl">{cmsProduct.description}</p>
+              <div className="flex flex-wrap gap-2 mt-6">
+                {cmsProduct.badges.map(b => (
+                  <span key={b} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/90">{b}</span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          <div className="mt-16">
+            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
+              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">What You Get</motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {cmsProduct.features.map((feat, i) => {
+                const [title, ...rest] = feat.split(' \u2014 ');
+                const desc = rest.join(' \u2014 ');
+                return (
+                  <motion.div key={feat} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
+                    variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}
+                    className="border border-rule rounded-md p-6">
+                    <h4 className="font-display text-lg font-semibold text-brand-dark mb-2">{title}</h4>
+                    <p className="text-sm text-text-mid leading-relaxed">{desc}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
+              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">How It Works</motion.h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {cmsSteps.map((s, i) => (
+                <motion.div key={s.step} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
+                  variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}>
+                  <span className="font-display text-3xl font-bold text-brand-border">{s.step}</span>
+                  <p className="mt-2 text-sm text-text-mid">{s.text}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-16 border-t border-rule pt-16">
+            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
+              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Pricing</motion.h3>
+            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
+              className="max-w-2xl">
+              <div className="border border-brand rounded-md p-8">
+                <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Custom Quote</h4>
+                <p className="text-xl font-bold text-text mb-3">Tailored to your content needs</p>
+                <p className="text-sm text-text-muted leading-relaxed">
+                  Every business is different. Pricing depends on the number of content types, storage needs, and whether you
+                  want the AI Content Agent add-on. We will scope a CMS setup tailored to your business.
+                </p>
+              </div>
+            </motion.div>
+            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mt-8">
+              <Button href="/contact">Request a Quote</Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* More Coming Soon */}
+      <section className="border-t border-rule bg-surface">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
           className="max-w-6xl mx-auto px-6 py-20 md:py-28 text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-dark mb-4">More Coming Soon</h2>
