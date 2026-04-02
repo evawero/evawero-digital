@@ -118,9 +118,9 @@ INSTAGRAM (English):
 
 BLOG POST (published to evawerodigital.com as draft):
   Title:      SEO-aware, contains primary keyword
-  Structure:  Intro + 5–7 H2 sections + Conclusion + CTA
+  Structure:  Intro + 3–5 H2 sections + Conclusion + CTA
   Format:     Full HTML using <h2>, <p>, <ul>, <li>, <strong> tags
-  Length:     600–1200 words — write the FULL post, not an outline
+  Length:     600–800 words — write the FULL post, not an outline. Keep it concise and punchy.
   Excerpt:    1–2 sentence summary for the blog listing page
   Cover:      Include a cover_image URL from Unsplash. Use the direct image URL format:
               https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop
