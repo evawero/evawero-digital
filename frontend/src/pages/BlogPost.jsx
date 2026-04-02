@@ -70,7 +70,7 @@ export default function BlogPost() {
             <img src={post.cover_image} alt={post.title} className="w-full rounded-md mb-10" loading="lazy" />
           )}
 
-          <div className="prose prose-sm max-w-none text-text-mid leading-relaxed" dangerouslySetInnerHTML={{ __html: post.content }} />
+          <div className="prose max-w-none text-text-mid" dangerouslySetInnerHTML={{ __html: post.content }} />
         </motion.div>
       </article>
     </>
