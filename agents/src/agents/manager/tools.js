@@ -181,7 +181,7 @@ const tools = [
           const notionTitle = entry.properties?.Title?.title?.[0]?.plain_text;
           if (notionTitle && published.some(p => p.title === notionTitle)) {
             try {
-              await updatePage(entry.id, { 'Status': { status: { name: 'Published' } } });
+              await updatePage(entry.id, { 'Status': { status: { name: 'Publish' } } });
               synced++;
             } catch (statusErr) {
               // If "Published" option doesn't exist in Notion, try "Done"
@@ -189,7 +189,7 @@ const tools = [
                 try {
                   await updatePage(entry.id, { 'Status': { status: { name: 'Done' } } });
                   synced++;
-                  console.warn('Used "Done" instead of "Published" for Notion status. Add "Published" as a Status option in the Content Calendar database.');
+                  console.warn('Used "Done" instead of "Publish" for Notion status. Check Status options in the Content Calendar database.');
                 } catch (fallbackErr) {
                   console.error(`Failed to update Notion status for "${notionTitle}":`, fallbackErr.message);
                 }
@@ -199,7 +199,7 @@ const tools = [
             }
           }
         }
-        return { synced, message: `Synced ${synced} entries to Published in Notion.` };
+        return { synced, message: `Synced ${synced} entries to Publish in Notion.` };
       } catch (err) {
         return { synced: 0, error: err.message };
       }
