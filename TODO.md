@@ -108,6 +108,64 @@ Client never touches code/GitHub/Railway — they interact through Notion and Gm
 
 ---
 
+### Switch Instagram Graphics to Canva API
+Replace the current Puppeteer HTML-to-image approach with Canva's API for higher quality, professionally designed Instagram graphics.
+
+**Why:** Current HTML-rendered graphics are functional but lack the polish of proper design tools. Canva templates give professional results with brand consistency.
+
+**What's needed:**
+
+1. **Canva Pro account** (~$13/month) — required for API access
+   - Sign up at canva.com
+   - Upgrade to Canva Pro or Canva for Teams
+
+2. **Canva Connect API access** — apply at canva.com/developers
+   - Create an app in the Canva Developer Portal
+   - Get `CANVA_API_KEY` and `CANVA_API_SECRET`
+   - API is currently in beta — may need to join waitlist
+
+3. **Design branded templates in Canva** (5-8 templates covering common formats):
+   - Quote card (inspirational/educational quote, green brand bg)
+   - Tip list (3-5 numbered tips, clean layout)
+   - Stat highlight (bold number + context)
+   - Announcement (headline + subtext)
+   - Before/after comparison
+   - Carousel slide (for multi-slide posts)
+   - Each template should use Evawero brand colours (#1D9E75, #0F6E56, #111, #fff), fonts, and ED logo
+
+4. **Note each template's Canva design ID** — the API uses these to create new designs from templates
+
+5. **Update the marketing agent:**
+   - Replace `core/graphics.js` Puppeteer logic with Canva API calls
+   - Agent picks a template ID, sends text content to Canva API
+   - Canva renders the design, returns an image URL
+   - Save the Canva image URL to `content_calendar.image_url` (no more base64 in DB)
+   - Remove Puppeteer dependency from agents/package.json
+
+6. **Add Railway env vars:**
+   - `CANVA_API_KEY`
+   - `CANVA_API_SECRET`
+
+7. **Migration:** Add `image_url` column to content_calendar (replace `image_data` base64 approach)
+
+**Canva API flow:**
+```
+Agent decides on content → picks template ID → sends text via Canva API
+→ Canva renders design → returns image URL → saved to DB + Notion
+```
+
+**Alternative if Canva API waitlist is long:** Use Canva's direct share links — agent saves the text content + template suggestion to Notion, owner manually creates the graphic in Canva using the template. Less automated but still saves time.
+
+**Prep steps:**
+- [ ] Sign up for Canva Pro
+- [ ] Apply for Canva Connect API access
+- [ ] Design 5-8 branded templates in Canva
+- [ ] Get API credentials
+- [ ] Update agent code to use Canva API
+- [ ] Test for 2 runs, then remove Puppeteer fallback
+
+---
+
 ## Low Priority
 
 ### Agent Tasks (DB5) Automation
