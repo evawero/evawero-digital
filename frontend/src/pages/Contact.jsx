@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { breadcrumbSchema } from '../components/SEO';
 import ContactForm from '../components/sections/ContactForm';
 import { getSiteSettings } from '../lib/api';
 
@@ -25,10 +25,11 @@ export default function Contact() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('contact.title')}</title>
-        <meta name="description" content={t('contact.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('contact.title')}
+        description={t('contact.metaDescription')}
+        structuredData={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }])}
+      />
 
       {/* Hero */}
       <section className="bg-brand-pale">

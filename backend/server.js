@@ -123,6 +123,38 @@ app.get('/api/products/featured', async (req, res) => {
   }
 });
 
+// Dynamic Sitemap
+app.get('/api/sitemap.xml', async (req, res) => {
+  try {
+    const { rows } = await q(
+      "SELECT slug, updated_at, published_date FROM blog_posts WHERE status = 'published' ORDER BY published_date DESC"
+    );
+    const staticPages = [
+      { loc: '/', priority: '1.0', changefreq: 'weekly' },
+      { loc: '/services', priority: '0.9', changefreq: 'monthly' },
+      { loc: '/products', priority: '0.9', changefreq: 'monthly' },
+      { loc: '/about', priority: '0.8', changefreq: 'monthly' },
+      { loc: '/blog', priority: '0.7', changefreq: 'weekly' },
+      { loc: '/contact', priority: '0.8', changefreq: 'monthly' },
+    ];
+    const base = 'https://evawerodigital.com';
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    for (const p of staticPages) {
+      xml += `  <url><loc>${base}${p.loc}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>\n`;
+    }
+    for (const post of rows) {
+      const lastmod = (post.updated_at || post.published_date || '').toString().slice(0, 10);
+      xml += `  <url><loc>${base}/blog/${post.slug}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}<changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
+    }
+    xml += '</urlset>';
+    res.set('Content-Type', 'application/xml');
+    res.send(xml);
+  } catch (e) {
+    res.status(500).send('Failed to generate sitemap');
+  }
+});
+
 // Blog Posts
 app.get('/api/blog-posts', async (req, res) => {
   try {

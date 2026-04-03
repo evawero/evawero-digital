@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { breadcrumbSchema } from '../components/SEO';
 import Button from '../components/ui/Button';
 import { getFeaturedProduct } from '../lib/api';
 
@@ -141,10 +141,11 @@ export default function Products() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('products.title')}</title>
-        <meta name="description" content={t('products.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('products.title')}
+        description={t('products.metaDescription')}
+        structuredData={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Products', path: '/products' }])}
+      />
 
       {/* Hero */}
       <section className="bg-brand-pale">

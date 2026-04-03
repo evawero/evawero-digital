@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { breadcrumbSchema } from '../components/SEO';
 import BlogCard from '../components/ui/BlogCard';
 import { getBlogPosts } from '../lib/api';
 
@@ -25,10 +25,11 @@ export default function Blog() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('blog.title')}</title>
-        <meta name="description" content={t('blog.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('blog.title')}
+        description={t('blog.metaDescription')}
+        structuredData={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }])}
+      />
 
       {/* Hero */}
       <section className="bg-brand-pale">

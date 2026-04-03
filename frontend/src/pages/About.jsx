@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { breadcrumbSchema } from '../components/SEO';
 import { getSiteSettings, getTeamMembers } from '../lib/api';
 
 const fadeUp = {
@@ -30,10 +30,11 @@ export default function About() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('about.title')}</title>
-        <meta name="description" content={t('about.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('about.title')}
+        description={t('about.metaDescription')}
+        structuredData={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])}
+      />
 
       {/* Hero */}
       <section className="bg-brand-pale">

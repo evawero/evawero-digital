@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { organizationSchema, websiteSchema } from '../components/SEO';
 import Hero from '../components/sections/Hero';
 import ServicesSection from '../components/sections/Services';
 import ProductsSection from '../components/sections/Products';
@@ -25,10 +25,11 @@ export default function Home() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('home.title')}</title>
-        <meta name="description" content={t('home.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('home.title')}
+        description={t('home.metaDescription')}
+        structuredData={[organizationSchema(), websiteSchema()]}
+      />
 
       <Hero />
       <ServicesSection />

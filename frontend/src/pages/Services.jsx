@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { breadcrumbSchema, serviceSchema } from '../components/SEO';
 import Button from '../components/ui/Button';
 import { getServices } from '../lib/api';
 
@@ -54,10 +54,14 @@ export default function Services() {
 
   return (
     <>
-      <Helmet>
-        <title>{t('services.title')}</title>
-        <meta name="description" content={t('services.metaDescription')} />
-      </Helmet>
+      <SEO
+        title={t('services.title')}
+        description={t('services.metaDescription')}
+        structuredData={[
+          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Services', path: '/services' }]),
+          serviceSchema(displayServices.map(s => ({ name: s.title, description: s.full_description }))),
+        ]}
+      />
 
       {/* Hero */}
       <section className="bg-brand-pale">

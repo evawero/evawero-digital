@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import SEO, { blogPostSchema, breadcrumbSchema } from '../components/SEO';
 import { getBlogPost } from '../lib/api';
 
 const fadeUp = {
@@ -48,10 +49,22 @@ export default function BlogPost() {
 
   return (
     <>
-      <Helmet>
-        <title>{post.title} | Evawero Digital Solutions</title>
-        <meta name="description" content={post.excerpt || ''} />
-      </Helmet>
+      <SEO
+        title={`${post.title} | Evawero Digital Solutions`}
+        description={post.excerpt || ''}
+        type="article"
+        image={post.cover_image}
+        structuredData={[
+          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }, { name: post.title, path: `/blog/${slug}` }]),
+          blogPostSchema({
+            title: post.title,
+            excerpt: post.excerpt,
+            image: post.cover_image,
+            datePublished: post.published_date,
+            slug,
+          }),
+        ]}
+      />
 
       <article className="max-w-3xl mx-auto px-6 py-24">
         <motion.div initial="hidden" animate="show" variants={fadeUp}>

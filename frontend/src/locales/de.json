@@ -262,5 +262,13 @@
   },
   "productCard": {
     "learnMore": "Mehr erfahren"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden | Evawero Digital Solutions",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "heading": "Seite nicht gefunden",
+    "body": "Die gesuchte Seite existiert nicht oder wurde verschoben. Wir helfen Ihnen gerne weiter.",
+    "homeButton": "Zur Startseite",
+    "contactButton": "Kontakt"
   }
 }
