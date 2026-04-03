@@ -8,7 +8,7 @@
 
 ## Current State Summary
 
-The site is a React SPA (Vite + React Router) with `react-helmet-async` handling titles and descriptions. A static `sitemap.xml` and `robots.txt` are in place. Main gaps: no Open Graph tags, no structured data, no canonical URLs, no hreflang tags, and SPA architecture limits crawlability.
+The site is a React SPA (Vite + React Router) with a reusable SEO component handling meta tags, OG, Twitter Cards, canonical URLs, hreflang, and structured data. Google Analytics (GA4) and Vercel Analytics are installed. A dynamic sitemap and 404 page are in place. Remaining gaps: SPA crawlability, content/keyword optimization, and off-page SEO.
 
 ---
 
@@ -26,9 +26,11 @@ The site is a React SPA (Vite + React Router) with `react-helmet-async` handling
   - `BreadcrumbList` schema on all inner pages
   - `ProfessionalService` on services page
 - [x] **Generate dynamic sitemap** - backend endpoint at `/api/sitemap.xml` includes all published blog posts.
-- [ ] **Submit sitemap in Search Console** - submit `https://api.evawerodigital.com/api/sitemap.xml` and check for indexing errors. *(manual step)*
+- [x] **Submit sitemap in Search Console** - submitted `https://api.evawerodigital.com/api/sitemap.xml`.
 - [x] **Create a proper 404 page** - NotFound page with navigation to Home and Contact.
-- [ ] **Create proper OG image** - replace `og-image.svg` with a 1200x630px PNG. *(manual step: use Canva or similar)*
+- [x] **Create proper OG image** - branded 1200x630px PNG at `/og-image.png`.
+- [x] **Install Google Analytics (GA4)** - tracking ID G-MREV0YXB44.
+- [x] **Install Vercel Analytics** - Web Vitals monitoring enabled.
 
 ---
 
@@ -36,20 +38,18 @@ The site is a React SPA (Vite + React Router) with `react-helmet-async` handling
 
 - [ ] **Keyword research** - identify 5-10 primary keywords per page (e.g., "AI consulting for businesses", "digital transformation agency", "business automation services"). Use Search Console data as it builds up.
 - [ ] **Optimize H1 tags** - ensure each page has exactly one H1 that includes the primary keyword naturally.
-- [ ] **Improve meta descriptions** - current ones are decent but could include stronger CTAs and target keywords. Keep under 155 characters.
+- [x] **Improve meta descriptions** - all pages updated with keyword-rich descriptions and CTAs (EN + DE).
 - [ ] **Add internal linking** - link between related pages (e.g., blog posts linking to services, services linking to contact). This distributes page authority.
 - [ ] **Optimize URL slugs for blog posts** - ensure slugs are keyword-rich, lowercase, hyphenated.
 - [ ] **Add alt text to ALL images** - most are covered, but audit every image. Describe what's shown, include keywords where natural.
 - [ ] **Improve blog content depth** - longer, well-structured posts (1500+ words) with proper H2/H3 hierarchy rank better. Target topics your audience searches for.
-- [ ] **Add FAQ sections to key pages** - services and products pages benefit from FAQs (also enables FAQ schema markup).
+- [x] **Add FAQ sections to key pages** - Services and Products pages have FAQ sections with FAQ schema markup (EN + DE).
 
 ---
 
 ## Phase 3: Technical SEO
 
-- [ ] **Address SPA crawlability** - this is the biggest technical risk. Google can render JS but other engines struggle. Options:
-  - Add prerendering (e.g., prerender.io or migrate to Next.js with SSR/ISR)
-  - Use a prerendering service/middleware on Vercel
+- [x] **Address SPA crawlability (partial)** - fallback meta tags added to HTML shell for crawlers that don't execute JS. Full SSR requires migrating to Next.js (future consideration).
 - [ ] **Optimize Core Web Vitals** - run Lighthouse and fix:
   - LCP (Largest Contentful Paint) - optimize hero images, fonts
   - CLS (Cumulative Layout Shift) - set explicit image dimensions
@@ -58,8 +58,8 @@ The site is a React SPA (Vite + React Router) with `react-helmet-async` handling
 - [ ] **Add responsive images** - use `srcset` and `sizes` attributes for different screen sizes.
 - [ ] **Implement lazy loading consistently** - already on some images, ensure it's on all below-the-fold images.
 - [ ] **Minify CSS/JS** - Vite handles this in production, but verify the output.
-- [ ] **Set up proper redirects** - www to non-www (or vice versa), HTTP to HTTPS. Check in Vercel dashboard.
-- [ ] **Add security headers** - HTTPS is handled by Vercel, but add X-Content-Type-Options, etc. (minor ranking signal).
+- [x] **Set up proper redirects** - www to non-www redirect configured in vercel.json.
+- [x] **Add security headers** - X-Content-Type-Options, X-Frame-Options, X-XSS-Protection, Referrer-Policy, Permissions-Policy. Plus asset caching headers.
 
 ---
 

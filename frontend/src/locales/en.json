@@ -30,7 +30,7 @@
   },
   "home": {
     "title": "Evawero Digital Solutions | From Analysis to AI",
-    "metaDescription": "Evawero Digital Solutions helps businesses leverage technology to streamline operations, attract customers, and scale sustainably.",
+    "metaDescription": "AI consulting and digital transformation for businesses in Nigeria and Europe. Automate operations, build smarter systems, and scale sustainably.",
     "ctaBanner": {
       "heading": "Not sure where to start?",
       "body": "Book a free Digital Readiness Assessment. We'll analyse your current setup and show you exactly where AI and automation can create the most impact.",
@@ -45,7 +45,7 @@
   },
   "services": {
     "title": "Our Services | Evawero Digital Solutions",
-    "metaDescription": "From AI strategy to digital transformation, explore how Evawero Digital Solutions can help your business grow.",
+    "metaDescription": "AI strategy, business automation, custom web development, and digital branding. Get a free assessment and start transforming your business today.",
     "eyebrow": "What We Do",
     "heading": "Our Services",
     "heroBody": "Technology should work for your business, not the other way around. Here is how we help.",
@@ -53,6 +53,16 @@
     "whatsIncluded": "What's Included",
     "getStarted": "Get Started",
     "viewAll": "View all services \u2192",
+    "faq": {
+      "heading": "Frequently Asked Questions",
+      "items": [
+        { "question": "How long does an AI strategy project typically take?", "answer": "Most AI strategy engagements run 4 to 8 weeks, depending on complexity. We start with a 1-week assessment, then move into solution design and implementation." },
+        { "question": "Do I need technical knowledge to work with you?", "answer": "Not at all. We translate business challenges into technical solutions. You focus on your business goals, we handle the technology." },
+        { "question": "What industries do you work with?", "answer": "We work across industries including finance, logistics, professional services, retail, and manufacturing. Our solutions are tailored to each client's specific needs." },
+        { "question": "How much does it cost to get started?", "answer": "We offer a free Digital Readiness Assessment to understand your needs. Project costs depend on scope, but we work with businesses of all sizes and always discuss budget upfront." },
+        { "question": "Can you integrate with our existing tools and systems?", "answer": "Yes. We specialise in integrating AI and automation with your existing tech stack, whether that is Google Workspace, Salesforce, custom databases, or legacy systems." }
+      ]
+    },
     "ctaHeading": "Ready to get started?",
     "ctaBody": "Book a free assessment and we will help you figure out the best next step for your business.",
     "ctaButton": "Book a Free Assessment",
@@ -89,7 +99,7 @@
   },
   "products": {
     "title": "Our Products | Evawero Digital Solutions",
-    "metaDescription": "AI-powered products: Evas Intelligence for business briefings, AI Agent Systems for autonomous operations, and Evawero CMS \u2014 a lightweight headless content management system.",
+    "metaDescription": "AI-powered tools for business: Evas Intelligence briefings, autonomous AI Agent Systems, and Evawero CMS. Try free or get a custom quote.",
     "eyebrow": "Products",
     "heading": "Our Products",
     "heroBody": "Tools we build and ship. Designed to solve real problems for real businesses.",
@@ -97,6 +107,16 @@
     "learnMore": "Learn more",
     "howItWorks": "How It Works",
     "pricing": "Pricing",
+    "faq": {
+      "heading": "Frequently Asked Questions",
+      "items": [
+        { "question": "What is Evas Intelligence?", "answer": "Evas Intelligence is an AI-powered platform that scans your Gmail and news feeds, then delivers a prioritised intelligence briefing with action steps every morning." },
+        { "question": "How do AI Agent Systems work?", "answer": "We build custom AI agents tailored to your brand and workflows. They run on a schedule, handling marketing, sales outreach, project delivery, and reporting autonomously. You review and approve their work." },
+        { "question": "What is a headless CMS?", "answer": "A headless CMS separates content management from presentation. You create content in one place and deliver it to any platform: your website, mobile app, email templates, or digital signage, all via API." },
+        { "question": "Can I try before committing?", "answer": "Yes. Evas Intelligence has a free tier you can start with immediately. For AI Agent Systems and Evawero CMS, we offer a free consultation to scope your needs before any commitment." },
+        { "question": "Do you offer ongoing support?", "answer": "Absolutely. All our products include support. For agent systems and CMS, we provide ongoing optimisation, monitoring, and updates as part of our service." }
+      ]
+    },
     "moreComingSoon": "More Coming Soon",
     "moreComingSoonBody": "We are always building. Stay tuned for new tools designed to help businesses operate smarter.",
     "ei": {
@@ -175,7 +195,7 @@
   },
   "about": {
     "title": "About Us | Evawero Digital Solutions",
-    "metaDescription": "Learn about Evawero Digital Solutions, our mission, values, and the team behind your digital growth.",
+    "metaDescription": "Digital transformation agency operating in Nigeria and Germany. Meet the team helping businesses leverage AI, automation, and modern technology.",
     "eyebrow": "Who We Are",
     "heading": "About Evawero Digital",
     "story": {
@@ -205,7 +225,7 @@
   },
   "blog": {
     "title": "Blog | Evawero Digital Solutions",
-    "metaDescription": "Insights on digital strategy, AI, automation, and business growth from Evawero Digital Solutions.",
+    "metaDescription": "Practical articles on AI strategy, business automation, digital transformation, and growth. Written for decision-makers in Nigeria and Europe.",
     "eyebrow": "Insights",
     "heading": "Blog",
     "heroBody": "Practical thinking on technology, growth, and digital strategy.",
@@ -219,7 +239,7 @@
   },
   "contact": {
     "title": "Contact Us | Evawero Digital Solutions",
-    "metaDescription": "Get in touch with Evawero Digital Solutions. Book a free assessment or send us a message.",
+    "metaDescription": "Book a free Digital Readiness Assessment or send us a message. We respond within 24 hours. Offices in Nigeria and Germany.",
     "eyebrow": "Get in Touch",
     "heading": "Let's Work Together",
     "heroBody": "Tell us about your project, challenge, or idea. We will get back to you within 24 hours.",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import SEO, { breadcrumbSchema } from '../components/SEO';
+import SEO, { breadcrumbSchema, faqSchema } from '../components/SEO';
 import Button from '../components/ui/Button';
 import { getFeaturedProduct } from '../lib/api';
 
@@ -138,13 +138,17 @@ export default function Products() {
   }, []);
 
   const displayProduct = i18n.language !== 'en' ? fallbackProduct : (product || fallbackProduct);
+  const faqs = t('products.faq.items', { returnObjects: true });
 
   return (
     <>
       <SEO
         title={t('products.title')}
         description={t('products.metaDescription')}
-        structuredData={breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Products', path: '/products' }])}
+        structuredData={[
+          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Products', path: '/products' }]),
+          faqSchema(faqs),
+        ]}
       />
 
       {/* Hero */}
@@ -228,6 +232,28 @@ export default function Products() {
         }
         cta={<Button href="/contact">{t('products.cms.cta')}</Button>}
       />
+
+      {/* FAQ */}
+      <section className="border-t border-rule">
+        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-12">{t('products.faq.heading')}</h2>
+          </motion.div>
+          <div className="space-y-6 max-w-3xl">
+            {faqs.map((faq, i) => (
+              <motion.details key={i} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
+                variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.06 } } }}
+                className="group border border-rule rounded-md">
+                <summary className="flex items-center justify-between cursor-pointer px-6 py-4 text-sm font-medium text-brand-dark hover:bg-brand-pale/50 transition-colors">
+                  {faq.question}
+                  <span className="ml-4 text-brand transition-transform group-open:rotate-45 text-lg">+</span>
+                </summary>
+                <p className="px-6 pb-4 text-sm text-text-mid leading-relaxed">{faq.answer}</p>
+              </motion.details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* More Coming Soon */}
       <section className="border-t border-rule bg-surface">

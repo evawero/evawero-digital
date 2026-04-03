@@ -30,7 +30,7 @@
   },
   "home": {
     "title": "Evawero Digital Solutions | Von Analyse zu KI",
-    "metaDescription": "Evawero Digital Solutions hilft Unternehmen, Technologie zu nutzen, um Abl\u00e4ufe zu optimieren, Kunden zu gewinnen und nachhaltig zu wachsen.",
+    "metaDescription": "KI-Beratung und digitale Transformation f\u00fcr Unternehmen in Nigeria und Europa. Prozesse automatisieren, smarter arbeiten, nachhaltig wachsen.",
     "ctaBanner": {
       "heading": "Nicht sicher, wo Sie anfangen sollen?",
       "body": "Buchen Sie eine kostenlose Digital Readiness Analyse. Wir pr\u00fcfen Ihre aktuelle Aufstellung und zeigen Ihnen genau, wo KI und Automatisierung den gr\u00f6\u00dften Mehrwert schaffen k\u00f6nnen.",
@@ -45,7 +45,7 @@
   },
   "services": {
     "title": "Unsere Leistungen | Evawero Digital Solutions",
-    "metaDescription": "Von KI-Strategie bis zur digitalen Transformation: Erfahren Sie, wie Evawero Digital Solutions Ihrem Unternehmen helfen kann.",
+    "metaDescription": "KI-Strategie, Prozessautomatisierung, Webentwicklung und digitales Branding. Kostenlose Analyse buchen und Ihr Unternehmen transformieren.",
     "eyebrow": "Was wir tun",
     "heading": "Unsere Leistungen",
     "heroBody": "Technologie sollte f\u00fcr Ihr Unternehmen arbeiten, nicht umgekehrt. So k\u00f6nnen wir helfen.",
@@ -53,6 +53,16 @@
     "whatsIncluded": "Was enthalten ist",
     "getStarted": "Jetzt starten",
     "viewAll": "Alle Leistungen ansehen \u2192",
+    "faq": {
+      "heading": "H\u00e4ufig gestellte Fragen",
+      "items": [
+        { "question": "Wie lange dauert ein KI-Strategie-Projekt?", "answer": "Die meisten KI-Strategie-Projekte dauern 4 bis 8 Wochen. Wir starten mit einer einw\u00f6chigen Analyse und gehen dann in L\u00f6sungsdesign und Umsetzung \u00fcber." },
+        { "question": "Brauche ich technisches Wissen, um mit Ihnen zu arbeiten?", "answer": "Nein. Wir \u00fcbersetzen gesch\u00e4ftliche Herausforderungen in technische L\u00f6sungen. Sie konzentrieren sich auf Ihre Ziele, wir k\u00fcmmern uns um die Technologie." },
+        { "question": "In welchen Branchen arbeiten Sie?", "answer": "Wir arbeiten branchenübergreifend: Finanzen, Logistik, professionelle Dienstleistungen, Einzelhandel und Fertigung. Unsere L\u00f6sungen werden individuell angepasst." },
+        { "question": "Was kostet der Einstieg?", "answer": "Wir bieten eine kostenlose Digital-Readiness-Analyse an. Projektkosten h\u00e4ngen vom Umfang ab, aber wir arbeiten mit Unternehmen jeder Gr\u00f6\u00dfe und besprechen das Budget im Voraus." },
+        { "question": "K\u00f6nnen Sie sich in unsere bestehenden Tools integrieren?", "answer": "Ja. Wir sind spezialisiert auf die Integration von KI und Automatisierung in Ihren bestehenden Tech-Stack, ob Google Workspace, Salesforce, individuelle Datenbanken oder Legacy-Systeme." }
+      ]
+    },
     "ctaHeading": "Bereit loszulegen?",
     "ctaBody": "Buchen Sie eine kostenlose Analyse und wir helfen Ihnen, den besten n\u00e4chsten Schritt f\u00fcr Ihr Unternehmen zu finden.",
     "ctaButton": "Kostenlose Analyse buchen",
@@ -89,7 +99,7 @@
   },
   "products": {
     "title": "Unsere Produkte | Evawero Digital Solutions",
-    "metaDescription": "KI-gest\u00fctzte Produkte: Evas Intelligence f\u00fcr Business-Briefings, KI-Agentensysteme f\u00fcr autonome Gesch\u00e4ftsprozesse und Evawero CMS, ein leichtgewichtiges Headless Content-Management-System.",
+    "metaDescription": "KI-Tools f\u00fcr Unternehmen: Evas Intelligence Briefings, autonome KI-Agentensysteme und Evawero CMS. Kostenlos testen oder Angebot anfragen.",
     "eyebrow": "Produkte",
     "heading": "Unsere Produkte",
     "heroBody": "Werkzeuge, die wir entwickeln und bereitstellen. Entworfen, um echte Probleme f\u00fcr echte Unternehmen zu l\u00f6sen.",
@@ -97,6 +107,16 @@
     "learnMore": "Mehr erfahren",
     "howItWorks": "So funktioniert es",
     "pricing": "Preise",
+    "faq": {
+      "heading": "H\u00e4ufig gestellte Fragen",
+      "items": [
+        { "question": "Was ist Evas Intelligence?", "answer": "Evas Intelligence ist eine KI-Plattform, die Ihre Gmail-Inbox und Nachrichten-Feeds scannt und jeden Morgen ein priorisiertes Briefing mit Handlungsempfehlungen liefert." },
+        { "question": "Wie funktionieren KI-Agentensysteme?", "answer": "Wir bauen individuelle KI-Agenten f\u00fcr Ihre Marke und Arbeitsabl\u00e4ufe. Sie laufen nach Zeitplan und \u00fcbernehmen Marketing, Vertrieb, Projektabwicklung und Reporting autonom. Sie pr\u00fcfen und genehmigen die Ergebnisse." },
+        { "question": "Was ist ein Headless CMS?", "answer": "Ein Headless CMS trennt Inhaltsverwaltung von der Darstellung. Sie erstellen Inhalte an einem Ort und liefern sie \u00fcber API an jede Plattform: Website, App, E-Mail-Vorlagen oder Digital Signage." },
+        { "question": "Kann ich es vor einer Entscheidung testen?", "answer": "Ja. Evas Intelligence hat eine kostenlose Stufe. F\u00fcr KI-Agentensysteme und Evawero CMS bieten wir eine kostenlose Beratung an, bevor Sie sich festlegen." },
+        { "question": "Bieten Sie laufenden Support an?", "answer": "Selbstverst\u00e4ndlich. Alle Produkte beinhalten Support. F\u00fcr Agentensysteme und CMS bieten wir laufende Optimierung, Monitoring und Updates." }
+      ]
+    },
     "moreComingSoon": "Weitere Produkte folgen",
     "moreComingSoonBody": "Wir entwickeln st\u00e4ndig weiter. Bleiben Sie gespannt auf neue Tools, die Unternehmen helfen, intelligenter zu arbeiten.",
     "ei": {
@@ -175,7 +195,7 @@
   },
   "about": {
     "title": "\u00dcber uns | Evawero Digital Solutions",
-    "metaDescription": "Erfahren Sie mehr \u00fcber Evawero Digital Solutions, unsere Mission, Werte und das Team hinter Ihrem digitalen Wachstum.",
+    "metaDescription": "Digitale Transformationsagentur in Nigeria und Deutschland. Lernen Sie das Team kennen, das Unternehmen mit KI und Automatisierung voranbringt.",
     "eyebrow": "Wer wir sind",
     "heading": "\u00dcber Evawero Digital",
     "story": {
@@ -205,7 +225,7 @@
   },
   "blog": {
     "title": "Blog | Evawero Digital Solutions",
-    "metaDescription": "Einblicke in Digitalstrategie, KI, Automatisierung und Unternehmenswachstum von Evawero Digital Solutions.",
+    "metaDescription": "Praxisnahe Artikel zu KI-Strategie, Automatisierung, digitaler Transformation und Wachstum. F\u00fcr Entscheider in Nigeria und Europa.",
     "eyebrow": "Einblicke",
     "heading": "Blog",
     "heroBody": "Praktisches Denken \u00fcber Technologie, Wachstum und Digitalstrategie.",
@@ -219,7 +239,7 @@
   },
   "contact": {
     "title": "Kontakt | Evawero Digital Solutions",
-    "metaDescription": "Nehmen Sie Kontakt mit Evawero Digital Solutions auf. Buchen Sie eine kostenlose Analyse oder senden Sie uns eine Nachricht.",
+    "metaDescription": "Kostenlose Digital-Readiness-Analyse buchen oder Nachricht senden. Antwort innerhalb von 24 Stunden. B\u00fcros in Nigeria und Deutschland.",
     "eyebrow": "Kontakt aufnehmen",
     "heading": "Lassen Sie uns zusammenarbeiten",
     "heroBody": "Erz\u00e4hlen Sie uns von Ihrem Projekt, Ihrer Herausforderung oder Idee. Wir melden uns innerhalb von 24 Stunden.",
