@@ -127,7 +127,7 @@ app.get('/api/products/featured', async (req, res) => {
 app.get('/api/sitemap.xml', async (req, res) => {
   try {
     const { rows } = await q(
-      "SELECT slug, updated_at, published_date FROM blog_posts WHERE status = 'published' ORDER BY published_date DESC"
+      "SELECT slug, published_date FROM blog_posts WHERE status = 'published' ORDER BY published_date DESC"
     );
     const staticPages = [
       { loc: '/', priority: '1.0', changefreq: 'weekly' },
@@ -144,7 +144,7 @@ app.get('/api/sitemap.xml', async (req, res) => {
       xml += `  <url><loc>${base}${p.loc}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>\n`;
     }
     for (const post of rows) {
-      const lastmod = (post.updated_at || post.published_date || '').toString().slice(0, 10);
+      const lastmod = (post.published_date || '').toString().slice(0, 10);
       xml += `  <url><loc>${base}/blog/${post.slug}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}<changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
     }
     xml += '</urlset>';
