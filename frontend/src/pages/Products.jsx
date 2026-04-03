@@ -50,7 +50,7 @@ const agentSteps = [
 const cmsProduct = {
   name: 'Evawero CMS',
   tagline: 'Your content, everywhere. One backend, any frontend.',
-  description: 'A lightweight, API-first content management system built for businesses that need flexibility without complexity. Define your own content types \u2014 blog posts, team bios, FAQs, products, case studies, whatever your business needs. Create and manage content through a clean admin panel with a rich text editor. Serve it to any frontend: your website, mobile app, digital signage, or email templates.',
+  description: 'A lightweight headless CMS built for businesses that need flexibility without complexity. Define your own content types \u2014 blog posts, team bios, FAQs, products, case studies, whatever your business needs. Create and manage content through a clean admin panel with a rich text editor. Serve it to any frontend: your website, mobile app, digital signage, or email templates.',
   features: [
     'Custom Content Types \u2014 Define the exact content structure your business needs, not a one-size-fits-all template',
     'Clean Admin Panel \u2014 Your team can use it without training. Rich text editor, draft/publish workflow, media library',
