@@ -1,26 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { getSiteSettings } from '../../lib/api';
-
-const linkGroups = [
-  {
-    heading: 'Company',
-    links: [
-      { to: '/services', label: 'Services' },
-      { to: '/products', label: 'Products' },
-      { to: '/about', label: 'About' },
-      { to: '/blog', label: 'Blog' },
-      { to: '/contact', label: 'Contact' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { to: '/privacy', label: 'Privacy Policy' },
-      { to: '/terms', label: 'Terms of Service' },
-    ],
-  },
-];
 
 const fallbackSettings = {
   contact_email: 'info@evawerodigital.com',
@@ -29,6 +10,7 @@ const fallbackSettings = {
 };
 
 export default function Footer() {
+  const { t } = useTranslation();
   const [settings, setSettings] = useState(fallbackSettings);
 
   useEffect(() => {
@@ -39,6 +21,26 @@ export default function Footer() {
 
   const social = settings.social_links || fallbackSettings.social_links;
 
+  const linkGroups = [
+    {
+      heading: t('footer.company'),
+      links: [
+        { to: '/services', label: t('nav.services') },
+        { to: '/products', label: t('nav.products') },
+        { to: '/about', label: t('nav.about') },
+        { to: '/blog', label: t('nav.blog') },
+        { to: '/contact', label: t('nav.contact') },
+      ],
+    },
+    {
+      heading: t('footer.legal'),
+      links: [
+        { to: '/privacy', label: t('footer.privacyPolicy') },
+        { to: '/terms', label: t('footer.termsOfService') },
+      ],
+    },
+  ];
+
   return (
     <footer className="border-t border-rule bg-white">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -46,11 +48,10 @@ export default function Footer() {
           {/* Brand column */}
           <div className="md:col-span-2">
             <Link to="/" className="font-display text-xl font-semibold text-brand-dark">
-              Evawero Digital
+              {t('footer.brand')}
             </Link>
             <p className="mt-3 text-sm text-text-mid leading-relaxed max-w-sm">
-              Your digital growth partner. We help businesses leverage technology
-              to streamline operations, attract customers, and scale sustainably.
+              {t('footer.description')}
             </p>
 
             {/* Social links */}
@@ -128,8 +129,8 @@ export default function Footer() {
             </a>
           </div>
           <div className="text-xs text-text-faint">
-            <p>&copy; 2026 Evawero Digital Solutions Limited. Registered in Nigeria.</p>
-            <p className="mt-1">Operating in Nigeria and Germany</p>
+            <p>{t('footer.copyright')}</p>
+            <p className="mt-1">{t('footer.operating')}</p>
           </div>
         </div>
       </div>

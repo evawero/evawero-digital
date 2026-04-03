@@ -1,20 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const links = [
-  { to: '/', label: 'Home' },
-  { to: '/services', label: 'Services' },
-  { to: '/products', label: 'Products' },
-  { to: '/about', label: 'About' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  const links = [
+    { to: '/', label: t('nav.home') },
+    { to: '/services', label: t('nav.services') },
+    { to: '/products', label: t('nav.products') },
+    { to: '/about', label: t('nav.about') },
+    { to: '/blog', label: t('nav.blog') },
+    { to: '/contact', label: t('nav.contact') },
+  ];
+
+  const toggleLang = () => {
+    const next = i18n.language === 'de' ? 'en' : 'de';
+    i18n.changeLanguage(next);
+    localStorage.setItem('lang', next);
+    document.documentElement.lang = next;
+  };
 
   useEffect(() => {
     setOpen(false);
@@ -25,6 +34,10 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
 
   return (
     <header
@@ -42,7 +55,7 @@ export default function Navbar() {
             <text x="16" y="22" fontFamily="system-ui, -apple-system, sans-serif" fontSize="16" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-0.5">ED</text>
           </svg>
           <span className="font-display text-xl font-semibold text-brand-dark tracking-tight">
-            Evawero Digital
+            {t('nav.brand')}
           </span>
         </Link>
 
@@ -64,19 +77,29 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <Link
-          to="/contact"
-          className="hidden md:inline-flex items-center px-5 py-2 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-dark transition-colors duration-200"
-        >
-          Book Assessment
-        </Link>
+        <div className="hidden md:flex items-center gap-3">
+          {/* Language toggle */}
+          <button
+            onClick={toggleLang}
+            className="px-3 py-1.5 text-xs font-semibold border border-rule rounded-md text-text-mid hover:text-brand hover:border-brand transition-colors duration-200"
+          >
+            {i18n.language === 'de' ? 'EN' : 'DE'}
+          </button>
+
+          {/* Desktop CTA */}
+          <Link
+            to="/contact"
+            className="inline-flex items-center px-5 py-2 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-dark transition-colors duration-200"
+          >
+            {t('nav.bookAssessment')}
+          </Link>
+        </div>
 
         {/* Mobile hamburger */}
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
-          aria-label="Toggle menu"
+          aria-label={t('nav.toggleMenu')}
         >
           <span
             className={`block w-5 h-px bg-text transition-all duration-300 ${
@@ -116,12 +139,18 @@ export default function Navbar() {
                   </Link>
                 </li>
               ))}
-              <li>
+              <li className="flex items-center gap-3">
+                <button
+                  onClick={toggleLang}
+                  className="px-3 py-1.5 text-xs font-semibold border border-rule rounded-md text-text-mid hover:text-brand hover:border-brand transition-colors"
+                >
+                  {i18n.language === 'de' ? 'EN' : 'DE'}
+                </button>
                 <Link
                   to="/contact"
                   className="inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-brand rounded-md"
                 >
-                  Book Assessment
+                  {t('nav.bookAssessment')}
                 </Link>
               </li>
             </ul>

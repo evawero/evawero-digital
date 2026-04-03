@@ -1,0 +1,266 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "products": "Products",
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "bookAssessment": "Book Assessment",
+    "toggleMenu": "Toggle menu",
+    "brand": "Evawero Digital"
+  },
+  "footer": {
+    "brand": "Evawero Digital",
+    "description": "Your digital growth partner. We help businesses leverage technology to streamline operations, attract customers, and scale sustainably.",
+    "company": "Company",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "copyright": "\u00a9 2026 Evawero Digital Solutions Limited. Registered in Nigeria.",
+    "operating": "Operating in Nigeria and Germany"
+  },
+  "hero": {
+    "eyebrow": "Evawero Digital Solutions",
+    "heading": "From Analysis to AI",
+    "subtitle": "Your Digital Growth Partner",
+    "body": "We help businesses leverage technology to streamline operations, attract more customers, and scale sustainably, from intelligent automation to full digital transformation.",
+    "ctaPrimary": "Book a Free Assessment",
+    "ctaSecondary": "Explore Services"
+  },
+  "home": {
+    "title": "Evawero Digital Solutions | From Analysis to AI",
+    "metaDescription": "Evawero Digital Solutions helps businesses leverage technology to streamline operations, attract customers, and scale sustainably.",
+    "ctaBanner": {
+      "heading": "Not sure where to start?",
+      "body": "Book a free Digital Readiness Assessment. We'll analyse your current setup and show you exactly where AI and automation can create the most impact.",
+      "button": "Book a Free Assessment"
+    },
+    "blog": {
+      "eyebrow": "Latest Insights",
+      "heading": "From the Blog",
+      "viewAll": "View all posts \u2192",
+      "empty": "Insights coming soon. Check back for articles on digital strategy, AI, and business growth."
+    }
+  },
+  "services": {
+    "title": "Our Services | Evawero Digital Solutions",
+    "metaDescription": "From AI strategy to digital transformation, explore how Evawero Digital Solutions can help your business grow.",
+    "eyebrow": "What We Do",
+    "heading": "Our Services",
+    "heroBody": "Technology should work for your business, not the other way around. Here is how we help.",
+    "bestFor": "Best for: ",
+    "whatsIncluded": "What's Included",
+    "getStarted": "Get Started",
+    "viewAll": "View all services \u2192",
+    "ctaHeading": "Ready to get started?",
+    "ctaBody": "Book a free assessment and we will help you figure out the best next step for your business.",
+    "ctaButton": "Book a Free Assessment",
+    "items": {
+      "ai": {
+        "title": "AI Strategy & Integration",
+        "description": "Develop and implement AI solutions tailored to your business goals.",
+        "fullDescription": "We help you identify where AI can create the most impact in your business, then design and implement solutions that deliver measurable results. From automated workflows to intelligent data analysis, we bring AI from concept to production.",
+        "whoIsItFor": "CEOs, operations managers, and business owners looking to leverage AI for competitive advantage.",
+        "included": ["AI readiness assessment", "Custom AI solution design", "Implementation and integration", "Team training and handover", "Ongoing optimisation support"]
+      },
+      "automation": {
+        "title": "Business Process Automation",
+        "description": "Streamline operations with intelligent automation that saves time and reduces errors.",
+        "fullDescription": "We analyse your existing workflows, identify bottlenecks and manual processes, then design automated solutions that free your team to focus on high-value work.",
+        "whoIsItFor": "Businesses with repetitive manual processes, growing teams that need to scale operations efficiently.",
+        "included": ["Process audit and mapping", "Automation solution design", "Tool integration (Zapier, Make, custom)", "Testing and deployment", "Documentation and training"]
+      },
+      "web": {
+        "title": "Custom Web Solutions",
+        "description": "Modern, responsive web applications built to solve your specific business problems.",
+        "fullDescription": "From customer-facing platforms to internal tools, we build web applications that are fast, secure, and designed around your users.",
+        "whoIsItFor": "Businesses needing custom platforms, SaaS products, dashboards, or client portals.",
+        "included": ["Requirements analysis", "UI/UX design", "Full-stack development", "Testing and QA", "Deployment and hosting setup", "Post-launch support"]
+      },
+      "brand": {
+        "title": "Brand & Digital Strategy",
+        "description": "Build a strong digital presence with a clear strategy that drives growth.",
+        "fullDescription": "We help you define your brand positioning, develop your digital strategy, and create a roadmap for growth.",
+        "whoIsItFor": "Startups, SMEs, and professionals looking to establish or strengthen their digital presence.",
+        "included": ["Brand audit and positioning", "Digital strategy roadmap", "Content strategy", "SEO and analytics setup", "Social media strategy", "Performance tracking"]
+      }
+    }
+  },
+  "products": {
+    "title": "Our Products | Evawero Digital Solutions",
+    "metaDescription": "AI-powered products: Evas Intelligence for business briefings, AI Agent Systems for autonomous operations, and Evawero CMS \u2014 a lightweight headless content management system.",
+    "eyebrow": "Products",
+    "heading": "Our Products",
+    "heroBody": "Tools we build and ship. Designed to solve real problems for real businesses.",
+    "showLess": "Show less",
+    "learnMore": "Learn more",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing",
+    "moreComingSoon": "More Coming Soon",
+    "moreComingSoonBody": "We are always building. Stay tuned for new tools designed to help businesses operate smarter.",
+    "ei": {
+      "label": "Featured Product",
+      "featureLabel": "Core Modules",
+      "name": "Evas Intelligence",
+      "tagline": "Your briefing. Already done. Every morning.",
+      "description": "AI-powered platform that scans your Gmail and news feeds, then delivers a prioritised intelligence briefing with action steps. Built for CEOs, consultants, and investors across Nigeria and Europe.",
+      "features": [
+        "Inbox Intelligence \u2014 AI analysis of your Gmail",
+        "Market Intelligence \u2014 curated RSS and news monitoring",
+        "Content Creation \u2014 AI-assisted content from your signals"
+      ],
+      "badges": ["AI-Powered", "Nigeria + Europe", "Free to start"],
+      "steps": [
+        "Connect your email securely",
+        "AI scans and extracts key signals",
+        "View your prioritised briefing",
+        "Take action with smart recommendations"
+      ],
+      "pricingFree": "Free",
+      "pricingFreeDesc": "Basic inbox scanning and insights. Perfect for getting started.",
+      "pricingPro": "Pro",
+      "pricingProDesc": "Full AI insights, action dashboard, and priority support.",
+      "cta": "Try Evas Intelligence"
+    },
+    "agents": {
+      "label": "New",
+      "featureLabel": "Your Agent Team",
+      "name": "AI Agent Systems",
+      "tagline": "Your business, running smarter \u2014 even while you sleep.",
+      "description": "Custom AI agents that handle your marketing, sales outreach, client delivery, and daily operations autonomously. Each agent is tailored to your brand, market, and workflow \u2014 creating content, finding leads, managing projects, and reporting back to you with what matters.",
+      "features": [
+        "Marketing Agent \u2014 Creates on-brand content for your blog and social channels, tailored to your audience and market",
+        "Sales Agent \u2014 Finds qualified prospects, drafts personalised outreach, and manages your lead pipeline",
+        "Delivery Agent \u2014 Breaks down client projects into actionable plans, scaffolds deliverables, and drafts communications",
+        "Manager Agent \u2014 Monitors all activity, sends you executive digests, and alerts you only when your attention is needed"
+      ],
+      "badges": ["AI-Powered", "Custom-Built", "Fully Autonomous"],
+      "steps": [
+        "We analyse your business, brand, and workflows",
+        "We build and configure your custom agent team",
+        "Agents run on schedule \u2014 creating, prospecting, reporting",
+        "You review, approve, and stay in control"
+      ],
+      "pricingHeading": "Custom Quote",
+      "pricingSubheading": "Tailored to your business",
+      "pricingDesc": "Every agent system is built around your specific brand, market, and workflows. Pricing depends on the number of agents, run frequency, integrations, and level of customisation. Book a free consultation to discuss your needs.",
+      "cta": "Book a Free Consultation"
+    },
+    "cms": {
+      "label": "New",
+      "featureLabel": "What You Get",
+      "name": "Evawero CMS",
+      "tagline": "Your content, everywhere. One backend, any frontend.",
+      "description": "A lightweight headless CMS built for businesses that need flexibility without complexity. Define your own content types \u2014 blog posts, team bios, FAQs, products, case studies, whatever your business needs. Create and manage content through a clean admin panel with a rich text editor. Serve it to any frontend: your website, mobile app, digital signage, or email templates.",
+      "features": [
+        "Custom Content Types \u2014 Define the exact content structure your business needs, not a one-size-fits-all template",
+        "Clean Admin Panel \u2014 Your team can use it without training. Rich text editor, draft/publish workflow, media library",
+        "API-First \u2014 Connects to any frontend: React, Next.js, Vue, WordPress, Webflow, mobile apps",
+        "Multi-Platform \u2014 One content source for your website, app, kiosk, email templates, or any other channel",
+        "Optional AI Content Agent \u2014 Pair with our AI Agent System and your content writes itself, on-brand and on-schedule"
+      ],
+      "badges": ["API-First", "Multi-Platform", "AI-Ready"],
+      "steps": [
+        "We scope your content needs and define your content types",
+        "We set up your CMS with a tailored admin panel",
+        "Your team creates and manages content through a clean interface",
+        "Your frontend fetches content via API \u2014 any platform, any framework"
+      ],
+      "pricingHeading": "Custom Quote",
+      "pricingSubheading": "Tailored to your content needs",
+      "pricingDesc": "Every business is different. Pricing depends on the number of content types, storage needs, and whether you want the AI Content Agent add-on. We will scope a CMS setup tailored to your business.",
+      "cta": "Request a Quote"
+    }
+  },
+  "about": {
+    "title": "About Us | Evawero Digital Solutions",
+    "metaDescription": "Learn about Evawero Digital Solutions, our mission, values, and the team behind your digital growth.",
+    "eyebrow": "Who We Are",
+    "heading": "About Evawero Digital",
+    "story": {
+      "heading": "Our Story",
+      "p1": "Built at the intersection of Nigeria and Europe, Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them.",
+      "p2": "Too many companies are held back by outdated systems, manual processes, and a gap between what technology can do and what they are actually using. We exist to close that gap.",
+      "p3": "From our roots in business analysis, we have expanded into web development, AI automation, and full digital transformation, always guided by data, always tailored to the client."
+    },
+    "mission": {
+      "eyebrow": "Our Mission",
+      "heading": "Empowering businesses through intelligent technology",
+      "body": "Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them. We combine deep technical expertise with practical business understanding to deliver solutions that create real, measurable impact."
+    },
+    "values": {
+      "eyebrow": "What We Stand For",
+      "heading": "Our Values",
+      "innovation": { "title": "Innovation", "description": "We stay ahead of the curve, applying the latest technology and thinking to every engagement." },
+      "reliability": { "title": "Reliability", "description": "We deliver on time, communicate clearly, and stand behind our work with ongoing support." },
+      "tailored": { "title": "Tailored Solutions", "description": "No two businesses are the same. Every solution is custom-built for your specific challenges and goals." },
+      "partnership": { "title": "Long-term Partnership", "description": "We measure our success by yours. Our relationships extend well beyond project delivery." }
+    },
+    "team": {
+      "eyebrow": "The Team",
+      "heading": "Meet the People Behind Evawero",
+      "empty": "Team profiles coming soon."
+    }
+  },
+  "blog": {
+    "title": "Blog | Evawero Digital Solutions",
+    "metaDescription": "Insights on digital strategy, AI, automation, and business growth from Evawero Digital Solutions.",
+    "eyebrow": "Insights",
+    "heading": "Blog",
+    "heroBody": "Practical thinking on technology, growth, and digital strategy.",
+    "loading": "Loading...",
+    "emptyHeading": "Insights coming soon.",
+    "emptyBody": "We are preparing articles on digital strategy, AI, and business growth. Check back shortly.",
+    "backToBlog": "\u2190 Back to Blog",
+    "notFoundTitle": "Post Not Found | Evawero Digital Solutions",
+    "notFoundHeading": "Post Not Found",
+    "notFoundBody": "The article you are looking for does not exist or has been moved."
+  },
+  "contact": {
+    "title": "Contact Us | Evawero Digital Solutions",
+    "metaDescription": "Get in touch with Evawero Digital Solutions. Book a free assessment or send us a message.",
+    "eyebrow": "Get in Touch",
+    "heading": "Let's Work Together",
+    "heroBody": "Tell us about your project, challenge, or idea. We will get back to you within 24 hours.",
+    "info": {
+      "heading": "Contact Information",
+      "phone": "Phone",
+      "email": "Email",
+      "locations": "Locations",
+      "nigeria": "Nigeria",
+      "germany": "Germany (Bad Mergentheim)"
+    },
+    "form": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "company": "Business / Organisation",
+      "serviceDefault": "Select a Service",
+      "serviceAI": "AI Strategy & Integration",
+      "serviceAutomation": "Business Process Automation",
+      "serviceWeb": "Custom Web Solutions",
+      "serviceBrand": "Brand & Digital Strategy",
+      "serviceGeneral": "General Enquiry",
+      "message": "Tell us about your project or challenge...",
+      "sending": "Sending...",
+      "send": "Send Message",
+      "successHeading": "Message Sent",
+      "successBody": "Thank you for reaching out. We will get back to you within 24 hours.",
+      "error": "Something went wrong. Please try again or email us directly."
+    }
+  },
+  "whyEvawero": {
+    "eyebrow": "Why Choose Us",
+    "heading": "Built Different",
+    "items": {
+      "endToEnd": { "title": "End-to-End Consulting & Implementation", "description": "From strategy to deployment, we handle the full journey, not just advice." },
+      "tailored": { "title": "Solutions Tailored to Your Business", "description": "No cookie-cutter approaches. Every solution is designed around your specific needs and goals." },
+      "expert": { "title": "Expert Support in AI, Automation & Digital Growth", "description": "Our team brings deep expertise across AI, process automation, and modern web technologies." },
+      "competitive": { "title": "Helping Businesses Stay Competitive", "description": "We help businesses across Nigeria and Europe leverage technology to stay ahead in a digital world." }
+    }
+  },
+  "productCard": {
+    "learnMore": "Learn More"
+  }
+}

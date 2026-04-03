@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function ProductCard({ name, tagline, description, badges = [], link }) {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-brand-dark rounded-md p-8 md:p-10">
       <h3 className="font-display text-2xl font-semibold text-white mb-1">
@@ -29,7 +32,7 @@ export default function ProductCard({ name, tagline, description, badges = [], l
           to={link}
           className="inline-flex items-center text-sm font-medium text-white border border-white/30 px-5 py-2.5 rounded-md hover:bg-white/10 transition-colors duration-200"
         >
-          Learn More
+          {t('productCard.learnMore')}
         </Link>
       )}
     </div>

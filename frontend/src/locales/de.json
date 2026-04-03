@@ -1,0 +1,266 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "services": "Leistungen",
+    "products": "Produkte",
+    "about": "\u00dcber uns",
+    "blog": "Blog",
+    "contact": "Kontakt",
+    "bookAssessment": "Beratung buchen",
+    "toggleMenu": "Men\u00fc umschalten",
+    "brand": "Evawero Digital"
+  },
+  "footer": {
+    "brand": "Evawero Digital",
+    "description": "Ihr Partner f\u00fcr digitales Wachstum. Wir helfen Unternehmen, Technologie zu nutzen, um Abl\u00e4ufe zu optimieren, Kunden zu gewinnen und nachhaltig zu wachsen.",
+    "company": "Unternehmen",
+    "legal": "Rechtliches",
+    "privacyPolicy": "Datenschutz",
+    "termsOfService": "AGB",
+    "copyright": "\u00a9 2026 Evawero Digital Solutions Limited. Registriert in Nigeria.",
+    "operating": "T\u00e4tig in Nigeria und Deutschland"
+  },
+  "hero": {
+    "eyebrow": "Evawero Digital Solutions",
+    "heading": "Von Analyse zu KI",
+    "subtitle": "Ihr Partner f\u00fcr digitales Wachstum",
+    "body": "Wir helfen Unternehmen, Technologie zu nutzen, um Abl\u00e4ufe zu optimieren, mehr Kunden zu gewinnen und nachhaltig zu wachsen. Von intelligenter Automatisierung bis zur vollst\u00e4ndigen digitalen Transformation.",
+    "ctaPrimary": "Kostenlose Analyse buchen",
+    "ctaSecondary": "Leistungen entdecken"
+  },
+  "home": {
+    "title": "Evawero Digital Solutions | Von Analyse zu KI",
+    "metaDescription": "Evawero Digital Solutions hilft Unternehmen, Technologie zu nutzen, um Abl\u00e4ufe zu optimieren, Kunden zu gewinnen und nachhaltig zu wachsen.",
+    "ctaBanner": {
+      "heading": "Nicht sicher, wo Sie anfangen sollen?",
+      "body": "Buchen Sie eine kostenlose Digital Readiness Analyse. Wir pr\u00fcfen Ihre aktuelle Aufstellung und zeigen Ihnen genau, wo KI und Automatisierung den gr\u00f6\u00dften Mehrwert schaffen k\u00f6nnen.",
+      "button": "Kostenlose Analyse buchen"
+    },
+    "blog": {
+      "eyebrow": "Aktuelle Einblicke",
+      "heading": "Aus dem Blog",
+      "viewAll": "Alle Beitr\u00e4ge ansehen \u2192",
+      "empty": "Beitr\u00e4ge folgen in K\u00fcrze. Schauen Sie bald wieder vorbei f\u00fcr Artikel \u00fcber Digitalstrategie, KI und Unternehmenswachstum."
+    }
+  },
+  "services": {
+    "title": "Unsere Leistungen | Evawero Digital Solutions",
+    "metaDescription": "Von KI-Strategie bis zur digitalen Transformation: Erfahren Sie, wie Evawero Digital Solutions Ihrem Unternehmen helfen kann.",
+    "eyebrow": "Was wir tun",
+    "heading": "Unsere Leistungen",
+    "heroBody": "Technologie sollte f\u00fcr Ihr Unternehmen arbeiten, nicht umgekehrt. So k\u00f6nnen wir helfen.",
+    "bestFor": "Ideal f\u00fcr: ",
+    "whatsIncluded": "Was enthalten ist",
+    "getStarted": "Jetzt starten",
+    "viewAll": "Alle Leistungen ansehen \u2192",
+    "ctaHeading": "Bereit loszulegen?",
+    "ctaBody": "Buchen Sie eine kostenlose Analyse und wir helfen Ihnen, den besten n\u00e4chsten Schritt f\u00fcr Ihr Unternehmen zu finden.",
+    "ctaButton": "Kostenlose Analyse buchen",
+    "items": {
+      "ai": {
+        "title": "KI-Strategie & Integration",
+        "description": "Entwicklung und Implementierung von KI-L\u00f6sungen, die auf Ihre Gesch\u00e4ftsziele zugeschnitten sind.",
+        "fullDescription": "Wir identifizieren, wo KI den gr\u00f6\u00dften Mehrwert in Ihrem Unternehmen schaffen kann, und entwerfen und implementieren L\u00f6sungen, die messbare Ergebnisse liefern. Von automatisierten Workflows bis zur intelligenten Datenanalyse bringen wir KI vom Konzept in die Praxis.",
+        "whoIsItFor": "Gesch\u00e4ftsf\u00fchrer, Betriebsleiter und Unternehmer, die KI f\u00fcr Wettbewerbsvorteile nutzen m\u00f6chten.",
+        "included": ["KI-Bereitschaftsanalyse", "Individuelle KI-L\u00f6sungsplanung", "Implementierung und Integration", "Teamschulung und \u00dcbergabe", "Laufende Optimierung"]
+      },
+      "automation": {
+        "title": "Gesch\u00e4ftsprozess-Automatisierung",
+        "description": "Optimieren Sie Abl\u00e4ufe mit intelligenter Automatisierung, die Zeit spart und Fehler reduziert.",
+        "fullDescription": "Wir analysieren Ihre bestehenden Workflows, identifizieren Engp\u00e4sse und manuelle Prozesse und entwerfen automatisierte L\u00f6sungen, die Ihr Team f\u00fcr wertsch\u00f6pfende Arbeit freisetzen.",
+        "whoIsItFor": "Unternehmen mit wiederkehrenden manuellen Prozessen, wachsende Teams, die Abl\u00e4ufe effizient skalieren m\u00fcssen.",
+        "included": ["Prozessanalyse und -dokumentation", "Automatisierungsl\u00f6sungs-Design", "Tool-Integration (Zapier, Make, individuell)", "Tests und Bereitstellung", "Dokumentation und Schulung"]
+      },
+      "web": {
+        "title": "Individuelle Webl\u00f6sungen",
+        "description": "Moderne, responsive Webanwendungen, die auf Ihre spezifischen Gesch\u00e4ftsprobleme zugeschnitten sind.",
+        "fullDescription": "Von kundenorientierten Plattformen bis hin zu internen Tools entwickeln wir Webanwendungen, die schnell, sicher und auf Ihre Nutzer ausgerichtet sind.",
+        "whoIsItFor": "Unternehmen, die individuelle Plattformen, SaaS-Produkte, Dashboards oder Kundenportale ben\u00f6tigen.",
+        "included": ["Anforderungsanalyse", "UI/UX-Design", "Full-Stack-Entwicklung", "Tests und Qualit\u00e4tssicherung", "Bereitstellung und Hosting-Einrichtung", "Support nach dem Launch"]
+      },
+      "brand": {
+        "title": "Marken- & Digitalstrategie",
+        "description": "Bauen Sie eine starke digitale Pr\u00e4senz mit einer klaren Strategie auf, die Wachstum f\u00f6rdert.",
+        "fullDescription": "Wir helfen Ihnen, Ihre Markenpositionierung zu definieren, Ihre Digitalstrategie zu entwickeln und einen Wachstumsplan zu erstellen.",
+        "whoIsItFor": "Startups, KMU und Fachleute, die ihre digitale Pr\u00e4senz aufbauen oder st\u00e4rken m\u00f6chten.",
+        "included": ["Markenanalyse und Positionierung", "Digitalstrategie-Roadmap", "Content-Strategie", "SEO- und Analytics-Einrichtung", "Social-Media-Strategie", "Performance-Tracking"]
+      }
+    }
+  },
+  "products": {
+    "title": "Unsere Produkte | Evawero Digital Solutions",
+    "metaDescription": "KI-gest\u00fctzte Produkte: Evas Intelligence f\u00fcr Business-Briefings, KI-Agentensysteme f\u00fcr autonome Gesch\u00e4ftsprozesse und Evawero CMS, ein leichtgewichtiges Headless Content-Management-System.",
+    "eyebrow": "Produkte",
+    "heading": "Unsere Produkte",
+    "heroBody": "Werkzeuge, die wir entwickeln und bereitstellen. Entworfen, um echte Probleme f\u00fcr echte Unternehmen zu l\u00f6sen.",
+    "showLess": "Weniger anzeigen",
+    "learnMore": "Mehr erfahren",
+    "howItWorks": "So funktioniert es",
+    "pricing": "Preise",
+    "moreComingSoon": "Weitere Produkte folgen",
+    "moreComingSoonBody": "Wir entwickeln st\u00e4ndig weiter. Bleiben Sie gespannt auf neue Tools, die Unternehmen helfen, intelligenter zu arbeiten.",
+    "ei": {
+      "label": "Hauptprodukt",
+      "featureLabel": "Kernmodule",
+      "name": "Evas Intelligence",
+      "tagline": "Ihr Briefing. Bereits fertig. Jeden Morgen.",
+      "description": "KI-gest\u00fctzte Plattform, die Ihre E-Mails und Nachrichtenfeeds scannt und ein priorisiertes Intelligence-Briefing mit Handlungsempfehlungen liefert. Entwickelt f\u00fcr Gesch\u00e4ftsf\u00fchrer, Berater und Investoren in Nigeria und Europa.",
+      "features": [
+        "Inbox Intelligence: KI-Analyse Ihrer E-Mails",
+        "Market Intelligence: kuratierte RSS- und Nachrichten\u00fcberwachung",
+        "Content Creation: KI-gest\u00fctzte Inhalte aus Ihren Signalen"
+      ],
+      "badges": ["KI-gest\u00fctzt", "Nigeria + Europa", "Kostenlos starten"],
+      "steps": [
+        "Verbinden Sie Ihre E-Mail sicher",
+        "KI scannt und extrahiert wichtige Signale",
+        "Sehen Sie Ihr priorisiertes Briefing",
+        "Handeln Sie mit intelligenten Empfehlungen"
+      ],
+      "pricingFree": "Kostenlos",
+      "pricingFreeDesc": "Grundlegende E-Mail-Analyse und Einblicke. Perfekt f\u00fcr den Einstieg.",
+      "pricingPro": "Pro",
+      "pricingProDesc": "Vollst\u00e4ndige KI-Einblicke, Aktions-Dashboard und bevorzugter Support.",
+      "cta": "Evas Intelligence testen"
+    },
+    "agents": {
+      "label": "Neu",
+      "featureLabel": "Ihr Agententeam",
+      "name": "KI-Agentensysteme",
+      "tagline": "Ihr Unternehmen, intelligenter gesteuert. Auch w\u00e4hrend Sie schlafen.",
+      "description": "Individuelle KI-Agenten, die Ihr Marketing, Ihren Vertrieb, die Kundenbetreuung und den t\u00e4glichen Betrieb autonom \u00fcbernehmen. Jeder Agent ist auf Ihre Marke, Ihren Markt und Ihre Workflows zugeschnitten und erstellt Inhalte, findet Leads, verwaltet Projekte und berichtet Ihnen, was wichtig ist.",
+      "features": [
+        "Marketing-Agent: Erstellt markengerechte Inhalte f\u00fcr Ihren Blog und Ihre Social-Media-Kan\u00e4le, zugeschnitten auf Ihre Zielgruppe",
+        "Vertriebs-Agent: Findet qualifizierte Interessenten, entwirft personalisierte Ansprachen und verwaltet Ihre Lead-Pipeline",
+        "Delivery-Agent: Gliedert Kundenprojekte in umsetzbare Pl\u00e4ne, erstellt Vorlagen und entwirft Kommunikation",
+        "Manager-Agent: \u00dcberwacht alle Aktivit\u00e4ten, sendet Ihnen Zusammenfassungen und benachrichtigt Sie nur, wenn Ihre Aufmerksamkeit erforderlich ist"
+      ],
+      "badges": ["KI-gest\u00fctzt", "Individuell entwickelt", "Voll autonom"],
+      "steps": [
+        "Wir analysieren Ihr Unternehmen, Ihre Marke und Ihre Workflows",
+        "Wir erstellen und konfigurieren Ihr individuelles Agententeam",
+        "Agenten laufen nach Zeitplan: erstellen, akquirieren, berichten",
+        "Sie pr\u00fcfen, genehmigen und behalten die Kontrolle"
+      ],
+      "pricingHeading": "Individuelles Angebot",
+      "pricingSubheading": "Auf Ihr Unternehmen zugeschnitten",
+      "pricingDesc": "Jedes Agentensystem wird um Ihre spezifische Marke, Ihren Markt und Ihre Workflows herum gebaut. Die Preise richten sich nach Anzahl der Agenten, Laufh\u00e4ufigkeit, Integrationen und Individualisierungsgrad. Buchen Sie eine kostenlose Beratung.",
+      "cta": "Kostenlose Beratung buchen"
+    },
+    "cms": {
+      "label": "Neu",
+      "featureLabel": "Was Sie bekommen",
+      "name": "Evawero CMS",
+      "tagline": "Ihre Inhalte, \u00fcberall. Ein Backend, jedes Frontend.",
+      "description": "Ein leichtgewichtiges Headless CMS f\u00fcr Unternehmen, die Flexibilit\u00e4t ohne Komplexit\u00e4t brauchen. Definieren Sie Ihre eigenen Inhaltstypen: Blogbeitr\u00e4ge, Team-Bios, FAQs, Produkte, Fallstudien, was auch immer Ihr Unternehmen braucht. Erstellen und verwalten Sie Inhalte \u00fcber ein \u00fcbersichtliches Admin-Panel mit Rich-Text-Editor. Liefern Sie Inhalte an jedes Frontend: Ihre Website, mobile App, Digital Signage oder E-Mail-Vorlagen.",
+      "features": [
+        "Individuelle Inhaltstypen: Definieren Sie genau die Content-Struktur, die Ihr Unternehmen braucht",
+        "Intuitives Admin-Panel: Ihr Team kann es ohne Schulung nutzen. Rich-Text-Editor, Entwurfs-/Ver\u00f6ffentlichungs-Workflow, Medienbibliothek",
+        "API-First: Verbindet sich mit jedem Frontend: React, Next.js, Vue, WordPress, Webflow, mobile Apps",
+        "Multi-Plattform: Eine Content-Quelle f\u00fcr Ihre Website, App, Kiosk, E-Mail-Vorlagen oder jeden anderen Kanal",
+        "Optionaler KI-Content-Agent: Kombinieren Sie mit unserem KI-Agentensystem und Ihre Inhalte schreiben sich selbst, markengerecht und termingerecht"
+      ],
+      "badges": ["API-First", "Multi-Plattform", "KI-bereit"],
+      "steps": [
+        "Wir ermitteln Ihre Content-Anforderungen und definieren Ihre Inhaltstypen",
+        "Wir richten Ihr CMS mit einem ma\u00dfgeschneiderten Admin-Panel ein",
+        "Ihr Team erstellt und verwaltet Inhalte \u00fcber eine \u00fcbersichtliche Oberfl\u00e4che",
+        "Ihr Frontend ruft Inhalte per API ab. Jede Plattform, jedes Framework"
+      ],
+      "pricingHeading": "Individuelles Angebot",
+      "pricingSubheading": "Auf Ihre Content-Anforderungen zugeschnitten",
+      "pricingDesc": "Jedes Unternehmen ist anders. Die Preise richten sich nach Anzahl der Inhaltstypen, Speicherbedarf und ob Sie den KI-Content-Agent als Add-on w\u00fcnschen. Wir erstellen ein CMS-Setup, das auf Ihr Unternehmen zugeschnitten ist.",
+      "cta": "Angebot anfragen"
+    }
+  },
+  "about": {
+    "title": "\u00dcber uns | Evawero Digital Solutions",
+    "metaDescription": "Erfahren Sie mehr \u00fcber Evawero Digital Solutions, unsere Mission, Werte und das Team hinter Ihrem digitalen Wachstum.",
+    "eyebrow": "Wer wir sind",
+    "heading": "\u00dcber Evawero Digital",
+    "story": {
+      "heading": "Unsere Geschichte",
+      "p1": "An der Schnittstelle von Nigeria und Europa gegr\u00fcndet, existiert Evawero Digital Solutions, um die L\u00fccke zwischen dem aktuellen Stand von Unternehmen und dem, was Technologie erm\u00f6glichen kann, zu schlie\u00dfen.",
+      "p2": "Zu viele Unternehmen werden durch veraltete Systeme, manuelle Prozesse und eine Kluft zwischen den M\u00f6glichkeiten der Technologie und dem, was sie tats\u00e4chlich nutzen, zur\u00fcckgehalten. Wir existieren, um diese L\u00fccke zu schlie\u00dfen.",
+      "p3": "Von unseren Wurzeln in der Business-Analyse haben wir uns in Webentwicklung, KI-Automatisierung und vollst\u00e4ndige digitale Transformation erweitert. Immer datengetrieben, immer auf den Kunden zugeschnitten."
+    },
+    "mission": {
+      "eyebrow": "Unsere Mission",
+      "heading": "Unternehmen durch intelligente Technologie st\u00e4rken",
+      "body": "Evawero Digital Solutions existiert, um die L\u00fccke zwischen dem aktuellen Stand von Unternehmen und dem, was Technologie erm\u00f6glichen kann, zu schlie\u00dfen. Wir kombinieren tiefgreifende technische Expertise mit praktischem Gesch\u00e4ftsverst\u00e4ndnis, um L\u00f6sungen zu liefern, die echten, messbaren Mehrwert schaffen."
+    },
+    "values": {
+      "eyebrow": "Wof\u00fcr wir stehen",
+      "heading": "Unsere Werte",
+      "innovation": { "title": "Innovation", "description": "Wir sind der Entwicklung voraus und setzen neueste Technologien und Denkweisen in jedem Projekt ein." },
+      "reliability": { "title": "Zuverl\u00e4ssigkeit", "description": "Wir liefern p\u00fcnktlich, kommunizieren klar und stehen mit laufendem Support hinter unserer Arbeit." },
+      "tailored": { "title": "Ma\u00dfgeschneiderte L\u00f6sungen", "description": "Kein Unternehmen gleicht dem anderen. Jede L\u00f6sung wird individuell f\u00fcr Ihre spezifischen Herausforderungen und Ziele entwickelt." },
+      "partnership": { "title": "Langfristige Partnerschaft", "description": "Wir messen unseren Erfolg an Ihrem. Unsere Beziehungen gehen weit \u00fcber die Projektlieferung hinaus." }
+    },
+    "team": {
+      "eyebrow": "Das Team",
+      "heading": "Lernen Sie das Team hinter Evawero kennen",
+      "empty": "Teamprofile folgen in K\u00fcrze."
+    }
+  },
+  "blog": {
+    "title": "Blog | Evawero Digital Solutions",
+    "metaDescription": "Einblicke in Digitalstrategie, KI, Automatisierung und Unternehmenswachstum von Evawero Digital Solutions.",
+    "eyebrow": "Einblicke",
+    "heading": "Blog",
+    "heroBody": "Praktisches Denken \u00fcber Technologie, Wachstum und Digitalstrategie.",
+    "loading": "Laden...",
+    "emptyHeading": "Beitr\u00e4ge folgen in K\u00fcrze.",
+    "emptyBody": "Wir bereiten Artikel \u00fcber Digitalstrategie, KI und Unternehmenswachstum vor. Schauen Sie bald wieder vorbei.",
+    "backToBlog": "\u2190 Zur\u00fcck zum Blog",
+    "notFoundTitle": "Beitrag nicht gefunden | Evawero Digital Solutions",
+    "notFoundHeading": "Beitrag nicht gefunden",
+    "notFoundBody": "Der Artikel, den Sie suchen, existiert nicht oder wurde verschoben."
+  },
+  "contact": {
+    "title": "Kontakt | Evawero Digital Solutions",
+    "metaDescription": "Nehmen Sie Kontakt mit Evawero Digital Solutions auf. Buchen Sie eine kostenlose Analyse oder senden Sie uns eine Nachricht.",
+    "eyebrow": "Kontakt aufnehmen",
+    "heading": "Lassen Sie uns zusammenarbeiten",
+    "heroBody": "Erz\u00e4hlen Sie uns von Ihrem Projekt, Ihrer Herausforderung oder Idee. Wir melden uns innerhalb von 24 Stunden.",
+    "info": {
+      "heading": "Kontaktinformationen",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "locations": "Standorte",
+      "nigeria": "Nigeria",
+      "germany": "Deutschland (Bad Mergentheim)"
+    },
+    "form": {
+      "name": "Vollst\u00e4ndiger Name",
+      "email": "E-Mail-Adresse",
+      "phone": "Telefonnummer",
+      "company": "Unternehmen / Organisation",
+      "serviceDefault": "Leistung ausw\u00e4hlen",
+      "serviceAI": "KI-Strategie & Integration",
+      "serviceAutomation": "Gesch\u00e4ftsprozess-Automatisierung",
+      "serviceWeb": "Individuelle Webl\u00f6sungen",
+      "serviceBrand": "Marken- & Digitalstrategie",
+      "serviceGeneral": "Allgemeine Anfrage",
+      "message": "Erz\u00e4hlen Sie uns von Ihrem Projekt oder Ihrer Herausforderung...",
+      "sending": "Wird gesendet...",
+      "send": "Nachricht senden",
+      "successHeading": "Nachricht gesendet",
+      "successBody": "Vielen Dank f\u00fcr Ihre Nachricht. Wir melden uns innerhalb von 24 Stunden.",
+      "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt eine E-Mail."
+    }
+  },
+  "whyEvawero": {
+    "eyebrow": "Warum wir",
+    "heading": "Anders gebaut",
+    "items": {
+      "endToEnd": { "title": "Beratung & Umsetzung aus einer Hand", "description": "Von der Strategie bis zur Bereitstellung begleiten wir den gesamten Weg, nicht nur die Beratung." },
+      "tailored": { "title": "L\u00f6sungen f\u00fcr Ihr Unternehmen", "description": "Keine Standardl\u00f6sungen. Jede L\u00f6sung wird um Ihre spezifischen Anforderungen und Ziele herum entwickelt." },
+      "expert": { "title": "Experten-Support f\u00fcr KI, Automatisierung & digitales Wachstum", "description": "Unser Team bringt tiefgreifende Expertise in KI, Prozessautomatisierung und modernen Webtechnologien mit." },
+      "competitive": { "title": "Unternehmen wettbewerbsf\u00e4hig halten", "description": "Wir helfen Unternehmen in Nigeria und Europa, Technologie zu nutzen, um in einer digitalen Welt die Nase vorn zu haben." }
+    }
+  },
+  "productCard": {
+    "learnMore": "Mehr erfahren"
+  }
+}

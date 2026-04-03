@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import ProductCard from '../ui/ProductCard';
 import { getFeaturedProduct } from '../../lib/api';
 
@@ -8,20 +9,23 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
-const fallback = {
-  name: 'Evas Intelligence',
-  tagline: 'Your briefing. Already done. Every morning.',
-  description: 'AI-powered platform that scans your Gmail and news feeds, then delivers a prioritised intelligence briefing with action steps. Built for CEOs, consultants, and investors across Nigeria and Europe.',
-  badges: ['AI-Powered', 'Nigeria + Europe', 'Free to start'],
-  link: '/products',
-};
-
 export default function ProductsSection() {
-  const [product, setProduct] = useState(fallback);
+  const { t } = useTranslation();
+  const [product, setProduct] = useState(null);
+
+  const fallback = {
+    name: t('products.ei.name'),
+    tagline: t('products.ei.tagline'),
+    description: t('products.ei.description'),
+    badges: t('products.ei.badges', { returnObjects: true }),
+    link: '/products',
+  };
 
   useEffect(() => {
     getFeaturedProduct().then(data => { if (data) setProduct({ ...data, link: '/products' }); }).catch(() => {});
   }, []);
+
+  const display = product || fallback;
 
   return (
     <section className="border-t border-rule bg-surface">
@@ -33,10 +37,10 @@ export default function ProductsSection() {
           variants={fadeUp}
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            Our Latest Product
+            {t('products.ei.label')}
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-dark mb-12">
-            Built for Modern Business
+            {t('products.heading')}
           </h2>
         </motion.div>
 
@@ -47,11 +51,11 @@ export default function ProductsSection() {
           variants={fadeUp}
         >
           <ProductCard
-            name={product.name}
-            tagline={product.tagline}
-            description={product.description}
-            badges={product.badges || []}
-            link={product.link || '/products'}
+            name={display.name}
+            tagline={display.tagline}
+            description={display.description}
+            badges={display.badges || []}
+            link={display.link || '/products'}
           />
         </motion.div>
       </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import Button from '../components/ui/Button';
 import { getServices } from '../lib/api';
 
@@ -14,60 +15,63 @@ const ICON_MAP = {
   chart: '\u{1F4CA}', gear: '\u2699\uFE0F', money: '\u{1F4B1}', search: '\u{1F50D}',
 };
 
-const fallbackServices = [
-  {
-    icon: 'brain', title: 'AI Strategy & Integration',
-    full_description: 'We help you identify where AI can create the most impact in your business, then design and implement solutions that deliver measurable results. From automated workflows to intelligent data analysis, we bring AI from concept to production.',
-    who_is_it_for: 'CEOs, operations managers, and business owners looking to leverage AI for competitive advantage.',
-    whats_included: ['AI readiness assessment', 'Custom AI solution design', 'Implementation and integration', 'Team training and handover', 'Ongoing optimisation support'],
-  },
-  {
-    icon: 'zap', title: 'Business Process Automation',
-    full_description: 'We analyse your existing workflows, identify bottlenecks and manual processes, then design automated solutions that free your team to focus on high-value work.',
-    who_is_it_for: 'Businesses with repetitive manual processes, growing teams that need to scale operations efficiently.',
-    whats_included: ['Process audit and mapping', 'Automation solution design', 'Tool integration (Zapier, Make, custom)', 'Testing and deployment', 'Documentation and training'],
-  },
-  {
-    icon: 'globe', title: 'Custom Web Solutions',
-    full_description: 'From customer-facing platforms to internal tools, we build web applications that are fast, secure, and designed around your users.',
-    who_is_it_for: 'Businesses needing custom platforms, SaaS products, dashboards, or client portals.',
-    whats_included: ['Requirements analysis', 'UI/UX design', 'Full-stack development', 'Testing and QA', 'Deployment and hosting setup', 'Post-launch support'],
-  },
-  {
-    icon: 'target', title: 'Brand & Digital Strategy',
-    full_description: 'We help you define your brand positioning, develop your digital strategy, and create a roadmap for growth.',
-    who_is_it_for: 'Startups, SMEs, and professionals looking to establish or strengthen their digital presence.',
-    whats_included: ['Brand audit and positioning', 'Digital strategy roadmap', 'Content strategy', 'SEO and analytics setup', 'Social media strategy', 'Performance tracking'],
-  },
-];
-
 export default function Services() {
-  const [services, setServices] = useState(fallbackServices);
+  const { t } = useTranslation();
+  const [services, setServices] = useState(null);
+
+  const fallbackServices = [
+    {
+      icon: 'brain', title: t('services.items.ai.title'),
+      full_description: t('services.items.ai.fullDescription'),
+      who_is_it_for: t('services.items.ai.whoIsItFor'),
+      whats_included: t('services.items.ai.included', { returnObjects: true }),
+    },
+    {
+      icon: 'zap', title: t('services.items.automation.title'),
+      full_description: t('services.items.automation.fullDescription'),
+      who_is_it_for: t('services.items.automation.whoIsItFor'),
+      whats_included: t('services.items.automation.included', { returnObjects: true }),
+    },
+    {
+      icon: 'globe', title: t('services.items.web.title'),
+      full_description: t('services.items.web.fullDescription'),
+      who_is_it_for: t('services.items.web.whoIsItFor'),
+      whats_included: t('services.items.web.included', { returnObjects: true }),
+    },
+    {
+      icon: 'target', title: t('services.items.brand.title'),
+      full_description: t('services.items.brand.fullDescription'),
+      who_is_it_for: t('services.items.brand.whoIsItFor'),
+      whats_included: t('services.items.brand.included', { returnObjects: true }),
+    },
+  ];
 
   useEffect(() => {
     getServices().then(data => { if (data.length) setServices(data); }).catch(() => {});
   }, []);
 
+  const displayServices = services || fallbackServices;
+
   return (
     <>
       <Helmet>
-        <title>Our Services | Evawero Digital Solutions</title>
-        <meta name="description" content="From AI strategy to digital transformation, explore how Evawero Digital Solutions can help your business grow." />
+        <title>{t('services.title')}</title>
+        <meta name="description" content={t('services.metaDescription')} />
       </Helmet>
 
       {/* Hero */}
       <section className="bg-brand-pale">
         <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">What We Do</p>
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">Our Services</h1>
+          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">{t('services.eyebrow')}</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">{t('services.heading')}</h1>
           <p className="mt-4 text-text-mid text-base md:text-lg max-w-xl leading-relaxed">
-            Technology should work for your business, not the other way around. Here is how we help.
+            {t('services.heroBody')}
           </p>
         </motion.div>
       </section>
 
       {/* Services detail */}
-      {services.map((service, i) => (
+      {displayServices.map((service, i) => (
         <section key={service.title} className={`border-t border-rule ${i % 2 === 1 ? 'bg-surface' : 'bg-white'}`}>
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}
@@ -79,13 +83,13 @@ export default function Services() {
                 <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-4">{service.title}</h2>
                 <p className="text-text-mid leading-relaxed mb-6">{service.full_description}</p>
                 <p className="text-sm text-text-muted mb-6">
-                  <span className="font-semibold text-text-mid">Best for: </span>
+                  <span className="font-semibold text-text-mid">{t('services.bestFor')}</span>
                   {service.who_is_it_for}
                 </p>
-                <Button href="/contact">Get Started</Button>
+                <Button href="/contact">{t('services.getStarted')}</Button>
               </div>
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">What&apos;s Included</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-4">{t('services.whatsIncluded')}</h3>
                 <ul className="space-y-3">
                   {(service.whats_included || []).map((item) => (
                     <li key={item} className="flex items-start gap-3 text-sm text-text-mid">
@@ -103,9 +107,9 @@ export default function Services() {
       {/* Bottom CTA */}
       <section className="border-t border-rule bg-brand">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-24 text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">Ready to get started?</h2>
-          <p className="text-white/80 max-w-lg mx-auto mb-8">Book a free assessment and we will help you figure out the best next step for your business.</p>
-          <Button href="/contact" className="bg-white !text-brand hover:!bg-brand-pale">Book a Free Assessment</Button>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">{t('services.ctaHeading')}</h2>
+          <p className="text-white/80 max-w-lg mx-auto mb-8">{t('services.ctaBody')}</p>
+          <Button href="/contact" className="bg-white !text-brand hover:!bg-brand-pale">{t('services.ctaButton')}</Button>
         </motion.div>
       </section>
     </>

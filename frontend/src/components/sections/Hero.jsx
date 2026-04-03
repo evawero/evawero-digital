@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import { getSiteSettings } from '../../lib/api';
 
@@ -14,7 +15,8 @@ const item = {
 };
 
 export default function Hero() {
-  const [tagline, setTagline] = useState('From Analysis to AI — Your Digital Growth Partner');
+  const { t } = useTranslation();
+  const [tagline, setTagline] = useState(null);
 
   useEffect(() => {
     getSiteSettings().then(data => {
@@ -22,10 +24,16 @@ export default function Hero() {
     }).catch(() => {});
   }, []);
 
-  // Split tagline on em dash variants to style separately
-  const parts = tagline.split(/\s*[\u2014\u2013—–-]{1,3}\s*/);
-  const heading = parts[0] || tagline;
-  const subtitle = parts.length > 1 ? parts.slice(1).join(' ') : '';
+  // If tagline from DB, split on em dash. Otherwise use i18n keys.
+  let heading, subtitle;
+  if (tagline) {
+    const parts = tagline.split(/\s*[\u2014\u2013\u2014\u2013-]{1,3}\s*/);
+    heading = parts[0] || tagline;
+    subtitle = parts.length > 1 ? parts.slice(1).join(' ') : '';
+  } else {
+    heading = t('hero.heading');
+    subtitle = t('hero.subtitle');
+  }
 
   return (
     <section className="bg-brand-pale">
@@ -39,7 +47,7 @@ export default function Hero() {
           variants={item}
           className="text-sm font-medium uppercase tracking-wider text-brand mb-4"
         >
-          Evawero Digital Solutions
+          {t('hero.eyebrow')}
         </motion.p>
 
         <motion.h1
@@ -62,15 +70,13 @@ export default function Hero() {
           variants={item}
           className="mt-6 text-text-mid text-base md:text-lg leading-relaxed max-w-xl"
         >
-          We help businesses leverage technology to streamline operations,
-          attract more customers, and scale sustainably &mdash; from intelligent
-          automation to full digital transformation.
+          {t('hero.body')}
         </motion.p>
 
         <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">
-          <Button href="/contact">Book a Free Assessment</Button>
+          <Button href="/contact">{t('hero.ctaPrimary')}</Button>
           <Button href="/services" variant="outline">
-            Explore Services
+            {t('hero.ctaSecondary')}
           </Button>
         </motion.div>
       </motion.div>

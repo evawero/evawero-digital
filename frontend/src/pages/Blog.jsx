@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import BlogCard from '../components/ui/BlogCard';
 import { getBlogPosts } from '../lib/api';
 
@@ -10,6 +11,7 @@ const fadeUp = {
 };
 
 export default function Blog() {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,17 +25,17 @@ export default function Blog() {
   return (
     <>
       <Helmet>
-        <title>Blog | Evawero Digital Solutions</title>
-        <meta name="description" content="Insights on digital strategy, AI, automation, and business growth from Evawero Digital Solutions." />
+        <title>{t('blog.title')}</title>
+        <meta name="description" content={t('blog.metaDescription')} />
       </Helmet>
 
       {/* Hero */}
       <section className="bg-brand-pale">
         <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">Insights</p>
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">Blog</h1>
+          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">{t('blog.eyebrow')}</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">{t('blog.heading')}</h1>
           <p className="mt-4 text-text-mid text-base md:text-lg max-w-xl leading-relaxed">
-            Practical thinking on technology, growth, and digital strategy.
+            {t('blog.heroBody')}
           </p>
         </motion.div>
       </section>
@@ -42,7 +44,7 @@ export default function Blog() {
       <section className="border-t border-rule">
         <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
           {loading ? (
-            <p className="text-sm text-text-muted text-center py-12">Loading...</p>
+            <p className="text-sm text-text-muted text-center py-12">{t('blog.loading')}</p>
           ) : posts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post) => (
@@ -51,8 +53,8 @@ export default function Blog() {
             </div>
           ) : (
             <motion.div initial="hidden" animate="show" variants={fadeUp} className="text-center py-12">
-              <p className="font-display text-xl text-brand-dark mb-2">Insights coming soon.</p>
-              <p className="text-sm text-text-muted">We are preparing articles on digital strategy, AI, and business growth. Check back shortly.</p>
+              <p className="font-display text-xl text-brand-dark mb-2">{t('blog.emptyHeading')}</p>
+              <p className="text-sm text-text-muted">{t('blog.emptyBody')}</p>
             </motion.div>
           )}
         </div>

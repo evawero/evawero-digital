@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { getSiteSettings, getTeamMembers } from '../lib/api';
 
 const fadeUp = {
@@ -8,15 +9,9 @@ const fadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
-const fallbackValues = [
-  { title: 'Innovation', description: 'We stay ahead of the curve, applying the latest technology and thinking to every engagement.' },
-  { title: 'Reliability', description: 'We deliver on time, communicate clearly, and stand behind our work with ongoing support.' },
-  { title: 'Tailored Solutions', description: 'No two businesses are the same. Every solution is custom-built for your specific challenges and goals.' },
-  { title: 'Long-term Partnership', description: 'We measure our success by yours. Our relationships extend well beyond project delivery.' },
-];
-
 export default function About() {
-  const [mission, setMission] = useState('Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them. We combine deep technical expertise with practical business understanding to deliver solutions that create real, measurable impact.');
+  const { t } = useTranslation();
+  const [mission, setMission] = useState(null);
   const [team, setTeam] = useState([]);
 
   useEffect(() => {
@@ -26,18 +21,25 @@ export default function About() {
     getTeamMembers().then(data => setTeam(data)).catch(() => {});
   }, []);
 
+  const fallbackValues = [
+    { title: t('about.values.innovation.title'), description: t('about.values.innovation.description') },
+    { title: t('about.values.reliability.title'), description: t('about.values.reliability.description') },
+    { title: t('about.values.tailored.title'), description: t('about.values.tailored.description') },
+    { title: t('about.values.partnership.title'), description: t('about.values.partnership.description') },
+  ];
+
   return (
     <>
       <Helmet>
-        <title>About Us | Evawero Digital Solutions</title>
-        <meta name="description" content="Learn about Evawero Digital Solutions, our mission, values, and the team behind your digital growth." />
+        <title>{t('about.title')}</title>
+        <meta name="description" content={t('about.metaDescription')} />
       </Helmet>
 
       {/* Hero */}
       <section className="bg-brand-pale">
         <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">Who We Are</p>
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">About Evawero Digital</h1>
+          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">{t('about.eyebrow')}</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">{t('about.heading')}</h1>
         </motion.div>
       </section>
 
@@ -45,11 +47,11 @@ export default function About() {
       <section className="border-t border-rule">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-28">
           <div className="max-w-2xl">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">Our Story</h2>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">{t('about.story.heading')}</h2>
             <div className="space-y-4 text-text-mid leading-relaxed">
-              <p>Built at the intersection of Nigeria and Europe, Evawero Digital Solutions exists to close the gap between where businesses are and where technology can take them.</p>
-              <p>Too many companies are held back by outdated systems, manual processes, and a gap between what technology can do and what they are actually using. We exist to close that gap.</p>
-              <p>From our roots in business analysis, we have expanded into web development, AI automation, and full digital transformation &mdash; always guided by data, always tailored to the client.</p>
+              <p>{t('about.story.p1')}</p>
+              <p>{t('about.story.p2')}</p>
+              <p>{t('about.story.p3')}</p>
             </div>
           </div>
         </motion.div>
@@ -59,9 +61,9 @@ export default function About() {
       <section className="border-t border-rule bg-surface">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-28">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">Our Mission</p>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">Empowering businesses through intelligent technology</h2>
-            <p className="text-text-mid leading-relaxed">{mission}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">{t('about.mission.eyebrow')}</p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">{t('about.mission.heading')}</h2>
+            <p className="text-text-mid leading-relaxed">{mission || t('about.mission.body')}</p>
           </div>
         </motion.div>
       </section>
@@ -70,8 +72,8 @@ export default function About() {
       <section className="border-t border-rule">
         <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
-            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">What We Stand For</p>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-12">Our Values</h2>
+            <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">{t('about.values.eyebrow')}</p>
+            <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-12">{t('about.values.heading')}</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {fallbackValues.map((v, i) => (
@@ -89,8 +91,8 @@ export default function About() {
       {/* Team */}
       <section className="border-t border-rule bg-surface">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">The Team</p>
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">Meet the People Behind Evawero</h2>
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">{t('about.team.eyebrow')}</p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-6">{t('about.team.heading')}</h2>
           {team.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               {team.map(member => (
@@ -103,7 +105,7 @@ export default function About() {
               ))}
             </div>
           ) : (
-            <p className="text-text-muted text-sm">Team profiles coming soon.</p>
+            <p className="text-text-muted text-sm">{t('about.team.empty')}</p>
           )}
         </motion.div>
       </section>

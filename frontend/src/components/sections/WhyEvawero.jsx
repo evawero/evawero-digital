@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { getSiteSettings } from '../../lib/api';
 
 const ICON_MAP = {
@@ -7,20 +8,21 @@ const ICON_MAP = {
   zap: '\u26A1', search: '\u{1F50D}', handshake: '\u{1F91D}', chart: '\u{1F4CA}',
 };
 
-const fallbackValues = [
-  { icon: 'sync', title: 'End-to-End Consulting & Implementation', description: 'From strategy to deployment, we handle the full journey \u2014 not just advice.' },
-  { icon: 'target', title: 'Solutions Tailored to Your Business', description: 'No cookie-cutter approaches. Every solution is designed around your specific needs and goals.' },
-  { icon: 'brain', title: 'Expert Support in AI, Automation & Digital Growth', description: 'Our team brings deep expertise across AI, process automation, and modern web technologies.' },
-  { icon: 'globe', title: 'Helping Businesses Stay Competitive', description: 'We help businesses across Nigeria and Europe leverage technology to stay ahead in a digital world.' },
-];
-
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
 export default function WhyEvawero() {
-  const [values, setValues] = useState(fallbackValues);
+  const { t } = useTranslation();
+  const [values, setValues] = useState(null);
+
+  const fallbackValues = [
+    { icon: 'sync', title: t('whyEvawero.items.endToEnd.title'), description: t('whyEvawero.items.endToEnd.description') },
+    { icon: 'target', title: t('whyEvawero.items.tailored.title'), description: t('whyEvawero.items.tailored.description') },
+    { icon: 'brain', title: t('whyEvawero.items.expert.title'), description: t('whyEvawero.items.expert.description') },
+    { icon: 'globe', title: t('whyEvawero.items.competitive.title'), description: t('whyEvawero.items.competitive.description') },
+  ];
 
   useEffect(() => {
     getSiteSettings().then(data => {
@@ -29,6 +31,8 @@ export default function WhyEvawero() {
       if (wcu.length) setValues(wcu);
     }).catch(() => {});
   }, []);
+
+  const displayValues = values || fallbackValues;
 
   return (
     <section className="border-t border-rule">
@@ -40,15 +44,15 @@ export default function WhyEvawero() {
           variants={fadeUp}
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            Why Choose Us
+            {t('whyEvawero.eyebrow')}
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-dark">
-            Built Different
+            {t('whyEvawero.heading')}
           </h2>
         </motion.div>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {values.map((v, i) => (
+          {displayValues.map((v, i) => (
             <motion.div
               key={v.title}
               initial="hidden"

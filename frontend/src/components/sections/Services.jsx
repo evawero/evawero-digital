@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ServiceCard from '../ui/ServiceCard';
 import { getServices } from '../../lib/api';
-
-const fallbackServices = [
-  { icon: 'brain', title: 'AI Strategy & Integration', short_description: 'Develop and implement AI solutions tailored to your business goals.' },
-  { icon: 'zap', title: 'Business Process Automation', short_description: 'Streamline operations with intelligent automation that saves time and reduces errors.' },
-  { icon: 'globe', title: 'Custom Web Solutions', short_description: 'Modern, responsive web applications built to solve your specific business problems.' },
-  { icon: 'target', title: 'Brand & Digital Strategy', short_description: 'Build a strong digital presence with a clear strategy that drives growth.' },
-];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,11 +11,21 @@ const fadeUp = {
 };
 
 export default function ServicesSection() {
-  const [services, setServices] = useState(fallbackServices);
+  const { t } = useTranslation();
+  const [services, setServices] = useState(null);
+
+  const fallbackServices = [
+    { icon: 'brain', title: t('services.items.ai.title'), short_description: t('services.items.ai.description') },
+    { icon: 'zap', title: t('services.items.automation.title'), short_description: t('services.items.automation.description') },
+    { icon: 'globe', title: t('services.items.web.title'), short_description: t('services.items.web.description') },
+    { icon: 'target', title: t('services.items.brand.title'), short_description: t('services.items.brand.description') },
+  ];
 
   useEffect(() => {
     getServices().then(data => { if (data.length) setServices(data); }).catch(() => {});
   }, []);
+
+  const displayServices = services || fallbackServices;
 
   return (
     <section className="border-t border-rule">
@@ -33,15 +37,15 @@ export default function ServicesSection() {
           variants={fadeUp}
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">
-            What We Do
+            {t('services.eyebrow')}
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-dark">
-            Our Services
+            {t('services.heading')}
           </h2>
         </motion.div>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {services.map((service, i) => (
+          {displayServices.map((service, i) => (
             <motion.div
               key={service.title}
               initial="hidden"
@@ -59,7 +63,7 @@ export default function ServicesSection() {
 
         <div className="mt-10">
           <Link to="/services" className="text-sm font-medium text-brand hover:text-brand-dark transition-colors">
-            View all services &rarr;
+            {t('services.viewAll')}
           </Link>
         </div>
       </div>

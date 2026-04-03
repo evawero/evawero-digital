@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import { submitContact } from '../../lib/api';
-
-const serviceOptions = [
-  'AI Strategy & Integration',
-  'Business Process Automation',
-  'Custom Web Solutions',
-  'Brand & Digital Strategy',
-  'General Enquiry',
-];
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -17,6 +10,7 @@ const fadeUp = {
 };
 
 export default function ContactForm() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -25,7 +19,15 @@ export default function ContactForm() {
     service: '',
     message: '',
   });
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [status, setStatus] = useState('idle');
+
+  const serviceOptions = [
+    { value: 'AI Strategy & Integration', label: t('contact.form.serviceAI') },
+    { value: 'Business Process Automation', label: t('contact.form.serviceAutomation') },
+    { value: 'Custom Web Solutions', label: t('contact.form.serviceWeb') },
+    { value: 'Brand & Digital Strategy', label: t('contact.form.serviceBrand') },
+    { value: 'General Enquiry', label: t('contact.form.serviceGeneral') },
+  ];
 
   const update = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -55,10 +57,10 @@ export default function ContactForm() {
         className="text-center py-16"
       >
         <p className="font-display text-2xl font-semibold text-brand-dark mb-2">
-          Message Sent
+          {t('contact.form.successHeading')}
         </p>
         <p className="text-sm text-text-mid">
-          Thank you for reaching out. We will get back to you within 24 hours.
+          {t('contact.form.successBody')}
         </p>
       </motion.div>
     );
@@ -77,7 +79,7 @@ export default function ContactForm() {
         <input
           type="text"
           name="name"
-          placeholder="Full Name"
+          placeholder={t('contact.form.name')}
           required
           value={form.name}
           onChange={update}
@@ -86,7 +88,7 @@ export default function ContactForm() {
         <input
           type="email"
           name="email"
-          placeholder="Email Address"
+          placeholder={t('contact.form.email')}
           required
           value={form.email}
           onChange={update}
@@ -95,7 +97,7 @@ export default function ContactForm() {
         <input
           type="tel"
           name="phone"
-          placeholder="Phone Number"
+          placeholder={t('contact.form.phone')}
           value={form.phone}
           onChange={update}
           className={inputClass}
@@ -103,7 +105,7 @@ export default function ContactForm() {
         <input
           type="text"
           name="business"
-          placeholder="Business / Organisation"
+          placeholder={t('contact.form.company')}
           value={form.business}
           onChange={update}
           className={inputClass}
@@ -118,18 +120,18 @@ export default function ContactForm() {
         className={`${inputClass} ${!form.service ? 'text-text-muted' : ''}`}
       >
         <option value="" disabled className="text-text-muted">
-          Select a Service
+          {t('contact.form.serviceDefault')}
         </option>
         {serviceOptions.map((opt) => (
-          <option key={opt} value={opt} className="text-brand-dark">
-            {opt}
+          <option key={opt.value} value={opt.value} className="text-brand-dark">
+            {opt.label}
           </option>
         ))}
       </select>
 
       <textarea
         name="message"
-        placeholder="Tell us about your project or challenge..."
+        placeholder={t('contact.form.message')}
         rows={5}
         required
         value={form.message}
@@ -139,12 +141,12 @@ export default function ContactForm() {
 
       {status === 'error' && (
         <p className="text-sm text-red-600">
-          Something went wrong. Please try again or email us directly.
+          {t('contact.form.error')}
         </p>
       )}
 
       <Button type="submit" disabled={status === 'sending'}>
-        {status === 'sending' ? 'Sending...' : 'Send Message'}
+        {status === 'sending' ? t('contact.form.sending') : t('contact.form.send')}
       </Button>
     </motion.form>
   );
