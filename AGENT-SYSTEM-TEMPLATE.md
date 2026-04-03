@@ -41,8 +41,8 @@ All agents share:
 - PostgreSQL (via pg library)
 - @anthropic-ai/sdk for Claude API (use tool_use loop pattern, max 15 iterations)
 - @notionhq/client v2 (NOT v5 — v5 breaks databases.query)
-- googleapis for Gmail OAuth2
-- tavily for web search
+- googleapis for Gmail OAuth2 — token MUST be generated with `https://mail.google.com/` scope (covers both read and compose)
+- tavily for web search — MUST use `const { TavilyClient } = require('tavily')` and `new TavilyClient(...)`, NOT `const { tavily } = require('tavily')`
 - node-cron for scheduling
 - helmet + cors for Express security
 - dotenv for environment variables
@@ -56,7 +56,7 @@ agents/
 │   │   ├── database.js    # PostgreSQL pool + migrations
 │   │   ├── gmail.js       # Gmail OAuth2 (send, draft, read)
 │   │   ├── notion.js      # Notion API client with DB constants
-│   │   ├── search.js      # Tavily web search
+│   │   ├── search.js      # Tavily web search (use TavilyClient constructor, not tavily function)
 │   │   ├── logger.js      # Agent run logger (DB + Notion)
 │   │   └── mailer.js      # Branded HTML email builder
 │   ├── agents/
