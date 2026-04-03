@@ -62,15 +62,15 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ## Schedule
 
-All times are UTC. Agents run Monday, Wednesday, Friday only (cost savings).
+Agents run Monday, Wednesday, Friday only (cost savings). Cron jobs are set in UTC — German times shown for reference (CEST = UTC+2 in summer, CET = UTC+1 in winter).
 
-| Time | Agent | Action |
-|------|-------|--------|
-| 07:00 Mon/Wed/Fri | Marketing | Creates content batch |
-| 08:00 Mon/Wed/Fri | Sales | Prospects + drafts outreach |
-| 09:00 Mon/Wed/Fri | Manager | Sends digest email |
-| 14:00 Daily | Manager | Quick alert check (no email unless urgent) |
-| Every 30 min | Notion Watcher | Polls Client Projects for new briefs |
+| UTC | German Time (CEST) | Agent | Action |
+|-----|-------------------|-------|--------|
+| 07:00 Mon/Wed/Fri | 09:00 | Marketing | Creates content batch |
+| 08:00 Mon/Wed/Fri | 10:00 | Sales | Prospects + drafts outreach |
+| 09:00 Mon/Wed/Fri | 11:00 | Manager | Sends digest email |
+| 14:00 Daily | 16:00 | Manager | Quick alert check (no email unless urgent) |
+| Every 30 min | — | Notion Watcher | Polls Client Projects for new briefs |
 
 **Why Mon/Wed/Fri?** Each agent run costs money (Anthropic API calls). 3x/week balances coverage with cost. You can always trigger agents manually from the dashboard if needed between scheduled runs.
 
