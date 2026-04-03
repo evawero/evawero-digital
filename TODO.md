@@ -166,6 +166,49 @@ Agent decides on content → picks template ID → sends text via Canva API
 
 ---
 
+### Add German Language Version to evawerodigital.com
+Add a language toggle (EN | DE) so visitors can browse the site in German. Two parts: static UI text and dynamic database content.
+
+**Part 1: Static content (frontend i18n)**
+
+1. Install `react-i18next` and `i18next` in `frontend/`
+2. Create `frontend/src/locales/en.json` — extract all hardcoded English strings from every page and component (hero text, page descriptions, button labels, nav items, footer text, section headings)
+3. Create `frontend/src/locales/de.json` — German translations of all strings (Claude can translate)
+4. Wrap the app with `I18nextProvider` in `main.jsx`
+5. Replace all hardcoded strings in components with `t('key')` calls
+6. Add language toggle button to Navbar (EN | DE), save preference to `localStorage`
+
+**Pages to translate:**
+- [ ] Home (hero, all section headings, CTAs)
+- [ ] Services (hero, all service titles/descriptions)
+- [ ] Products (hero, all product names/taglines/descriptions, "Learn more"/"Show less" buttons)
+- [ ] About (hero, all content sections)
+- [ ] Blog (hero, listing labels — blog posts themselves are already tagged with language)
+- [ ] Contact (hero, form labels, submit button)
+- [ ] Navbar (all links, "Book Assessment" CTA)
+- [ ] Footer (all text, links)
+
+**Part 2: Dynamic content (database)**
+
+7. Blog posts — already have a `language` field. Update the blog listing page to filter by current language. Show only English posts when EN is selected, German posts when DE is selected.
+8. Products — add German versions of product data. Options:
+   - a) Add `language` column to products table, duplicate rows with German content
+   - b) Add a `translations` JSONB column with `{ de: { name, tagline, description } }`
+   - Option (b) is simpler since there are only 3 products
+9. Services — same approach as products
+10. API endpoints — add `?lang=de` query parameter support, return translated content
+
+**Part 3: Polish**
+
+11. Set `<html lang="de">` when German is active (SEO)
+12. Update `<Helmet>` meta descriptions to use translated versions
+13. Test all pages in both languages
+14. Ensure the demo pages (`/demo/*`) remain English-only (they're client-specific)
+
+**Order of work:** Part 1 first (immediate German UI), then Part 2 (translated dynamic content), then Part 3 (SEO polish).
+
+---
+
 ## Low Priority
 
 ### Add Lead Scoring to Sales Agent
