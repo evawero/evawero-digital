@@ -68,56 +68,52 @@ const cmsSteps = [
   { step: '04', text: 'Your frontend fetches content via API \u2014 any platform, any framework' },
 ];
 
-export default function Products() {
-  const [product, setProduct] = useState(fallbackProduct);
-
-  useEffect(() => {
-    getFeaturedProduct().then(data => { if (data) setProduct(data); }).catch(() => {});
-  }, []);
+function ProductSection({ product, label, features, featureLabel, featureColumns, steps, pricing, cta }) {
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <>
-      <Helmet>
-        <title>Our Products | Evawero Digital Solutions</title>
-        <meta name="description" content="AI-powered products: Evas Intelligence for business briefings, AI Agent Systems for autonomous operations, and Evawero CMS — a lightweight headless content management system." />
-      </Helmet>
-
-      {/* Hero */}
-      <section className="bg-brand-pale">
-        <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">Products</p>
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">Our Products</h1>
-          <p className="mt-4 text-text-mid text-base md:text-lg max-w-xl leading-relaxed">
-            Tools we build and ship. Designed to solve real problems for real businesses.
-          </p>
+    <section className="border-t border-rule">
+      <div className="max-w-6xl mx-auto px-6 py-10 md:py-14">
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
+          <div className="bg-brand-dark rounded-md p-8 md:p-12">
+            {label && <p className="text-brand-mid text-sm font-medium uppercase tracking-wider mb-2">{label}</p>}
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">{product.name}</h2>
+            <p className="text-brand-border text-lg italic mb-6">{product.tagline}</p>
+            <p className="text-white/80 leading-relaxed max-w-2xl">{product.description}</p>
+            {product.badges?.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-6">
+                {product.badges.map(b => (
+                  <span key={b} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/90">{b}</span>
+                ))}
+              </div>
+            )}
+            <button
+              onClick={() => setExpanded(e => !e)}
+              className="flex items-center gap-3 mt-8 group cursor-pointer"
+            >
+              <span className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 group-hover:bg-white/30"
+                style={{ transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 4L10 8L6 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <span className="text-white font-medium text-sm">{expanded ? 'Show less' : 'Learn more'}</span>
+            </button>
+          </div>
         </motion.div>
-      </section>
 
-      {/* ── Evas Intelligence ── */}
-      <section className="border-t border-rule">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
-            <div className="bg-brand-dark rounded-md p-8 md:p-12">
-              <p className="text-brand-mid text-sm font-medium uppercase tracking-wider mb-2">Featured Product</p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">{product.name}</h2>
-              <p className="text-brand-border text-lg italic mb-6">{product.tagline}</p>
-              <p className="text-white/80 leading-relaxed max-w-2xl">{product.description}</p>
-              {product.badges?.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {product.badges.map(b => (
-                    <span key={b} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/90">{b}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </motion.div>
-
-          {product.features?.length > 0 && (
+        <motion.div
+          initial={false}
+          animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          style={{ overflow: 'hidden' }}
+        >
+          {features?.length > 0 && (
             <div className="mt-16">
               <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-                className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Core Modules</motion.h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {product.features.map((feat, i) => {
+                className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">{featureLabel}</motion.h3>
+              <div className={`grid grid-cols-1 ${featureColumns === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6`}>
+                {features.map((feat, i) => {
                   const [title, ...rest] = feat.split(' \u2014 ');
                   const desc = rest.join(' \u2014 ') || title;
                   return (
@@ -137,7 +133,7 @@ export default function Products() {
             <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
               className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">How It Works</motion.h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {eiSteps.map((s, i) => (
+              {steps.map((s, i) => (
                 <motion.div key={s.step} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
                   variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}>
                   <span className="font-display text-3xl font-bold text-brand-border">{s.step}</span>
@@ -150,168 +146,116 @@ export default function Products() {
           <div className="mt-16 border-t border-rule pt-16">
             <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
               className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Pricing</motion.h3>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
-              <div className="border border-rule rounded-md p-6">
-                <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Free</h4>
-                <p className="text-xl font-bold text-text mb-1">{product.pricing_free || '\u20AC0'}</p>
-                <p className="text-sm text-text-muted">Basic inbox scanning and insights. Perfect for getting started.</p>
-              </div>
-              <div className="border border-brand rounded-md p-6">
-                <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Pro</h4>
-                <p className="text-xl font-bold text-text mb-1">{product.pricing_pro || '\u20AC10'}</p>
-                <p className="text-sm text-text-muted">Full AI insights, action dashboard, and priority support.</p>
-              </div>
-            </motion.div>
+            {pricing}
             <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mt-8">
-              <Button href={product.link || 'https://app.evaweroukpevo.com'}>Try Evas Intelligence</Button>
+              {cta}
             </motion.div>
           </div>
-        </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+export default function Products() {
+  const [product, setProduct] = useState(fallbackProduct);
+
+  useEffect(() => {
+    getFeaturedProduct().then(data => { if (data) setProduct(data); }).catch(() => {});
+  }, []);
+
+  return (
+    <>
+      <Helmet>
+        <title>Our Products | Evawero Digital Solutions</title>
+        <meta name="description" content="AI-powered products: Evas Intelligence for business briefings, AI Agent Systems for autonomous operations, and Evawero CMS \u2014 a lightweight headless content management system." />
+      </Helmet>
+
+      {/* Hero */}
+      <section className="bg-brand-pale">
+        <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <p className="text-sm font-medium uppercase tracking-wider text-brand mb-4">Products</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-dark">Our Products</h1>
+          <p className="mt-4 text-text-mid text-base md:text-lg max-w-xl leading-relaxed">
+            Tools we build and ship. Designed to solve real problems for real businesses.
+          </p>
+        </motion.div>
       </section>
 
-      {/* ── AI Agent Systems ── */}
-      <section className="border-t border-rule bg-surface">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
-            <div className="bg-brand-dark rounded-md p-8 md:p-12">
-              <p className="text-brand-mid text-sm font-medium uppercase tracking-wider mb-2">New</p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">{agentSystem.name}</h2>
-              <p className="text-brand-border text-lg italic mb-6">{agentSystem.tagline}</p>
-              <p className="text-white/80 leading-relaxed max-w-2xl">{agentSystem.description}</p>
-              <div className="flex flex-wrap gap-2 mt-6">
-                {agentSystem.badges.map(b => (
-                  <span key={b} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/90">{b}</span>
-                ))}
-              </div>
+      {/* Evas Intelligence */}
+      <ProductSection
+        product={product}
+        label="Featured Product"
+        features={product.features}
+        featureLabel="Core Modules"
+        featureColumns={3}
+        steps={eiSteps}
+        pricing={
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
+            <div className="border border-rule rounded-md p-6">
+              <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Free</h4>
+              <p className="text-xl font-bold text-text mb-1">{product.pricing_free || '\u20AC0'}</p>
+              <p className="text-sm text-text-muted">Basic inbox scanning and insights. Perfect for getting started.</p>
+            </div>
+            <div className="border border-brand rounded-md p-6">
+              <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Pro</h4>
+              <p className="text-xl font-bold text-text mb-1">{product.pricing_pro || '\u20AC10'}</p>
+              <p className="text-sm text-text-muted">Full AI insights, action dashboard, and priority support.</p>
             </div>
           </motion.div>
+        }
+        cta={<Button href={product.link || 'https://app.evaweroukpevo.com'}>Try Evas Intelligence</Button>}
+      />
 
-          <div className="mt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Your Agent Team</motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {agentSystem.features.map((feat, i) => {
-                const [title, ...rest] = feat.split(' \u2014 ');
-                const desc = rest.join(' \u2014 ');
-                return (
-                  <motion.div key={feat} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
-                    variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}
-                    className="border border-rule rounded-md p-6">
-                    <h4 className="font-display text-lg font-semibold text-brand-dark mb-2">{title}</h4>
-                    <p className="text-sm text-text-mid leading-relaxed">{desc}</p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">How It Works</motion.h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {agentSteps.map((s, i) => (
-                <motion.div key={s.step} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
-                  variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}>
-                  <span className="font-display text-3xl font-bold text-brand-border">{s.step}</span>
-                  <p className="mt-2 text-sm text-text-mid">{s.text}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-16 border-t border-rule pt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Pricing</motion.h3>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
-              className="max-w-2xl">
-              <div className="border border-brand rounded-md p-8">
-                <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Custom Quote</h4>
-                <p className="text-xl font-bold text-text mb-3">Tailored to your business</p>
-                <p className="text-sm text-text-muted leading-relaxed">
-                  Every agent system is built around your specific brand, market, and workflows.
-                  Pricing depends on the number of agents, run frequency, integrations, and level of customisation.
-                  Book a free consultation to discuss your needs.
-                </p>
-              </div>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mt-8">
-              <Button href="/contact">Book a Free Consultation</Button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Evawero CMS ── */}
-      <section className="border-t border-rule">
-        <div className="max-w-6xl mx-auto px-6 py-20 md:py-28">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp}>
-            <div className="bg-brand-dark rounded-md p-8 md:p-12">
-              <p className="text-brand-mid text-sm font-medium uppercase tracking-wider mb-2">New</p>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">{cmsProduct.name}</h2>
-              <p className="text-brand-border text-lg italic mb-6">{cmsProduct.tagline}</p>
-              <p className="text-white/80 leading-relaxed max-w-2xl">{cmsProduct.description}</p>
-              <div className="flex flex-wrap gap-2 mt-6">
-                {cmsProduct.badges.map(b => (
-                  <span key={b} className="text-xs font-medium px-3 py-1 rounded-full bg-white/10 text-white/90">{b}</span>
-                ))}
-              </div>
+      {/* AI Agent Systems */}
+      <ProductSection
+        product={agentSystem}
+        label="New"
+        features={agentSystem.features}
+        featureLabel="Your Agent Team"
+        featureColumns={2}
+        steps={agentSteps}
+        pricing={
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
+            className="max-w-2xl">
+            <div className="border border-brand rounded-md p-8">
+              <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Custom Quote</h4>
+              <p className="text-xl font-bold text-text mb-3">Tailored to your business</p>
+              <p className="text-sm text-text-muted leading-relaxed">
+                Every agent system is built around your specific brand, market, and workflows.
+                Pricing depends on the number of agents, run frequency, integrations, and level of customisation.
+                Book a free consultation to discuss your needs.
+              </p>
             </div>
           </motion.div>
+        }
+        cta={<Button href="/contact">Book a Free Consultation</Button>}
+      />
 
-          <div className="mt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">What You Get</motion.h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {cmsProduct.features.map((feat, i) => {
-                const [title, ...rest] = feat.split(' \u2014 ');
-                const desc = rest.join(' \u2014 ');
-                return (
-                  <motion.div key={feat} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
-                    variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}
-                    className="border border-rule rounded-md p-6">
-                    <h4 className="font-display text-lg font-semibold text-brand-dark mb-2">{title}</h4>
-                    <p className="text-sm text-text-mid leading-relaxed">{desc}</p>
-                  </motion.div>
-                );
-              })}
+      {/* Evawero CMS */}
+      <ProductSection
+        product={cmsProduct}
+        label="New"
+        features={cmsProduct.features}
+        featureLabel="What You Get"
+        featureColumns={2}
+        steps={cmsSteps}
+        pricing={
+          <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
+            className="max-w-2xl">
+            <div className="border border-brand rounded-md p-8">
+              <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Custom Quote</h4>
+              <p className="text-xl font-bold text-text mb-3">Tailored to your content needs</p>
+              <p className="text-sm text-text-muted leading-relaxed">
+                Every business is different. Pricing depends on the number of content types, storage needs, and whether you
+                want the AI Content Agent add-on. We will scope a CMS setup tailored to your business.
+              </p>
             </div>
-          </div>
-
-          <div className="mt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">How It Works</motion.h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {cmsSteps.map((s, i) => (
-                <motion.div key={s.step} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }}
-                  variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: i * 0.08 } } }}>
-                  <span className="font-display text-3xl font-bold text-brand-border">{s.step}</span>
-                  <p className="mt-2 text-sm text-text-mid">{s.text}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-16 border-t border-rule pt-16">
-            <motion.h3 initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}
-              className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">Pricing</motion.h3>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-40px' }} variants={fadeUp}
-              className="max-w-2xl">
-              <div className="border border-brand rounded-md p-8">
-                <h4 className="font-display text-lg font-semibold text-brand-dark mb-1">Custom Quote</h4>
-                <p className="text-xl font-bold text-text mb-3">Tailored to your content needs</p>
-                <p className="text-sm text-text-muted leading-relaxed">
-                  Every business is different. Pricing depends on the number of content types, storage needs, and whether you
-                  want the AI Content Agent add-on. We will scope a CMS setup tailored to your business.
-                </p>
-              </div>
-            </motion.div>
-            <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mt-8">
-              <Button href="/contact">Request a Quote</Button>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        }
+        cta={<Button href="/contact">Request a Quote</Button>}
+      />
 
       {/* More Coming Soon */}
       <section className="border-t border-rule bg-surface">
