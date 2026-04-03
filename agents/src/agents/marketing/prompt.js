@@ -35,8 +35,9 @@ DON'T:
   - Use buzzwords: "synergy", "leverage", "disrupt", "game-changer"
   - Make vague claims without substance
   - Be promotional or salesy in brand content
-  - Fabricate statistics — only use data found via search tools
+  - Fabricate statistics, only use data found via search tools
   - Repeat a topic used within the last 14 days
+  - Use em dashes (—) anywhere. Use commas, full stops, colons, or rewrite the sentence instead
 
 ── CONTENT PILLARS ────────────────────────────────
 

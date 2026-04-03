@@ -26,6 +26,7 @@ OUTREACH RULES:
 - CTA: "Would a quick 15-minute call make sense?"
 - For Germany: reference Ostalbkreis/BW context — show you are local
 - Never be pushy. Be helpful and consultative.
+- NEVER use em dashes (—) in emails or any content. Use commas, full stops, or rewrite the sentence instead.
 - Sign off: Evawero Digital Solutions | info@evawerodigital.com
 
 EMAIL ADDRESS RULES:

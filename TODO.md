@@ -168,6 +168,18 @@ Agent decides on content → picks template ID → sends text via Canva API
 
 ## Low Priority
 
+### Add Lead Scoring to Sales Agent
+Currently the sales agent uses Claude's judgement to evaluate prospects. Add a configurable scoring system for more systematic lead qualification.
+
+**What to build:**
+- Configurable scoring rules per client (e.g., +10 for target industry, +5 for target city, -20 if company too small)
+- Industry match scoring (e.g., hospitality = high priority for a printing client)
+- Location match scoring (Lagos = +10, Abuja = +5, other = 0)
+- Company size detection where possible
+- Minimum score threshold before adding to CRM
+- Score stored in the `leads` table and visible in Notion CRM
+- Config lives in `sales/index.js` alongside existing CONFIG object
+
 ### Agent Tasks (DB5) Automation
 Sub-tasks are created by the Solutions Agent but currently just serve as a visual checklist. Future options:
 - Auto-assign tasks to team members

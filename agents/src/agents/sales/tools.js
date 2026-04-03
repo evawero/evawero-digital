@@ -41,6 +41,17 @@ const tools = [
       required: ['name', 'market'],
     },
     handler: async ({ name, company, email, phone, market, region, source, notes }) => {
+      // Deduplication: check if lead already exists by company name or email
+      const { rows: existing } = await q(
+        `SELECT id, name, company, email, status FROM leads
+         WHERE LOWER(company) = LOWER($1) OR ($2 != '' AND LOWER(email) = LOWER($2))
+         LIMIT 1`,
+        [company || '', email || '']
+      );
+      if (existing.length > 0) {
+        return { success: false, duplicate: true, existing_id: existing[0].id, message: `Lead already exists: "${existing[0].company || existing[0].name}" (ID: ${existing[0].id}, status: ${existing[0].status}). Skipped.` };
+      }
+
       // Add to PostgreSQL
       const { rows } = await q(
         `INSERT INTO leads (name, company, email, phone, market, region, source, status, notes)
