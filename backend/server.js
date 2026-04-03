@@ -144,7 +144,11 @@ app.get('/api/sitemap.xml', async (req, res) => {
       xml += `  <url><loc>${base}${p.loc}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>\n`;
     }
     for (const post of rows) {
-      const lastmod = (post.published_date || '').toString().slice(0, 10);
+      let lastmod = '';
+      if (post.published_date) {
+        const d = new Date(post.published_date);
+        if (!isNaN(d.getTime())) lastmod = d.toISOString().slice(0, 10);
+      }
       xml += `  <url><loc>${base}/blog/${post.slug}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}<changefreq>monthly</changefreq><priority>0.6</priority></url>\n`;
     }
     xml += '</urlset>';
