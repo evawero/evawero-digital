@@ -36,8 +36,14 @@ export default function Navbar() {
     >
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
         {/* Logo */}
-        <Link to="/" className="font-display text-xl font-semibold text-brand-dark tracking-tight">
-          Evawero Digital
+        <Link to="/" className="flex items-center gap-2.5">
+          <svg viewBox="0 0 32 32" className="w-8 h-8 flex-shrink-0" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="#1D9E75"/>
+            <text x="16" y="22" fontFamily="system-ui, -apple-system, sans-serif" fontSize="16" fontWeight="700" fill="white" textAnchor="middle" letterSpacing="-0.5">ED</text>
+          </svg>
+          <span className="font-display text-xl font-semibold text-brand-dark tracking-tight">
+            Evawero Digital
+          </span>
         </Link>
 
         {/* Desktop links */}
