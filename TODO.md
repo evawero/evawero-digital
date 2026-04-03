@@ -96,6 +96,18 @@ Build a tailored demo showcasing the sales and marketing agents for a Nigerian p
 
 ---
 
+### Productize Agent System for Client Deployments
+Build the infrastructure needed to deploy agent systems for paying clients:
+1. **Template repo** — Stripped-down version of `agents/` with placeholder config, no Evawero branding or prompts
+2. **Notion template workspace** — Duplicatable workspace with all 5 databases pre-configured (correct property types, status options, relations)
+3. **Setup/onboarding script** — Validates all env vars are filled in, tests connections (Notion, Gmail OAuth, Anthropic key), confirms databases exist
+4. **Client onboarding checklist** — Step-by-step guide: create Railway project, set env vars, customize prompts for client's industry/brand, first test run
+5. **Prompt customization workflow** — Feed Claude Code the client's brand info and have it rewrite all agent prompts from the template
+
+Client never touches code/GitHub/Railway — they interact through Notion and Gmail only.
+
+---
+
 ## Low Priority
 
 ### Agent Tasks (DB5) Automation
