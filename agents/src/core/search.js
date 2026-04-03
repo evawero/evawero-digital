@@ -1,10 +1,10 @@
-const { tavily } = require('tavily');
+const { TavilyClient } = require('tavily');
 
 let _client = null;
 
 function getClient() {
   if (!_client) {
-    _client = tavily({ apiKey: process.env.TAVILY_API_KEY });
+    _client = new TavilyClient({ apiKey: process.env.TAVILY_API_KEY });
   }
   return _client;
 }
