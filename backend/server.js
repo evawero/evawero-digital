@@ -422,6 +422,21 @@ app.post('/api/agent/blog-posts', requireAgentKey, async (req, res) => {
 });
 
 // ── Content Images (generated graphics) ──────────────────────────
+app.get('/api/content-images', async (req, res) => {
+  try {
+    const { rows } = await q(
+      `SELECT id, platform, title, status, created_at FROM content_calendar
+       WHERE image_data IS NOT NULL ORDER BY created_at DESC LIMIT 50`
+    );
+    res.json(rows.map(r => ({
+      ...r,
+      image_url: `/api/content-images/${r.id}`,
+    })));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/content-images/:id', async (req, res) => {
   try {
     const { rows } = await q('SELECT image_data FROM content_calendar WHERE id = $1', [req.params.id]);
