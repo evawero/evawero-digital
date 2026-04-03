@@ -62,17 +62,20 @@ You have 4 AI agents running autonomously on Railway. They handle marketing, sal
 
 ## Schedule
 
-Agents run Monday, Wednesday, Friday only (cost savings). Cron jobs are set in UTC — German times shown for reference (CEST = UTC+2 in summer, CET = UTC+1 in winter).
+Cron jobs are set in UTC. German times shown for reference (CEST = UTC+2 in summer, CET = UTC+1 in winter).
 
-| UTC | German Time (CEST) | Agent | Action |
-|-----|-------------------|-------|--------|
-| 07:00 Mon/Wed/Fri | 09:00 | Marketing | Creates content batch |
-| 08:00 Mon/Wed/Fri | 10:00 | Sales | Prospects + drafts outreach |
-| 09:00 Mon/Wed/Fri | 11:00 | Manager | Sends digest email |
-| 14:00 Daily | 16:00 | Manager | Quick alert check (no email unless urgent) |
-| Every 30 min | — | Notion Watcher | Polls Client Projects for new briefs |
+| UTC | German Time (CEST) | Day | Agent | Action |
+|-----|-------------------|-----|-------|--------|
+| 07:00 | 09:00 | Monday | Marketing | Creates content batch |
+| 08:00 | 10:00 | Monday | Sales (research) | Finds new leads + drafts cold outreach |
+| 08:00 | 10:00 | Thursday | Sales (follow-up) | Checks replies + drafts follow-ups |
+| 09:00 | 11:00 | Mon + Thu | Manager | Sends digest email |
+| 14:00 | 16:00 | Daily | Manager | Quick alert check (no email unless urgent) |
+| Every 30 min | — | Always | Notion Watcher | Polls Client Projects for new briefs |
 
-**Why Mon/Wed/Fri?** Each agent run costs money (Anthropic API calls). 3x/week balances coverage with cost. You can always trigger agents manually from the dashboard if needed between scheduled runs.
+**Why this schedule?** The sales cycle is split across two days so each run has enough capacity to complete its tasks. Marketing runs once a week. You can always trigger agents manually from the dashboard between scheduled runs.
+
+**Sales agent modes:** The sales agent accepts a `mode` parameter: `research` (new leads + cold outreach), `followup` (reply check + follow-ups), or `full` (both). The API trigger supports this via the request body: `{ "mode": "research" }`.
 
 ---
 

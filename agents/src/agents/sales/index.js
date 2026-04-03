@@ -31,24 +31,45 @@ const CONFIG = {
   EMAIL_TONE: 'professional-warm',
 };
 
-async function run() {
-  console.log('[Sales Agent] Starting run...');
+/**
+ * Run the sales agent.
+ * @param {string} mode - 'research' (find leads + cold outreach), 'followup' (check replies + follow-ups), or 'full' (both)
+ */
+async function run(mode = 'full') {
+  console.log(`[Sales Agent] Starting run... (mode: ${mode})`);
 
   const today = new Date().toISOString().split('T')[0];
   const followupDate = new Date(Date.now() - CONFIG.FOLLOWUP_DAYS * 86400000).toISOString().split('T')[0];
 
-  const userMessage = `
-Today is ${today}. Run your daily sales cycle:
-
-CONFIGURATION:
-${JSON.stringify(CONFIG, null, 2)}
-
+  let tasks;
+  if (mode === 'research') {
+    tasks = `
+TASKS (in order):
+1. Research and identify up to ${CONFIG.LEADS_PER_RUN} new potential leads. Start with Nigeria (${CONFIG.NIGERIA_TARGETS.cities.join(', ')}), then Germany (${CONFIG.GERMANY_TARGETS.primary_region} first, then ${CONFIG.GERMANY_TARGETS.secondary_region}).
+2. For each new lead: add to CRM and draft a personalised cold outreach email.
+3. German leads: write outreach emails in German.`;
+  } else if (mode === 'followup') {
+    tasks = `
+TASKS (in order):
+1. Check for Gmail replies since ${followupDate} — for any lead that replied, draft a personalised response and update their status to "replied".
+2. Check leads with status "contacted" that were last contacted before ${followupDate} — draft follow-up emails for them.`;
+  } else {
+    tasks = `
 TASKS (in order):
 1. Check for Gmail replies since ${followupDate} — for any lead that replied, draft a personalised response and update their status to "replied".
 2. Check leads with status "contacted" that were last contacted before ${followupDate} — draft follow-up emails for them.
 3. Research and identify up to ${CONFIG.LEADS_PER_RUN} new potential leads. Start with Nigeria (${CONFIG.NIGERIA_TARGETS.cities.join(', ')}), then Germany (${CONFIG.GERMANY_TARGETS.primary_region} first, then ${CONFIG.GERMANY_TARGETS.secondary_region}).
 4. For each new lead: add to CRM and draft a personalised cold outreach email.
-5. German leads: write outreach emails in German.
+5. German leads: write outreach emails in German.`;
+  }
+
+  const userMessage = `
+Today is ${today}. Run your sales cycle (mode: ${mode}).
+
+CONFIGURATION:
+${JSON.stringify(CONFIG, null, 2)}
+
+${tasks}
 
 IMPORTANT: Create Gmail DRAFTS only. NEVER send emails.
 
@@ -66,9 +87,11 @@ Return your results as JSON.`;
     await logRun('sales', 'success', parsed.actions_taken || [], parsed, parsed.needs_attention || [], {
       token_usage: result.tokenUsage,
       tool_calls: result.toolCalls.length,
+      mode,
     });
 
-    console.log('[Sales Agent] Run complete.', {
+    console.log(`[Sales Agent] Run complete.`, {
+      mode,
       leads: parsed.new_leads_found?.length || 0,
       drafts: parsed.drafts_created?.length || 0,
     });
@@ -76,7 +99,7 @@ Return your results as JSON.`;
     return parsed;
   } catch (err) {
     console.error('[Sales Agent] Error:', err.message);
-    await logRun('sales', 'error', [], {}, [], { error: err.message });
+    await logRun('sales', 'error', [], {}, [], { error: err.message, mode });
     throw err;
   }
 }

@@ -142,8 +142,9 @@ router.post('/trigger/marketing', async (req, res) => {
 });
 
 router.post('/trigger/sales', async (req, res) => {
-  res.json({ message: 'Sales agent triggered.' });
-  runSales().catch(err => console.error('[API] Sales trigger failed:', err.message));
+  const mode = req.body?.mode || 'full';
+  res.json({ message: `Sales agent triggered (mode: ${mode}).` });
+  runSales(mode).catch(err => console.error('[API] Sales trigger failed:', err.message));
 });
 
 router.post('/trigger/solutions', async (req, res) => {

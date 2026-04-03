@@ -16,14 +16,19 @@ function setPaused(value) {
 }
 
 // ============================================================
-// SCHEDULE — Mon/Wed/Fri to manage API costs
+// SCHEDULE
+// Marketing: Monday only
+// Sales research (new leads + cold outreach): Monday
+// Sales follow-up (check replies + follow-ups): Thursday
+// Digest: Monday + Thursday (after sales runs)
+// Alert check: Daily
 // ============================================================
 
 function startScheduler() {
   console.log('[Scheduler] Starting cron jobs...');
 
-  // Marketing Agent — Mon/Wed/Fri at 07:00 UTC
-  cron.schedule('0 7 * * 1,3,5', async () => {
+  // Marketing Agent — Monday at 07:00 UTC
+  cron.schedule('0 7 * * 1', async () => {
     if (paused) { console.log('[Scheduler] PAUSED — skipping Marketing Agent'); return; }
     console.log('[Scheduler] Triggering Marketing Agent...');
     try {
@@ -33,19 +38,30 @@ function startScheduler() {
     }
   });
 
-  // Sales Agent — Mon/Wed/Fri at 08:00 UTC
-  cron.schedule('0 8 * * 1,3,5', async () => {
-    if (paused) { console.log('[Scheduler] PAUSED — skipping Sales Agent'); return; }
-    console.log('[Scheduler] Triggering Sales Agent...');
+  // Sales Agent (research) — Monday at 08:00 UTC
+  cron.schedule('0 8 * * 1', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Sales Agent (research)'); return; }
+    console.log('[Scheduler] Triggering Sales Agent (research)...');
     try {
-      await runSales();
+      await runSales('research');
     } catch (err) {
-      console.error('[Scheduler] Sales agent failed:', err.message);
+      console.error('[Scheduler] Sales agent (research) failed:', err.message);
     }
   });
 
-  // Manager Digest — Mon/Wed/Fri at 09:00 UTC (after other agents run)
-  cron.schedule('0 9 * * 1,3,5', async () => {
+  // Sales Agent (follow-up) — Thursday at 08:00 UTC
+  cron.schedule('0 8 * * 4', async () => {
+    if (paused) { console.log('[Scheduler] PAUSED — skipping Sales Agent (follow-up)'); return; }
+    console.log('[Scheduler] Triggering Sales Agent (follow-up)...');
+    try {
+      await runSales('followup');
+    } catch (err) {
+      console.error('[Scheduler] Sales agent (follow-up) failed:', err.message);
+    }
+  });
+
+  // Manager Digest — Monday + Thursday at 09:00 UTC (after sales runs)
+  cron.schedule('0 9 * * 1,4', async () => {
     if (paused) { console.log('[Scheduler] PAUSED — skipping Manager Digest'); return; }
     console.log('[Scheduler] Triggering Manager Digest...');
     try {
@@ -67,10 +83,11 @@ function startScheduler() {
   });
 
   console.log('[Scheduler] Cron jobs registered:');
-  console.log('  Marketing:  Mon/Wed/Fri 07:00 UTC');
-  console.log('  Sales:      Mon/Wed/Fri 08:00 UTC');
-  console.log('  Digest:     Mon/Wed/Fri 09:00 UTC');
-  console.log('  Alerts:     Daily 14:00 UTC');
+  console.log('  Marketing:        Monday 07:00 UTC (09:00 CEST)');
+  console.log('  Sales (research): Monday 08:00 UTC (10:00 CEST)');
+  console.log('  Sales (follow-up):Thursday 08:00 UTC (10:00 CEST)');
+  console.log('  Digest:           Mon + Thu 09:00 UTC (11:00 CEST)');
+  console.log('  Alerts:           Daily 14:00 UTC (16:00 CEST)');
 }
 
 module.exports = { startScheduler, isPaused, setPaused };
