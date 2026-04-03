@@ -24,7 +24,7 @@ async function runAgent(systemPrompt, userMessage, tools = [], model = 'claude-s
   });
 
   let iteration = 0;
-  const MAX_ITERATIONS = 15;
+  const MAX_ITERATIONS = 25;
 
   while (iteration < MAX_ITERATIONS) {
     iteration++;
