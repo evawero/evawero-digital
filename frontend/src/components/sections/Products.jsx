@@ -10,7 +10,7 @@ const fadeUp = {
 };
 
 export default function ProductsSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [product, setProduct] = useState(null);
 
   const fallback = {
@@ -25,7 +25,8 @@ export default function ProductsSection() {
     getFeaturedProduct().then(data => { if (data) setProduct({ ...data, link: '/products' }); }).catch(() => {});
   }, []);
 
-  const display = product || fallback;
+  // Use i18n translations when not English, API data only for English
+  const display = i18n.language !== 'en' ? fallback : (product || fallback);
 
   return (
     <section className="border-t border-rule bg-surface">

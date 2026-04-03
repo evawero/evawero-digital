@@ -101,7 +101,7 @@ function ProductSection({ product, label, features, featureLabel, featureColumns
 }
 
 export default function Products() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [product, setProduct] = useState(null);
 
   const fallbackProduct = {
@@ -137,7 +137,7 @@ export default function Products() {
     getFeaturedProduct().then(data => { if (data) setProduct(data); }).catch(() => {});
   }, []);
 
-  const displayProduct = product || fallbackProduct;
+  const displayProduct = i18n.language !== 'en' ? fallbackProduct : (product || fallbackProduct);
 
   return (
     <>

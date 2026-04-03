@@ -16,7 +16,7 @@ const ICON_MAP = {
 };
 
 export default function Services() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [services, setServices] = useState(null);
 
   const fallbackServices = [
@@ -50,7 +50,7 @@ export default function Services() {
     getServices().then(data => { if (data.length) setServices(data); }).catch(() => {});
   }, []);
 
-  const displayServices = services || fallbackServices;
+  const displayServices = i18n.language !== 'en' ? fallbackServices : (services || fallbackServices);
 
   return (
     <>

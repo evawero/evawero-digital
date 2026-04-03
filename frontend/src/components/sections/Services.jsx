@@ -11,10 +11,10 @@ const fadeUp = {
 };
 
 export default function ServicesSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [services, setServices] = useState(null);
 
-  const fallbackServices = [
+  const i18nServices = [
     { icon: 'brain', title: t('services.items.ai.title'), short_description: t('services.items.ai.description') },
     { icon: 'zap', title: t('services.items.automation.title'), short_description: t('services.items.automation.description') },
     { icon: 'globe', title: t('services.items.web.title'), short_description: t('services.items.web.description') },
@@ -25,7 +25,8 @@ export default function ServicesSection() {
     getServices().then(data => { if (data.length) setServices(data); }).catch(() => {});
   }, []);
 
-  const displayServices = services || fallbackServices;
+  // Use i18n translations when not English, API data only for English
+  const displayServices = i18n.language !== 'en' ? i18nServices : (services || i18nServices);
 
   return (
     <section className="border-t border-rule">

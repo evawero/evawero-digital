@@ -11,16 +11,17 @@ const fadeUp = {
 };
 
 export default function Blog() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getBlogPosts()
+    setLoading(true);
+    getBlogPosts(100, i18n.language)
       .then(data => setPosts(data))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [i18n.language]);
 
   return (
     <>

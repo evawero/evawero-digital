@@ -20,8 +20,9 @@ export async function getFeaturedProduct() {
   return fetchJSON('/api/products/featured');
 }
 
-export async function getBlogPosts(limit = 100) {
-  const data = await fetchJSON(`/api/blog-posts?limit=${limit}`);
+export async function getBlogPosts(limit = 100, lang) {
+  const params = `limit=${limit}${lang ? `&lang=${lang}` : ''}`;
+  const data = await fetchJSON(`/api/blog-posts?${params}`);
   return data.docs || [];
 }
 

@@ -16,12 +16,12 @@ const fadeUp = {
 };
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getBlogPosts(3).then(data => setPosts(data)).catch(() => {});
-  }, []);
+    getBlogPosts(3, i18n.language).then(data => setPosts(data)).catch(() => {});
+  }, [i18n.language]);
 
   return (
     <>

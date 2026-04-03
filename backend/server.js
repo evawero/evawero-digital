@@ -127,10 +127,16 @@ app.get('/api/products/featured', async (req, res) => {
 app.get('/api/blog-posts', async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 100;
-    const { rows } = await q(
-      "SELECT * FROM blog_posts WHERE status = 'published' ORDER BY published_date DESC LIMIT $1",
-      [limit]
-    );
+    const lang = req.query.lang;
+    let sql = "SELECT * FROM blog_posts WHERE status = 'published'";
+    const params = [];
+    if (lang) {
+      params.push(lang);
+      sql += ` AND COALESCE(language, 'en') = $${params.length}`;
+    }
+    params.push(limit);
+    sql += ` ORDER BY published_date DESC LIMIT $${params.length}`;
+    const { rows } = await q(sql, params);
     res.json({ docs: rows });
   } catch (e) {
     res.status(500).json({ error: 'Failed to fetch blog posts' });
@@ -695,6 +701,8 @@ async function start() {
 
     console.log('Running schema...');
     await pool.query(schema);
+    // Add language column to blog_posts if it doesn't exist
+    await pool.query("ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS language VARCHAR(10) DEFAULT 'en'");
     console.log('Schema ready.');
 
     console.log('Seeding data...');
