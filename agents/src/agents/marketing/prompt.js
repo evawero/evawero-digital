@@ -109,12 +109,18 @@ X THREAD (English):
   Hashtags:   Tweet 6 only, 2 max
 
 INSTAGRAM (English):
-  Line 1:     Attention-grabbing (shows before "more")
-  Body:       3–5 short punchy lines with line breaks
-  CTA:        Question or "link in bio"
-  [break]
-  Hashtags:   8–12 (mix niche + broad)
-  Tone:       Conversational, human, visual-friendly
+  FORMAT:     Always create a GRAPHIC using the create_instagram_graphic tool.
+              Instagram is a visual platform — text-only posts do not perform.
+  TEMPLATES:  Pick the best template for the content:
+              - "quoteCard": Educational or inspirational quote (green bg, white text)
+              - "tipList": 3-5 numbered tips on a topic (white bg, numbered list)
+              - "statHighlight": A bold statistic with context (dark bg, green stat)
+              - "announcement": News or update (green gradient bg)
+  IMAGE SIZE: 1080x1080 (square — standard Instagram feed post)
+  CAPTION:    Write a short, punchy caption (not a blog post). 2-4 sentences max.
+              End with a question or CTA. Add 8-12 hashtags after a line break.
+  TONE:       Conversational, human, visual-friendly
+  IMPORTANT:  Use the create_instagram_graphic tool, NOT save_to_content_calendar.
 
 BLOG POST (published to evawerodigital.com as draft):
   Title:      SEO-aware, contains primary keyword

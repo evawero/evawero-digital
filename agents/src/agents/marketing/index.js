@@ -17,7 +17,7 @@ const CONFIG = {
     linkedin_english: false,
     linkedin_german: false,
     x_english: false,
-    instagram_english: false,
+    instagram_english: true,
     blog_post: true,
   },
   GERMAN_CONTENT: {
@@ -53,7 +53,7 @@ TASKS (in order):
 Specifically create:
 ${CONFIG.PLATFORMS.linkedin_english ? '- 1 LinkedIn post (Evawero brand — thought leadership, English)\n- 1 LinkedIn post (Evas Intelligence — use case focused, English)' : ''}
 ${CONFIG.PLATFORMS.x_english ? '- 1 X thread (3–6 tweets, English)' : ''}
-${CONFIG.PLATFORMS.instagram_english ? '- 1 Instagram caption (English)' : ''}
+${CONFIG.PLATFORMS.instagram_english ? '- 1 Instagram graphic (English) — use create_instagram_graphic tool. Pick a template that fits the content. Write a short caption, NOT a long text post.' : ''}
 ${CONFIG.PLATFORMS.blog_post ? '- 1 full blog post (English, 600-1200 words) — use publish_blog_post to save to evawerodigital.com as draft' : ''}
 ${CONFIG.PLATFORMS.linkedin_german && CONFIG.GERMAN_CONTENT.enabled ? '- 1 LinkedIn post in German (Baden-Württemberg/Ostalbkreis angle)' : ''}
 
@@ -77,7 +77,7 @@ Remember: Follow the Brand Bible exactly. No buzzwords. No fabricated stats. Lea
     });
 
     console.log('[Marketing Agent] Run complete.', {
-      content_pieces: result.toolCalls.filter(t => t.name === 'save_to_content_calendar').length,
+      content_pieces: result.toolCalls.filter(t => t.name === 'save_to_content_calendar' || t.name === 'create_instagram_graphic').length,
     });
 
     return parsed;

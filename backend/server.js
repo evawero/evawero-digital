@@ -421,6 +421,20 @@ app.post('/api/agent/blog-posts', requireAgentKey, async (req, res) => {
   }
 });
 
+// ── Content Images (generated graphics) ──────────────────────────
+app.get('/api/content-images/:id', async (req, res) => {
+  try {
+    const { rows } = await q('SELECT image_data FROM content_calendar WHERE id = $1', [req.params.id]);
+    if (!rows.length || !rows[0].image_data) return res.status(404).json({ error: 'Image not found' });
+    const buffer = Buffer.from(rows[0].image_data, 'base64');
+    res.set('Content-Type', 'image/png');
+    res.set('Cache-Control', 'public, max-age=86400');
+    res.send(buffer);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Team Members CRUD ─────────────────────────────────────────────
 app.get('/api/admin/team-members', requireAdmin, async (req, res) => {
   const { rows } = await q('SELECT * FROM team_members ORDER BY sort_order ASC');

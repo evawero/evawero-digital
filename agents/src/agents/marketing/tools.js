@@ -1,5 +1,6 @@
 const { search, searchNews } = require('../../core/search');
 const { NOTION_DB, queryDatabase, createPage } = require('../../core/notion');
+const { renderHtmlToImage, saveGraphic, templates, BRAND } = require('../../core/graphics');
 
 const tools = [
   {
@@ -113,6 +114,67 @@ const tools = [
       } catch (err) {
         return { success: false, error: err.message };
       }
+    },
+  },
+
+  {
+    name: 'create_instagram_graphic',
+    description: 'Create a branded Instagram graphic (1080x1080). Choose a template and provide the content. The image is saved to the database for owner review. Available templates: "quoteCard" (inspirational/educational quote), "tipList" (3-5 numbered tips), "statHighlight" (a bold statistic with context), "announcement" (headline + subtext). All graphics use Evawero brand colours automatically.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        template: { type: 'string', enum: ['quoteCard', 'tipList', 'statHighlight', 'announcement'], description: 'Template type' },
+        data: {
+          type: 'object',
+          description: 'Template data. quoteCard: {quote, attribution?, topic?}. tipList: {title, tips: string[]}. statHighlight: {stat, label, description}. announcement: {headline, subtext}.',
+        },
+        caption: { type: 'string', description: 'Instagram caption text to accompany the graphic. Include relevant hashtags.' },
+        language: { type: 'string', description: '"en" or "de"' },
+        market: { type: 'string', description: '"Nigeria", "Germany", or "Both"' },
+      },
+      required: ['template', 'data', 'caption'],
+    },
+    handler: async ({ template, data, caption, language, market }) => {
+      const { q } = require('../../core/database');
+
+      const templateFn = templates[template];
+      if (!templateFn) return { success: false, error: `Unknown template: ${template}` };
+
+      const html = templateFn(data);
+      const imageBuffer = await renderHtmlToImage(html, 1080, 1080);
+
+      // Save content to PostgreSQL
+      const { rows } = await q(
+        `INSERT INTO content_calendar (agent, platform, language, market, title, content, status)
+         VALUES ('marketing', 'Instagram', $1, $2, $3, $4, 'draft') RETURNING id`,
+        [language || 'en', market || 'Both', data.quote || data.title || data.headline || data.stat, caption]
+      );
+
+      const contentId = rows[0].id;
+      await saveGraphic(contentId, imageBuffer);
+
+      // Save to Notion
+      try {
+        const properties = {
+          'Title': { title: [{ text: { content: data.quote || data.title || data.headline || `${data.stat} — ${data.label}` } }] },
+          'Platform': { select: { name: 'Instagram' } },
+          'Status': { status: { name: 'Draft' } },
+          'Agent': { select: { name: 'Marketing' } },
+          'Language': { select: { name: language || 'en' } },
+          'Market': { select: { name: market || 'Both' } },
+          'Content': { rich_text: [{ text: { content: caption.slice(0, 2000) } }] },
+        };
+        await createPage(NOTION_DB.CONTENT, properties);
+      } catch (err) {
+        console.error('Notion Instagram save failed:', err.message);
+      }
+
+      return {
+        success: true,
+        content_id: contentId,
+        template,
+        message: `Instagram graphic created (${template}). View at /api/content-images/${contentId}. Caption saved as draft.`,
+      };
     },
   },
 
