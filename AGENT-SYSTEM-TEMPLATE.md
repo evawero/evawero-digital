@@ -196,6 +196,40 @@ ANTHROPIC_API_KEY, DATABASE_URL, GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET, GMAIL_REF
 
 ---
 
+## KNOWN ISSUES & FIXES
+
+Include this section in the client's owner guide (AGENT-GUIDE.md) after deployment.
+
+### Gmail OAuth "insufficient authentication scopes"
+**Symptom:** `check_gmail_replies` fails. Drafts still work but the agent cannot read inbox replies.
+**Cause:** The `GMAIL_REFRESH_TOKEN` was generated without the `gmail.readonly` scope. Only compose/send was granted.
+**Fix:** Regenerate the token using the `agents/scripts/gmail-reauth.js` script with the `https://mail.google.com/` scope. Update the `GMAIL_REFRESH_TOKEN` env var in Railway and redeploy.
+**Prevention:** Always use `https://mail.google.com/` (full access) when generating Gmail tokens.
+
+### Tavily Search Returns Nothing (0 credits used)
+**Symptom:** Sales agent appears to find prospects but Tavily dashboard shows 0 credits. Agent may fabricate data instead of searching.
+**Cause:** The `tavily` npm package changed its export name. Using `const { tavily } = require('tavily')` returns a constants object, not a client.
+**Fix:** The import in `agents/src/core/search.js` must use `TavilyClient`:
+```js
+const { TavilyClient } = require('tavily');
+_client = new TavilyClient({ apiKey: process.env.TAVILY_API_KEY });
+```
+**Prevention:** After updating the tavily package, verify the export: `node -e "console.log(Object.keys(require('tavily')))"`.
+
+### Notion Status Sync Fails ("Invalid status option")
+**Symptom:** Updating a Notion entry's Status returns "Invalid status option".
+**Cause:** The status name in the code does not exactly match the option name in the Notion database (case-sensitive).
+**Fix:** Open the Notion database, check the exact Status option names, and update the code to match.
+**Prevention:** After renaming status options in Notion, search the codebase: `grep -r "status.*name" agents/src/`.
+
+### Notion Property Type Mismatch (status vs select)
+**Symptom:** Notion API errors like "select is not a property type" or silent write failures.
+**Cause:** Code uses `{ status: { name: '...' } }` but the property is a `select`, or vice versa.
+**Fix:** Check the property type in Notion and match the API syntax. Native status uses `{ status: { name } }`, select uses `{ select: { name } }`.
+**Prevention:** Document which databases use which property types. Currently: all databases use native `status` except Agent Tasks (DB5) which uses `select`.
+
+---
+
 ## CLIENT ONBOARDING — Information to Collect
 
 Before starting, gather from the client:

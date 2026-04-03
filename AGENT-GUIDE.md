@@ -317,3 +317,84 @@ From the dashboard, the Agent Activity Log shows recent runs. For deeper debuggi
 | OWNER_EMAIL | Internal | Where digests get sent |
 | AGENT_API_KEY | Internal | Agent → backend auth for blog posts |
 | ADMIN_EMAIL | Backend | Admin panel login email |
+
+---
+
+## Troubleshooting — Known Issues & Fixes
+
+### Gmail OAuth "insufficient authentication scopes"
+
+**Symptom:** `check_gmail_replies` fails with "insufficient authentication scopes". Drafts still work, but the agent cannot read inbox replies. The manager digest will flag this.
+
+**Cause:** The `GMAIL_REFRESH_TOKEN` was generated with only compose/send scopes. Reading emails requires `gmail.readonly` or the full `https://mail.google.com/` scope.
+
+**Fix:**
+1. Run `node agents/scripts/gmail-reauth.js` locally
+2. Open the printed URL, sign in with your Gmail account, grant permissions
+3. Paste the authorization code back into the terminal
+4. Copy the new refresh token
+5. Update `GMAIL_REFRESH_TOKEN` in Railway env vars (agents service)
+6. Redeploy the agents service
+
+**Prevention:** Always use the `https://mail.google.com/` scope when generating Gmail tokens. The re-auth script does this automatically.
+
+---
+
+### Tavily Search Not Working (0 credits used)
+
+**Symptom:** Sales agent finds prospects but Tavily dashboard shows 0 credits used. Agent may be fabricating or using cached results instead of real web searches.
+
+**Cause:** The Tavily npm package changed its export. The old import `const { tavily } = require('tavily')` returns a constants object, not a client constructor.
+
+**Fix:** The import in `agents/src/core/search.js` must be:
+```js
+const { TavilyClient } = require('tavily');
+_client = new TavilyClient({ apiKey: process.env.TAVILY_API_KEY });
+```
+
+Not:
+```js
+const { tavily } = require('tavily');  // WRONG — returns { API_BASE_URL: '...' }
+```
+
+**Prevention:** After updating the `tavily` npm package, check that the import matches the package's current exports. Run `node -e "console.log(Object.keys(require('tavily')))"` to verify.
+
+---
+
+### Notion Status Sync Fails ("Invalid status option")
+
+**Symptom:** Manager agent's `sync_content_calendar` returns "Invalid status option" when trying to update content entries in Notion.
+
+**Cause:** The status name in the code doesn't match the exact option name in the Notion database. Notion status options are case-sensitive and must exist before the API can use them.
+
+**Fix:** Check the exact status option names in your Notion Content Calendar database (click the Status column header to see all options). Update the code in `agents/src/agents/manager/tools.js` to match exactly. Current expected values:
+- `Draft` — set by the marketing agent when content is created
+- `Publish` — set by the manager agent when a blog post is published from the admin panel
+
+**Prevention:** When adding or renaming status options in Notion, search the codebase for the old name: `grep -r "status.*name.*OldName" agents/src/`. Update all references.
+
+---
+
+### Notion Property Type Mismatch
+
+**Symptom:** Notion API returns errors like "select is not a property type" or "status is not a valid filter".
+
+**Cause:** Notion has two similar but incompatible property types: `status` (native, with groups like To-do/In progress/Complete) and `select` (simple dropdown). The API syntax differs:
+- Native status: `{ status: { name: 'Draft' } }` for writes, `{ status: { equals: 'Draft' } }` for filters
+- Select: `{ select: { name: 'Draft' } }` for writes, `{ select: { equals: 'Draft' } }` for filters
+
+**Current setup:** All 5 Notion databases use native `status` type except Agent Tasks (DB5) which uses `select`.
+
+**Prevention:** Before writing integration code for a Notion property, check the actual property type in Notion. This is documented in `CLAUDE.md`.
+
+---
+
+### Lead Deduplication
+
+**Symptom:** Same company appears multiple times in the CRM.
+
+**Cause:** Before the deduplication fix, the sales agent could add the same company on different runs.
+
+**Current protection:** `agents/src/agents/sales/tools.js` checks for existing leads by case-insensitive company name or email match before inserting. If a duplicate is found, it returns a skip message instead of creating a new entry.
+
+**If duplicates still appear:** The check uses `LOWER(company)` matching, so slight name variations ("PrintHub Lagos" vs "Printhub Lagos Ltd") will not be caught. Manually merge in Notion and PostgreSQL if needed.
