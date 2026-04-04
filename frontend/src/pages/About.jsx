@@ -58,8 +58,27 @@ export default function About() {
         </motion.div>
       </section>
 
-      {/* Mission */}
+      {/* Founder */}
       <section className="border-t border-rule bg-surface">
+        <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-28">
+          <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-8">{t('about.founder.eyebrow')}</p>
+          <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-center md:items-start">
+            <img
+              src="/founder.jpg"
+              alt={t('about.founder.name')}
+              className="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover object-top shrink-0"
+            />
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-brand-dark mb-1">{t('about.founder.name')}</h2>
+              <p className="text-sm font-medium text-brand mb-4">{t('about.founder.role')}</p>
+              <p className="text-text-mid leading-relaxed">{t('about.founder.bio')}</p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Mission */}
+      <section className="border-t border-rule">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} variants={fadeUp} className="max-w-6xl mx-auto px-6 py-20 md:py-28">
           <div className="max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-wider text-text-muted mb-2">{t('about.mission.eyebrow')}</p>
