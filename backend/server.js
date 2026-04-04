@@ -395,26 +395,26 @@ app.get('/api/admin/blog-posts/:id', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/admin/blog-posts', requireAdmin, async (req, res) => {
-  const { title, slug, excerpt, content, cover_image, author, published_date, category, status } = req.body;
+  const { title, slug, excerpt, content, cover_image, author, published_date, category, status, language } = req.body;
   const { rows } = await q(
-    `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image, author, published_date, category, status)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
-    [title, slug, excerpt, content, cover_image, author, published_date || null, category, status || 'draft']
+    `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image, author, published_date, category, status, language)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
+    [title, slug, excerpt, content, cover_image, author, published_date || null, category, status || 'draft', language || 'en']
   );
   res.json(rows[0]);
 });
 
 app.put('/api/admin/blog-posts/:id', requireAdmin, async (req, res) => {
-  const { title, slug, excerpt, content, cover_image, author, published_date, category, status } = req.body;
+  const { title, slug, excerpt, content, cover_image, author, published_date, category, status, language } = req.body;
 
   // Get the old status before updating
   const { rows: oldRows } = await q('SELECT title, status FROM blog_posts WHERE id = $1', [req.params.id]);
   const oldStatus = oldRows[0]?.status;
 
   const { rows } = await q(
-    `UPDATE blog_posts SET title=$1, slug=$2, excerpt=$3, content=$4, cover_image=$5, author=$6, published_date=$7, category=$8, status=$9
-     WHERE id=$10 RETURNING *`,
-    [title, slug, excerpt, content, cover_image, author, published_date || null, category, status || 'draft', req.params.id]
+    `UPDATE blog_posts SET title=$1, slug=$2, excerpt=$3, content=$4, cover_image=$5, author=$6, published_date=$7, category=$8, status=$9, language=$10
+     WHERE id=$11 RETURNING *`,
+    [title, slug, excerpt, content, cover_image, author, published_date || null, category, status || 'draft', language || 'en', req.params.id]
   );
 
   // When a blog post is published, update the matching Content Calendar entry
@@ -447,14 +447,14 @@ function requireAgentKey(req, res, next) {
 }
 
 app.post('/api/agent/blog-posts', requireAgentKey, async (req, res) => {
-  const { title, slug, excerpt, content, cover_image, author, category } = req.body;
+  const { title, slug, excerpt, content, cover_image, author, category, language } = req.body;
   if (!title || !content) return res.status(400).json({ error: 'title and content required' });
   const finalSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   try {
     const { rows } = await q(
-      `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image, author, published_date, category, status)
-       VALUES ($1,$2,$3,$4,$5,$6,NOW(),$7,'draft') RETURNING id, slug, status`,
-      [title, finalSlug, excerpt || '', content, cover_image || null, author || 'Evawero Digital', category || 'General']
+      `INSERT INTO blog_posts (title, slug, excerpt, content, cover_image, author, published_date, category, status, language)
+       VALUES ($1,$2,$3,$4,$5,$6,NOW(),$7,'draft',$8) RETURNING id, slug, status`,
+      [title, finalSlug, excerpt || '', content, cover_image || null, author || 'Evawero Digital', category || 'General', language || 'en']
     );
     res.json(rows[0]);
   } catch (err) {
